@@ -1,0 +1,67 @@
+{
+  "_comment": "Fonte de verdade da ÁREA SOFTWARE (agnóstica). Nenhum campo tem nome de produto: renomeie/reescreva quando quiser personalizar. Arrays vazios apenas escondem a seção correspondente.",
+  "meta": {
+    "slug": "studio",
+    "status": { "en": "In Development", "pt": "Em Desenvolvimento" },
+    "name": { "en": "Project Name", "pt": "Nome do Projeto" },
+    "tagline": {
+      "en": "One line about what your software does.",
+      "pt": "Uma linha sobre o que o seu software faz."
+    },
+    "version": "0.1.0",
+    "heroImage": "assets/images/artwork-3.jpg",
+    "cta": {
+      "label": { "en": "Read the updates", "pt": "Ler as novidades" },
+      "url": "#studio-feed"
+    }
+  },
+  "intros": {
+    "en": [
+      "This area is dedicated to the software I am building. Use it for release notes, development logs, features, screenshots and downloads.",
+      "Replace this text in the Creator Studio (admin.html) → tab \"Software Area\"."
+    ],
+    "pt": [
+      "Esta área é dedicada ao software que estou desenvolvendo. Use-a para notas de versão, diário de desenvolvimento, recursos, capturas de tela e downloads.",
+      "Substitua este texto no Creator Studio (admin.html) → aba \"Área Software\"."
+    ]
+  },
+  "highlights": [
+    {
+      "icon": "✦",
+      "title": { "en": "Feature One", "pt": "Recurso Um" },
+      "text": { "en": "Describe a capability of your software here.", "pt": "Descreva aqui uma capacidade do seu software." }
+    },
+    {
+      "icon": "◈",
+      "title": { "en": "Feature Two", "pt": "Recurso Dois" },
+      "text": { "en": "Describe another capability here.", "pt": "Descreva aqui outra capacidade." }
+    },
+    {
+      "icon": "◇",
+      "title": { "en": "Feature Three", "pt": "Recurso Três" },
+      "text": { "en": "Describe another capability here.", "pt": "Descreva aqui outra capacidade." }
+    }
+  ],
+  "roadmap": [
+    { "phase": "0.1", "title": { "en": "Foundation", "pt": "Fundação" }, "done": true },
+    { "phase": "0.2", "title": { "en": "Next milestone", "pt": "Próximo marco" }, "done": false }
+  ],
+  "posts": [
+    {
+      "id": "post-1",
+      "date": "2026-09-16",
+      "tag": { "en": "Devlog", "pt": "Devlog" },
+      "title": { "en": "First entry", "pt": "Primeira entrada" },
+      "body": {
+        "en": "Write here about progress, decisions, experiments or releases. Every entry is just an item in this list.",
+        "pt": "Escreva aqui sobre progresso, decisões, experimentos ou lançamentos. Cada entrada é apenas um item desta lista."
+      },
+      "image": "",
+      "link": ""
+    }
+  ],
+  "links": [
+    { "label": "GitHub", "url": "", "icon": "◆" },
+    { "label": "Changelog", "url": "", "icon": "◆" }
+  ]
+}

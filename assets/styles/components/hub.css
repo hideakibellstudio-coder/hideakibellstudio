@@ -1,0 +1,105 @@
+/* ==========================================================
+   HUB — "Two areas" cards on the home page
+   ARCcC: assets/styles/components/hub.css
+   ========================================================== */
+
+#areas {
+  padding: var(--space-16) var(--space-6) var(--space-8);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hub__intro {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 620px;
+  margin: var(--space-8) auto 0;
+}
+
+.hub__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+  text-align: left;
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-10);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    transform    var(--duration-normal) var(--ease-out),
+    box-shadow   var(--duration-normal) var(--ease-out);
+}
+
+.hub-card:hover {
+  border-color: var(--color-accent-glow);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.hub-card__icon {
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.hub-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hub-card__text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.hub-card__cta {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-top: var(--space-2);
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+  cursor: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.hub-card__cta::after {
+  content: ' →';
+  transition: margin var(--duration-fast) var(--ease-out);
+}
+
+.hub-card__cta:hover {
+  color: var(--color-text-primary);
+}
+
+.hub__note {
+  margin-top: var(--space-10);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  letter-spacing: var(--tracking-wide);
+}
+
+@media (max-width: 900px) {
+  .hub__grid { grid-template-columns: 1fr; }
+  .hub-card  { padding: var(--space-8); }
+}

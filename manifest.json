@@ -1,0 +1,34 @@
+{
+  "name": "hideaki-bell-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website for Hideaki Bell — independent digital artist. Built with pure HTML/CSS/JS following the ARCcC methodology.",
+  "author": "Hideaki Bell",
+  "license": "All Rights Reserved",
+  "homepage": "https://hideakibellstudio-coder.github.io/hideakibellstudio/",
+  "architecture": "ARCcC — Atomic Recursive Componentization by Contract",
+  "created": "2026-07-12",
+  "tech": {
+    "html": "HTML5",
+    "css": "Vanilla CSS with CSS Custom Properties",
+    "js": "Vanilla JavaScript (ES2021, IIFE modules)"
+  },
+  "deployment": {
+    "platform": "GitHub Pages",
+    "branch": "main",
+    "buildStep": "none — static files, no build required"
+  },
+  "features": [
+    "ARCcC modular architecture",
+    "Settings panel (Ctrl+Shift+P)",
+    "Canvas particle animation",
+    "Typewriter effect",
+    "Gallery with lightbox",
+    "Category filter",
+    "Formspree contact form",
+    "Custom cursor",
+    "Scroll reveal animations",
+    "Dark minimal design",
+    "Configurable accent color",
+    "Export config.js for GitHub Pages"
+  ]
+}

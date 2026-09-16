@@ -1,0 +1,187 @@
+/* ==========================================================
+   ABOUT — Section styles
+   ARCcC: assets/styles/components/about.css
+   ========================================================== */
+
+#about {
+  padding: var(--space-32) var(--space-6);
+  background: var(--color-bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative accent line */
+#about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, var(--color-accent), transparent);
+}
+
+.about__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--space-20);
+  align-items: center;
+  padding-top: var(--space-8);
+}
+
+/* ── Avatar ───────────────────────────────────────────────── */
+.about__visual {
+  position: relative;
+}
+
+.about__avatar-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.about__avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius-md);
+  display: block;
+  filter: grayscale(20%);
+  transition: filter var(--duration-slow) var(--ease-out);
+}
+
+.about__avatar:hover {
+  filter: grayscale(0%);
+}
+
+/* Decorative border frame */
+.about__avatar-frame {
+  position: absolute;
+  inset: -12px;
+  border: 1px solid var(--color-accent);
+  border-radius: calc(var(--radius-md) + 4px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Accent corner marks */
+.about__avatar-frame::before,
+.about__avatar-frame::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--color-accent);
+  border-style: solid;
+  opacity: 0.8;
+}
+.about__avatar-frame::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+.about__avatar-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ── Content ─────────────────────────────────────────────── */
+.about__content .section-label {
+  text-align: left;
+}
+
+.about__content .section-title {
+  text-align: left;
+  margin-bottom: var(--space-6);
+}
+
+.about__bio {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-8);
+}
+
+.about__bio p + p {
+  margin-top: var(--space-4);
+}
+
+/* ── Skills/specialties ───────────────────────────────────── */
+.about__specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
+}
+
+.specialty-tag {
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-dim);
+  border: 1px solid var(--color-accent-glow);
+  border-radius: var(--radius-full);
+}
+
+/* ── Stats ────────────────────────────────────────────────── */
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item__number {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 300;
+  color: var(--color-text-primary);
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+
+.stat-item__number span {
+  color: var(--color-accent);
+}
+
+.stat-item__label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+  .about__avatar-wrapper { max-width: 280px; }
+  .about__content .section-title,
+  .about__content .section-label { text-align: center; }
+  .about__bio { text-align: center; }
+  .about__specialties { justify-content: center; }
+  .about__stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .about__stats { grid-template-columns: 1fr; gap: var(--space-4); }
+}

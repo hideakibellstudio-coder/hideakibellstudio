@@ -1,0 +1,146 @@
+/* ==========================================================
+   CONTACT — Section styles
+   ARCcC: assets/styles/components/contact.css
+   ========================================================== */
+
+#contact {
+  padding: var(--space-32) var(--space-6);
+  max-width: var(--max-width-md);
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ── Intro ────────────────────────────────────────────────── */
+.contact__intro {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 520px;
+  margin: 0 auto var(--space-12);
+}
+
+/* ── Social links ─────────────────────────────────────────── */
+.contact__socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-12);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition:
+    color       var(--duration-normal) var(--ease-out),
+    border      var(--duration-normal) var(--ease-out),
+    background  var(--duration-normal) var(--ease-out),
+    transform   var(--duration-fast)   var(--ease-out);
+}
+
+.social-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+  transform: translateY(-2px);
+}
+
+.social-link svg,
+.social-link .social-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.contact__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
+.contact__divider::before,
+.contact__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ── Direct Email CTA Card ────────────────────────────────── */
+.contact__card {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10) var(--space-8);
+  max-width: 580px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.contact__card:hover {
+  border-color: rgba(255, 62, 165, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.contact__card-icon {
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.contact__card-text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  line-height: var(--leading-relaxed);
+}
+
+.contact__card-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-10);
+  background: var(--color-accent);
+  color: var(--color-white);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: none; /* keep custom cursor */
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.contact__card-button:hover {
+  background: transparent;
+  color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+

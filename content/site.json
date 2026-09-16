@@ -1,0 +1,52 @@
+{
+  "_comment": "Fonte de verdade do conteúdo PUBLICADO (site/artista/redes/contato/SEO). Editado pelo Creator Studio (admin.html) e publicado aqui.",
+  "site": {
+    "title": "Hideaki Bell · Digital Artist",
+    "description": "Portfolio of Hideaki Bell — independent digital artist specializing in digital illustration, concept art, and abstract digital art.",
+    "accentColor": "#FF3EA5",
+    "language": "en"
+  },
+  "artist": {
+    "name": "Hideaki Bell",
+    "tagline": {
+      "en": "Digital Artist · Independent Creator",
+      "pt": "Ilustrador Digital · Criador Independente"
+    },
+    "bio": {
+      "en": [
+        "I create worlds that exist between the seen and unseen — spaces where light dissolves into shadow and form emerges from chaos. My work explores the intersection of technology and human emotion through a visual language that is both precise and intuitive.",
+        "Based in Brazil, I work as an independent digital artist creating illustrations, concept art, and abstract works for clients and personal projects worldwide."
+      ],
+      "pt": [
+        "Crio mundos que existem entre o visto e o invisível — espaços onde a luz se dissolve em sombra e a forma emerge do caos. Meu trabalho explora a interseção da tecnologia e da emoção humana através de uma linguagem visual que é ao mesmo tempo precisa e intuitiva.",
+        "Sediado no Brasil, trabalho como artista digital independente criando ilustrações, concept art e obras abstratas para clientes e projetos pessoais em todo o mundo."
+      ]
+    },
+    "avatarUrl": "assets/images/avatar.jpg",
+    "specialties": [
+      { "en": "Digital Illustration", "pt": "Ilustração Digital" },
+      { "en": "Concept Art", "pt": "Arte Conceitual" },
+      { "en": "Abstract Art", "pt": "Arte Abstrata" },
+      { "en": "Visual Development", "pt": "Desenvolvimento Visual" }
+    ],
+    "stats": {
+      "years": "7+",
+      "projects": "120+",
+      "clients": "40+"
+    }
+  },
+  "social": {
+    "instagram": "",
+    "behance": "",
+    "artstation": "",
+    "twitter": "",
+    "youtube": ""
+  },
+  "contact": {
+    "email": "hello@hideakibell.art",
+    "formspreeEndpoint": ""
+  },
+  "seo": {
+    "ogImage": "assets/images/artwork-1.jpg"
+  }
+}

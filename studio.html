@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https:; frame-src https:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <title>Software · Hideaki Bell</title>
+  <meta name="description" content="Software area — development log, features, roadmap and releases." />
+  <meta name="author" content="Hideaki Bell" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>" />
+
+  <!-- Anti-FOUC: apply saved theme BEFORE CSS renders -->
+  <script src="assets/js/theme-init.js"></script>
+
+  <!-- Styles: single entry point (ARCcC §2.3) -->
+  <link rel="stylesheet" href="assets/styles/index.css" />
+</head>
+<body data-page="studio">
+
+  <!-- Custom cursor (cosmetic layer, not a module) -->
+  <div class="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ───────────────────────────────────────────────────────
+       NAVIGATION (same shell on every page)
+  ─────────────────────────────────────────────────────────── -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav__logo" id="nav-logo">
+      Hideaki <span>Bell</span>
+    </a>
+
+    <ul class="nav__links" role="list">
+      <li><a href="index.html"  class="nav__link" id="nav-link-home">Home</a></li>
+      <li><a href="art.html"    class="nav__link" id="nav-link-art">Art</a></li>
+      <li><a href="studio.html" class="nav__link" id="nav-link-studio" aria-current="page">Software</a></li>
+      <li><a href="about.html"   class="nav__link" id="nav-link-about">About</a></li>
+      <li><a href="contact.html" class="nav__link" id="nav-link-contact">Contact</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <button class="lang-switch" id="lang-switch-btn" aria-label="Switch language" title="Mudar idioma">
+        EN
+      </button>
+
+      <a href="admin.html" class="admin-link-btn" id="admin-link-btn" title="Creator Studio" style="display:none;">
+        ⚙
+      </a>
+
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Switch to light mode" title="Light mode">
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+
+      <button class="nav__burger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <!-- ───────────────────────────────────────────────────────
+       SOFTWARE AREA — agnostic; everything comes from
+       content/studio.json (contract: core/studio/public/types/StudioTypes.js)
+  ─────────────────────────────────────────────────────────── -->
+  <main class="area">
+    <div id="studio-root" class="studio">
+
+      <!-- Hero / header of the area -->
+      <header class="studio__hero">
+        <div class="studio__hero-text">
+          <p class="studio__meta">
+            <span class="studio__status" data-studio="status">In Development</span>
+            <span class="studio__dot" aria-hidden="true">·</span>
+            <span class="studio__version" data-studio="version">v0.1.0</span>
+          </p>
+
+          <h1 class="studio__name" data-studio="name">Project Name</h1>
+          <p class="studio__tagline" data-studio="tagline">One line about what your software does.</p>
+
+          <div class="studio__intro-wrap" data-studio-section>
+            <div class="studio__intro" data-studio="intro"></div>
+          </div>
+
+          <a class="btn-primary studio__cta" data-studio="cta" href="#studio-feed">Read the updates</a>
+        </div>
+
+        <figure class="studio__hero-media" data-studio-section>
+          <img data-studio="hero-image" alt="" loading="lazy" />
+        </figure>
+      </header>
+
+      <!-- Highlights (empty list → section hidden) -->
+      <section class="studio__section" data-studio-section aria-label="Highlights">
+        <div class="section-header reveal">
+          <span class="section-label" data-i18n="studio_highlights_label">Overview</span>
+          <h2 class="section-title" data-i18n="studio_highlights_title">What it does</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+        </div>
+        <div class="studio__cards" id="studio-highlights"></div>
+      </section>
+
+      <!-- Feed / updates (empty list → section hidden) -->
+      <section class="studio__section" id="studio-feed" data-studio-section aria-label="Updates">
+        <div class="section-header reveal">
+          <span class="section-label" data-i18n="studio_feed_label">Updates</span>
+          <h2 class="section-title" data-i18n="studio_feed_title">Latest entries</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+        </div>
+        <div class="studio__feed" id="studio-posts"></div>
+      </section>
+
+      <!-- Roadmap (empty list → section hidden) -->
+      <section class="studio__section" data-studio-section aria-label="Roadmap">
+        <div class="section-header reveal">
+          <span class="section-label" data-i18n="studio_roadmap_label">Roadmap</span>
+          <h2 class="section-title" data-i18n="studio_roadmap_title">Where it is going</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+        </div>
+        <ol class="studio-roadmap" id="studio-roadmap"></ol>
+      </section>
+
+      <!-- Links (empty list → section hidden) -->
+      <section class="studio__section" data-studio-section aria-label="Links">
+        <div class="section-header reveal">
+          <span class="section-label" data-i18n="studio_links_label">Links</span>
+          <h2 class="section-title" data-i18n="studio_links_title">Elsewhere</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+        </div>
+        <div class="studio__links" id="studio-links"></div>
+      </section>
+
+    </div>
+
+    <!-- Cross-area navigation -->
+    <nav class="area__switch" aria-label="Other areas">
+      <a class="area__switch-link" href="index.html" data-i18n="back_home">Back to home</a>
+      <a class="area__switch-link" href="art.html" data-i18n="hub_art_cta">Enter the art area</a>
+    </nav>
+  </main>
+  <!-- ───────────────────────────────────────────────────────
+       FOOTER
+  ─────────────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <p class="site-footer__text">
+      © <span id="footer-year"></span> Hideaki Bell · All Rights Reserved ·
+      Built with ❤ using <a href="#" aria-label="ARCcC methodology">ARCcC</a>
+    </p>
+  </footer>
+
+  <!-- ───────────────────────────────────────────────────────
+       SCRIPTS — Loaded in dependency order (ARCcC §2.3)
+  ─────────────────────────────────────────────────────────── -->
+
+  <!-- 1. Infrastructure (no deps) -->
+  <script src="infrastructure/event-bus/index.js"></script>
+  <script src="infrastructure/i18n/index.js"></script>
+  <script src="infrastructure/config/index.js"></script>
+  <script src="infrastructure/content/index.js"></script>
+  <script src="infrastructure/intersection-observer/index.js"></script>
+
+  <!-- 2. Utils (no deps) -->
+  <script src="utils/dom/index.js"></script>
+  <script src="utils/formatters/index.js"></script>
+  <script src="utils/env/index.js"></script>
+
+  <!-- 3. Core — Software area: contract + renderer + module -->
+  <script src="core/studio/public/types/StudioTypes.js"></script>
+  <script src="core/studio/private/renderer/index.js"></script>
+  <script src="core/studio/index.js"></script>
+
+  <!-- 4. Core — Creator Studio gate -->
+  <script src="core/admin-gate/index.js"></script>
+
+  <!-- 5. Core — Theme Toggle -->
+  <script src="core/theme-toggle/index.js"></script>
+
+  <!-- 6. Core — Language Switch -->
+  <script src="core/language/index.js"></script>
+
+  <!-- 7. Boundary — Contracts + Orchestrator + Entry point -->
+  <script src="boundary/orchestrator/contracts/SiteContract.js"></script>
+  <script src="boundary/orchestrator/index.js"></script>
+  <script src="boundary/index.js"></script>
+
+</body>
+</html>

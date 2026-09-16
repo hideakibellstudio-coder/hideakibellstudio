@@ -1,0 +1,172 @@
+/* ==========================================================
+   ADMIN — Creator Studio gate + content editors
+   ARCcC: assets/styles/components/admin.css
+   Loaded by admin.html (via assets/styles/index.css).
+   ========================================================== */
+
+/* ── 1. Gate overlay (passphrase) ────────────────────────── */
+.gate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-top);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: var(--color-bg);
+}
+
+.gate-overlay[hidden] { display: none; }
+
+body.is-locked .admin-layout { display: none; }
+
+.gate-card {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-10);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.gate-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+}
+
+.gate-brand span { color: var(--color-accent); font-style: italic; }
+
+.gate-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.gate-text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.gate-error {
+  min-height: 1.1em;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: #ff6b8b;
+}
+
+.gate-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.gate-actions .btn-primary { flex: 1; }
+
+/* ── 2. Security / publish pane ──────────────────────────── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.status-pill.is-ok    { color: #4ade80; border-color: rgba(74, 222, 128, 0.35); }
+.status-pill.is-warn  { color: #fbbf24; border-color: rgba(251, 191, 36, 0.35); }
+.status-pill.is-error { color: #ff6b8b; border-color: rgba(255, 107, 139, 0.35); }
+
+.publish-log {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+}
+
+.publish-log:empty { display: none; }
+
+.hint-block {
+  padding: var(--space-4);
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-accent-glow);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* ── 3. Generic repeatable list editors (studio content) ─── */
+.studio-editor-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  margin-bottom: var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.studio-editor-card .full { grid-column: 1 / -1; }
+
+.studio-editor-card__head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.studio-editor-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.list-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.btn-ghost-danger {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: #ff6b8b;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+.btn-ghost-danger:hover { border-color: rgba(255, 107, 139, 0.5); }

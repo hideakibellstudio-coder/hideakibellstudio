@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https:; frame-src https:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+
+  <!-- SEO -->
+  <title>Hideaki Bell · Digital Artist</title>
+  <meta name="description" content="Portfolio of Hideaki Bell — independent digital artist specializing in digital illustration, concept art, and abstract digital art." />
+  <meta name="author" content="Hideaki Bell" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Hideaki Bell · Digital Artist" />
+  <meta property="og:description" content="Portfolio of Hideaki Bell — independent digital artist." />
+  <meta property="og:image"       content="assets/images/artwork-1.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Hideaki Bell · Digital Artist" />
+  <meta name="twitter:description" content="Portfolio of Hideaki Bell — independent digital artist." />
+  <meta name="twitter:image"       content="assets/images/artwork-1.jpg" />
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
+
+  <!-- Anti-FOUC: apply saved theme BEFORE CSS renders -->
+  <script src="assets/js/theme-init.js"></script>
+
+  <!-- Styles: single entry point (ARCcC §2.3) -->
+  <link rel="stylesheet" href="assets/styles/index.css" />
+
+  <!-- GitHub Pages: no _config.yml needed, plain HTML works natively -->
+</head>
+<body data-page="hub">
+
+  <!-- Custom cursor (cosmetic layer, not a module) -->
+  <div class="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ───────────────────────────────────────────────────────
+       NAVIGATION
+  ─────────────────────────────────────────────────────────── -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="#hero" class="nav__logo" id="nav-logo">
+      Hideaki <span>Bell</span>
+    </a>
+
+
+    <ul class="nav__links" role="list">
+      <li><a href="index.html" class="nav__link" id="nav-link-home" aria-current="page">Home</a></li>
+      <li><a href="art.html"   class="nav__link" id="nav-link-art">Art</a></li>
+      <li><a href="studio.html" class="nav__link" id="nav-link-studio">Software</a></li>
+      <li><a href="about.html" class="nav__link" id="nav-link-about">About</a></li>
+      <li><a href="contact.html" class="nav__link" id="nav-link-contact">Contact</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <!-- Language switch -->
+      <button class="lang-switch" id="lang-switch-btn" aria-label="Switch language" title="Mudar idioma">
+        EN
+      </button>
+
+      <!-- Admin link (hidden - Ctrl+Shift+Q toggles it) -->
+      <a href="admin.html" class="admin-link-btn" id="admin-link-btn" title="Creator Studio" style="display:none;">
+        ⚙
+      </a>
+
+      <!-- Theme toggle -->
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Switch to light mode" title="Light mode">
+        <!-- Moon icon (shown in dark mode → click to go light) -->
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun icon (shown in light mode → click to go dark) -->
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="display:none">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+
+      <!-- Mobile burger -->
+      <button class="nav__burger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ───────────────────────────────────────────────────────
+       HERO SECTION
+  ─────────────────────────────────────────────────────────── -->
+  <section id="hero" aria-label="Hero introduction">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow" id="hero-eyebrow">Digital Illustration · Concept Art · Abstract Art</p>
+
+      <h1 class="hero__name" id="hero-name">
+        Hideaki <span>Bell</span>
+      </h1>
+
+      <p class="hero__tagline cursor-blink" id="hero-tagline">
+        Digital Artist · Independent Creator
+      </p>
+
+      <div class="hero__actions">
+        <a href="art.html" class="btn-primary" id="hero-cta-gallery">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          View Gallery
+        </a>
+        <a href="studio.html" class="btn-secondary" id="hero-cta-studio">
+          Software Area
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__scroll-indicator" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
+      <span class="hero__scroll-label">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────────────────
+       AREAS HUB — the site is split into independent areas
+  ─────────────────────────────────────────────────────────── -->
+  <section id="areas" aria-label="Site areas">
+    <div class="section-header reveal">
+      <span class="section-label" data-i18n="hub_label">Two areas</span>
+      <h2 class="section-title" data-i18n="hub_title">Two independent areas</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+    </div>
+
+    <p class="hub__intro reveal reveal-delay-1" data-i18n="hub_intro">
+      This site holds two separate areas — one for my artwork, another for the software I am building.
+    </p>
+
+    <div class="hub__grid">
+      <article class="hub-card reveal reveal-delay-2">
+        <div class="hub-card__icon" aria-hidden="true">✦</div>
+        <h3 class="hub-card__title" data-i18n="hub_art_title">Art Area</h3>
+        <p class="hub-card__text" data-i18n="hub_art_text">
+          Illustrations, concept art and personal pieces.
+        </p>
+        <a class="hub-card__cta" href="art.html" data-i18n="hub_art_cta">Enter the art area</a>
+      </article>
+
+      <article class="hub-card reveal reveal-delay-3">
+        <div class="hub-card__icon" aria-hidden="true">◈</div>
+        <h3 class="hub-card__title" data-i18n="hub_studio_title">Software Area</h3>
+        <p class="hub-card__text" data-i18n="hub_studio_text">
+          Development log, features, roadmap and releases.
+        </p>
+        <a class="hub-card__cta" href="studio.html" data-i18n="hub_studio_cta">Enter the software area</a>
+      </article>
+    </div>
+
+    <p class="hub__note" data-i18n="hub_note"></p>
+  </section>
+<footer class="site-footer" role="contentinfo">
+    <p class="site-footer__text">
+      © <span id="footer-year"></span> Hideaki Bell · All Rights Reserved ·
+      Built with ❤ using <a href="#" aria-label="ARCcC methodology">ARCcC</a>
+    </p>
+  </footer>
+
+  <!-- ───────────────────────────────────────────────────────
+       SCRIPTS — Loaded in dependency order (ARCcC §2.3)
+       No ES module bundler needed — single flat script chain.
+  ─────────────────────────────────────────────────────────── -->
+
+  <!-- 1. Infrastructure (no deps) -->
+  <script src="infrastructure/event-bus/index.js"></script>
+  <script src="infrastructure/i18n/index.js"></script>
+  <script src="infrastructure/config/index.js"></script>
+  <script src="infrastructure/content/index.js"></script>
+  <script src="infrastructure/intersection-observer/index.js"></script>
+
+  <!-- 2. Utils (no deps) -->
+  <script src="utils/dom/index.js"></script>
+  <script src="utils/formatters/index.js"></script>
+  <script src="utils/env/index.js"></script>
+
+  <!-- 3. Core — Hero sub-modules -->
+  <script src="core/hero/private/animator/index.js"></script>
+  <script src="core/hero/private/renderer/index.js"></script>
+  <script src="core/hero/index.js"></script>
+
+  <!-- 4. Core — About -->
+
+  <!-- 5. Core — Contact sub-modules -->
+
+  <!-- 6. Core — Creator Studio gate (decides if the ⚙ link is shown) -->
+  <script src="core/admin-gate/index.js"></script>
+
+  <!-- 7. Core — Theme Toggle -->
+  <script src="core/theme-toggle/index.js"></script>
+
+  <!-- 8. Core — Language Switch -->
+  <script src="core/language/index.js"></script>
+
+  <!-- 9. Boundary — Contracts + Orchestrator + Entry point -->
+  <script src="boundary/orchestrator/contracts/SiteContract.js"></script>
+  <script src="boundary/orchestrator/index.js"></script>
+  <script src="boundary/index.js"></script>
+
+</body>
+</html>

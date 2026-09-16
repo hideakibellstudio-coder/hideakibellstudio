@@ -1,0 +1,90 @@
+/* ==========================================================
+   AREA SHELL — shared layout for dedicated area pages
+   ARCcC: assets/styles/components/area.css
+   Used by art.html and studio.html (páginas de área independentes).
+   ========================================================== */
+
+.area {
+  padding-top: var(--nav-height);
+  min-height: 100dvh;
+}
+
+/* Plain variant — About/Contact pages: no area header, content sections
+   carry their own spacing (see about.css / contact.css). */
+.area--plain {
+  display: block;
+}
+
+/* ── Area header ──────────────────────────────────────────── */
+.area__header {
+  max-width: var(--max-width-md);
+  margin: 0 auto;
+  padding: var(--space-20) var(--space-6) var(--space-8);
+  text-align: center;
+}
+
+.area__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-4);
+}
+
+.area__intro {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Cross-area navigation (bottom of each area page) ─────── */
+.area__switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  max-width: var(--max-width-md);
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6) var(--space-20);
+}
+
+.area__switch-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition:
+    color       var(--duration-normal) var(--ease-out),
+    border      var(--duration-normal) var(--ease-out),
+    background  var(--duration-normal) var(--ease-out),
+    transform   var(--duration-fast)   var(--ease-out);
+}
+
+.area__switch-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  .area__header { padding-top: var(--space-16); }
+  .area__switch { padding-bottom: var(--space-16); }
+}
