@@ -761,6 +761,12 @@
 
       <!-- 2. ARTWORKS PANE -->
       <section class="admin-pane" id="pane-gallery" aria-labelledby="nav-btn-gallery">
+        <div class="list-actions" id="gallery-toolbar">
+          <button class="btn-primary" type="button" id="artwork-add-top-btn">+ Adicionar obra</button>
+          <button class="btn-secondary" type="button" id="artwork-json-export">Exportar JSON (art.json)</button>
+          <button class="btn-secondary" type="button" id="artwork-json-import">Importar JSON (art.json)</button>
+          <input type="file" id="artwork-json-file" accept=".json,application/json" hidden />
+        </div>
         <div class="artwork-list" id="s-artworks-list">
           <!-- Populated by JavaScript -->
         </div>
@@ -954,6 +960,9 @@
 
           <div class="list-actions">
             <button class="btn-secondary" type="button" data-add-list="posts">+ Add Entry</button>
+            <button class="btn-secondary" type="button" id="studio-json-export">Exportar JSON (studio.json)</button>
+            <button class="btn-secondary" type="button" id="studio-json-import">Importar JSON (studio.json)</button>
+            <input type="file" id="studio-json-file" accept=".json,application/json" hidden />
           </div>
           <div class="studio-editor-list" id="studio-posts-editor"></div>
         </div>

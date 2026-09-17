@@ -161,19 +161,35 @@ function _buildArtworksGrid(artworks) {
   if (!container) return;
   container.innerHTML = '';
 
+  // "Add artwork" button pinned at the TOP of the list
+  container.appendChild(_makeAddArtworkButton());
+
   artworks.forEach((art, i) => {
     container.appendChild(_buildArtworkCard(art, i));
   });
 
-  // "Add artwork" button at the end of the list
+  if (!artworks.length) {
+    const note = document.createElement('p');
+    note.className = 'artwork-empty-note';
+    note.textContent = I18n.getLang() === I18n.LANGUAGES.PT
+      ? 'Nenhuma obra ainda. Use o botão acima para adicionar.'
+      : 'No artworks yet. Use the button above to add one.';
+    container.appendChild(note);
+  }
+}
+
+/** Shared factory so the add button is identical wherever it is rebuilt. */
+function _makeAddArtworkButton() {
   const addBtn = document.createElement('button');
   addBtn.type = 'button';
   addBtn.id = 'btn-add-artwork';
-  addBtn.className = 'admin-btn artwork-add-btn';
+  addBtn.className = 'btn-primary';
   addBtn.textContent = I18n.getLang() === I18n.LANGUAGES.PT
     ? '+ Adicionar obra'
     : '+ Add artwork';
   addBtn.addEventListener('click', () => {
+    const container = document.getElementById('s-artworks-list');
+    if (!container) return;
     const card = _buildArtworkCard({
       title: { en: '', pt: '' },
       category: { en: '', pt: '' },
@@ -181,10 +197,12 @@ function _buildArtworksGrid(artworks) {
       imageUrl: '',
       nsfw: false,
     }, container.querySelectorAll('.artwork-editor-card').length);
-    container.insertBefore(card, addBtn);
+    // New card lands right under the button (top of the grid)
+    container.insertBefore(card, addBtn.nextSibling);
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    _markDirty();
   });
-  container.appendChild(addBtn);
+  return addBtn;
 }
 
 function _buildArtworkCard(art, i) {
@@ -363,36 +381,17 @@ function _ensureAddButton() {
   const emptyNote = document.createElement('p');
   emptyNote.className = 'artwork-empty-note';
   emptyNote.textContent = I18n.getLang() === I18n.LANGUAGES.PT
-    ? 'Nenhuma obra. Use o botão abaixo para adicionar.'
-    : 'No artworks yet. Use the button below to add one.';
+    ? 'Nenhuma obra. Use o botão acima para adicionar.'
+    : 'No artworks yet. Use the button above to add one.';
   container.appendChild(emptyNote);
   _buildArtworksGridAddOnly();
 }
 
-/** Rebuild just the add button (after all cards were removed). */
+/** Rebuild just the add button (top of the grid) after cards were removed. */
 function _buildArtworksGridAddOnly() {
   const container = document.getElementById('s-artworks-list');
   if (!container) return;
-  const addBtn = document.createElement('button');
-  addBtn.type = 'button';
-  addBtn.id = 'btn-add-artwork';
-  addBtn.className = 'admin-btn artwork-add-btn';
-  addBtn.textContent = I18n.getLang() === I18n.LANGUAGES.PT
-    ? '+ Adicionar obra'
-    : '+ Add artwork';
-  addBtn.addEventListener('click', () => {
-    const card = _buildArtworkCard({
-      title: { en: '', pt: '' },
-      category: { en: '', pt: '' },
-      description: { en: '', pt: '' },
-      imageUrl: '',
-      nsfw: false,
-    }, 0);
-    const existing = container.querySelector('#btn-add-artwork');
-    container.insertBefore(card, existing);
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
-  container.appendChild(addBtn);
+  container.insertBefore(_makeAddArtworkButton(), container.firstChild);
 }
 
 // ── Image helpers (shared: artworks + post composer) ─────────
@@ -691,15 +690,21 @@ function _collectContent() {
 function _bindActions(originalConfig) {
   const isEn = () => I18n.getLang() === 'en';
 
+  // Screen -> in-memory content (shared by Save and JSON export, so an
+  // export always reflects what is on screen, even before clicking Save)
+  const _syncEditsToMemory = () => {
+    const content = _collectContent();
+    ContentLoader.setOverride('site',   content.site);
+    ContentLoader.setOverride('art',    content.art);
+    ContentLoader.setOverride('studio', content.studio);
+  };
+
   // Save button — local preview only (localStorage), never the repository
   document.getElementById('admin-save-btn').addEventListener('click', () => {
     const nextConfig = _readFields(originalConfig);
     SettingsPersistence.save(nextConfig);
 
-    const content = _collectContent();
-    ContentLoader.setOverride('site',   content.site);
-    ContentLoader.setOverride('art',    content.art);
-    ContentLoader.setOverride('studio', content.studio);
+    _syncEditsToMemory();
 
     Publisher.refreshStatus();
 
@@ -722,6 +727,65 @@ function _bindActions(originalConfig) {
   document.getElementById('admin-export-btn').addEventListener('click', () => {
     const nextConfig = _readFields(originalConfig);
     SettingsExporter.exportAsJS(nextConfig);
+  });
+
+  // ── JSON export / import (art.json & studio.json) ──────────
+  // Uses the same serialization as the publisher, so an exported file can be
+  // committed directly to /content or imported back without reformatting.
+  const _downloadJSON = (key) => {
+    _syncEditsToMemory();
+    const blob = new Blob([ContentLoader.toJSONString(key)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${key}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const _importJSON = (key, file) => {
+    if (!file) return;
+    file.text().then((text) => {
+      let data;
+      try {
+        data = JSON.parse(text);
+        if (!data || typeof data !== 'object') throw new Error('bad-shape');
+      } catch {
+        _toast(isEn() ? `Invalid JSON for ${key}.json` : `JSON inválido para ${key}.json`, 'error');
+        return;
+      }
+      ContentLoader.setOverride(key, data);
+      // Refresh the matching editor so the pane reflects the imported state
+      if (key === 'art') _buildArtworksGrid(data.artworks || []);
+      if (key === 'studio') _populateStudioFields(data);
+      _markDirty();
+      _toast(isEn() ? `${key}.json imported!` : `${key}.json importado!`, 'success');
+    });
+  };
+
+  // Gallery toolbar
+  document.getElementById('artwork-add-top-btn')?.addEventListener('click', () => {
+    document.getElementById('btn-add-artwork')?.click();
+  });
+  document.getElementById('artwork-json-export')?.addEventListener('click', () => _downloadJSON('art'));
+  document.getElementById('artwork-json-import')?.addEventListener('click', () => {
+    document.getElementById('artwork-json-file')?.click();
+  });
+  document.getElementById('artwork-json-file')?.addEventListener('change', (e) => {
+    _importJSON('art', e.target.files && e.target.files[0]);
+    e.target.value = '';
+  });
+
+  // Studio toolbar
+  document.getElementById('studio-json-export')?.addEventListener('click', () => _downloadJSON('studio'));
+  document.getElementById('studio-json-import')?.addEventListener('click', () => {
+    document.getElementById('studio-json-file')?.click();
+  });
+  document.getElementById('studio-json-file')?.addEventListener('change', (e) => {
+    _importJSON('studio', e.target.files && e.target.files[0]);
+    e.target.value = '';
   });
 }
 
