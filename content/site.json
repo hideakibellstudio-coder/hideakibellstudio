@@ -1,10 +1,8 @@
 {
-  "_comment": "Fonte de verdade do conteúdo PUBLICADO (site/artista/redes/contato/SEO). Editado pelo Creator Studio (admin.html) e publicado aqui.",
   "site": {
     "title": "Hideaki Bell · Digital Artist",
     "description": "Portfolio of Hideaki Bell — independent digital artist specializing in digital illustration, concept art, and abstract digital art.",
-    "accentColor": "#FF3EA5",
-    "language": "en"
+    "accentColor": "#FF3EA5"
   },
   "artist": {
     "name": "Hideaki Bell",
@@ -24,10 +22,22 @@
     },
     "avatarUrl": "assets/images/avatar.jpg",
     "specialties": [
-      { "en": "Digital Illustration", "pt": "Ilustração Digital" },
-      { "en": "Concept Art", "pt": "Arte Conceitual" },
-      { "en": "Abstract Art", "pt": "Arte Abstrata" },
-      { "en": "Visual Development", "pt": "Desenvolvimento Visual" }
+      {
+        "en": "Digital Illustration",
+        "pt": "Ilustração Digital"
+      },
+      {
+        "en": "Concept Art",
+        "pt": "Arte Conceitual"
+      },
+      {
+        "en": "Abstract Art",
+        "pt": "Arte Abstrata"
+      },
+      {
+        "en": "Visual Development",
+        "pt": "Desenvolvimento Visual"
+      }
     ],
     "stats": {
       "years": "7+",
