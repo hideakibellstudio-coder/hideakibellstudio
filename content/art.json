@@ -1,21 +1,32 @@
 {
-  "_comment": "Fonte de verdade da ÁREA ARTE. Cada item segue o contrato ArtworkTypes (title/category/description bilíngues).",
   "artworks": [
     {
       "id": "artwork-1",
-      "title": { "en": "Ethereal Void", "pt": "Vazio Etéreo" },
-      "category": { "en": "Abstract", "pt": "Abstrato" },
+      "title": {
+        "en": "Ethereal Void",
+        "pt": "Vazio Etéreo"
+      },
+      "category": {
+        "en": "Abstract",
+        "pt": "Abstrato"
+      },
       "description": {
         "en": "A meditation on the luminous spaces between states of being. Light trails trace the paths of unseen forces.",
         "pt": "Uma meditação sobre os espaços luminosos entre estados de ser. Trilhas de luz traçam os caminhos de forças invisíveis."
       },
-      "imageUrl": "assets/images/artwork-1.jpg",
+      "imageUrl": "",
       "nsfw": false
     },
     {
       "id": "artwork-2",
-      "title": { "en": "The Veiled", "pt": "O Velado" },
-      "category": { "en": "Concept Art", "pt": "Arte Conceitual" },
+      "title": {
+        "en": "The Veiled",
+        "pt": "O Velado"
+      },
+      "category": {
+        "en": "Concept Art",
+        "pt": "Arte Conceitual"
+      },
       "description": {
         "en": "Character study exploring identity, concealment, and the tension between presence and absence.",
         "pt": "Estudo de personagem explorando identidade, ocultamento e a tensão entre presença e ausência."
@@ -25,8 +36,14 @@
     },
     {
       "id": "artwork-3",
-      "title": { "en": "Sacred Geometry No.7", "pt": "Geometria Sagrada Nº 7" },
-      "category": { "en": "Generative", "pt": "Generativo" },
+      "title": {
+        "en": "Sacred Geometry No.7",
+        "pt": "Geometria Sagrada Nº 7"
+      },
+      "category": {
+        "en": "Generative",
+        "pt": "Generativo"
+      },
       "description": {
         "en": "Mathematical structures rendered as visual poetry. Order and complexity in dialogue.",
         "pt": "Estruturas matemáticas interpretadas como poesia visual. Ordem e complexidade em diálogo."
@@ -36,8 +53,14 @@
     },
     {
       "id": "artwork-4",
-      "title": { "en": "Emergence", "pt": "Emergência" },
-      "category": { "en": "Digital Painting", "pt": "Pintura Digital" },
+      "title": {
+        "en": "Emergence",
+        "pt": "Emergência"
+      },
+      "category": {
+        "en": "Digital Painting",
+        "pt": "Pintura Digital"
+      },
       "description": {
         "en": "A portrait study in the tradition of chiaroscuro, reimagined through a digital lens.",
         "pt": "Um estudo de retrato na tradição do chiaroscuro, reimaginado através de uma lente digital."
@@ -47,8 +70,14 @@
     },
     {
       "id": "artwork-5",
-      "title": { "en": "Still City [NSFW]", "pt": "Cidade Silenciosa [NSFW]" },
-      "category": { "en": "Landscape", "pt": "Paisagem" },
+      "title": {
+        "en": "Still City [NSFW]",
+        "pt": "Cidade Silenciosa [NSFW]"
+      },
+      "category": {
+        "en": "Landscape",
+        "pt": "Paisagem"
+      },
       "description": {
         "en": "An urban landscape reduced to its essential geometry. The city as abstraction.",
         "pt": "Uma paisagem urbana reduzida à sua geometria essencial. A cidade como abstração."
@@ -58,8 +87,14 @@
     },
     {
       "id": "artwork-6",
-      "title": { "en": "Fluid State [NSFW]", "pt": "Estado Fluido [NSFW]" },
-      "category": { "en": "Abstract", "pt": "Abstrato" },
+      "title": {
+        "en": "Fluid State [NSFW]",
+        "pt": "Estado Fluido [NSFW]"
+      },
+      "category": {
+        "en": "Abstract",
+        "pt": "Abstrato"
+      },
       "description": {
         "en": "Liquid dynamics frozen at the precise moment of dissolution. Motion as stillness.",
         "pt": "Dinâmica de líquidos congelada no momento preciso de dissolução. Movimento como quietude."
