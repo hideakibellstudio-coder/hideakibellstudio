@@ -1,143 +1,932 @@
 <!DOCTYPE html>
-<!--
-  Content Workbench — editor offline de art.json e studio.json
-  FORA DO SITE PUBLICADO: fica em /tools, nao e servido pelo GitHub Pages.
-
-  Como usar:
-    1. Rode um servidor estatico na raiz do projeto, ex.:  python -m http.server 8080
-    2. Abra http://localhost:8080/tools/content-workbench.html
-    3. Edite as artes e as novidades; clique "Exportar art.json" / "Exportar studio.json"
-    4. No painel admin do site (admin.html), use "Importar JSON" em cada area,
-       depois Salvar -> Publicar. (Ou commite os JSONs exportados em /content.)
-
-  Alternativa sem servidor: abra o arquivo pelo file:// e use os botoes
-  "Abrir..." para carregar os JSONs do disco (fetch local so funciona via http).
--->
+<!-- Content Workbench — editor visual OFFLINE de art.json e studio.json. -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Workbench - Art e Studio JSON</title>
+<title>Workbench — prévias de Arte e Software</title>
+<link rel="stylesheet" href="../assets/styles/index.css" />
 <style>
   :root {
-    --bg: #0e0f11; --bg2: #17181c; --border: #2a2c33; --text: #e8e8ea;
-    --muted: #9a9da6; --accent: #7aa2f7; --ok: #4ade80; --err: #ff6b8b;
+    --wb-bg: #0e0f11; --wb-bg2: #17181c; --wb-border: #2a2c33;
+    --wb-text: #e8e8ea; --wb-muted: #9a9da6;
+    --wb-accent: #7aa2f7; --wb-ok: #4ade80; --wb-err: #ff6b8b;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 24px; background: var(--bg); color: var(--text);
-    font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px;
+  body.wb, body.wb * { cursor: auto !important; }
+  body.wb .cursor-dot, body.wb .cursor-ring { display: none !important; }
+  body.wb { margin: 0; background: var(--wb-bg); color: var(--wb-text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+  body.wb .wb-shell button, body.wb .wb-shell input,
+  body.wb .wb-shell textarea, body.wb .wb-shell select,
+  body.wb .wb-shell label { cursor: pointer; }
+  body.wb .wb-shell input[type="text"], body.wb .wb-shell textarea { cursor: text; }
+  .wb-shell { max-width: 1180px; margin: 0 auto; padding: 28px 24px 64px; }
+  .wb-shell button, .wb-shell input, .wb-shell textarea, .wb-shell select { font: inherit; }
+  .wb-head { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .wb-head h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .wb-sub { color: var(--wb-muted); margin: 0 0 20px; font-size: 13px; }
+  .wb-title { flex: 1 1 420px; min-width: 0; }
+  .wb-fileops { display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    justify-content: flex-end; margin-bottom: 20px; }
+  .wb-fileops button {
+    background: var(--wb-bg2); border: 1px solid var(--wb-border); color: var(--wb-muted);
+    padding: 7px 13px; border-radius: 8px; font-size: 13px;
   }
-  h1 { font-size: 20px; margin: 0 0 4px; }
-  .sub { color: var(--muted); margin: 0 0 20px; font-size: 13px; }
-  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-  .tabs button {
-    background: var(--bg2); border: 1px solid var(--border); color: var(--muted);
-    padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;
+  .wb-fileops button:hover { border-color: var(--wb-accent); color: var(--wb-text); }
+  .wb-fileops button.primary { background: var(--wb-accent); border-color: var(--wb-accent);
+    color: #10131a; font-weight: 600; }
+  .wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .wb-tabs button {
+    background: var(--wb-bg2); border: 1px solid var(--wb-border); color: var(--wb-muted);
+    padding: 8px 16px; border-radius: 8px; font-size: 13px;
   }
-  .tabs button.is-active { color: var(--text); border-color: var(--accent); }
-  .pane { display: none; }
-  .pane.is-active { display: block; }
-  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-  .toolbar button {
-    background: var(--bg2); border: 1px solid var(--border); color: var(--text);
-    padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 13px;
+  .wb-tabs button:hover { color: var(--wb-text); border-color: var(--wb-accent); }
+  .wb-tabs button.is-active { color: var(--wb-text); border-color: var(--wb-accent); }
+  .wb-modes button.is-active { color: var(--wb-text); border-color: var(--wb-accent); }
+  .wb-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .wb-bar .wb-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .wb-bar .wb-actions .wb-modes { margin-right: 0; }
+  .wb-bar button {
+    background: var(--wb-bg2); border: 1px solid var(--wb-border); color: var(--wb-text);
+    padding: 7px 14px; border-radius: 8px; font-size: 13px;
   }
-  .toolbar button:hover { border-color: var(--accent); }
-  .toolbar button.primary { background: var(--accent); border-color: var(--accent); color: #10131a; font-weight: 600; }
-  .editor {
-    width: 100%; min-height: 420px; background: var(--bg2); color: var(--text);
-    border: 1px solid var(--border); border-radius: 10px; padding: 14px;
-    font-family: ui-monospace, Consolas, monospace; font-size: 13px; line-height: 1.5;
-    resize: vertical; white-space: pre; tab-size: 2;
+  .wb-bar button:hover { border-color: var(--wb-accent); }
+  .wb-bar button.primary { background: var(--wb-accent); border-color: var(--wb-accent);
+    color: #10131a; font-weight: 600; }
+  .wb-bar select {
+    background: var(--wb-bg2); border: 1px solid var(--wb-border); color: var(--wb-text);
+    padding: 7px 14px; border-radius: 8px; font-size: 13px;
   }
-  .editor:focus { outline: none; border-color: var(--accent); }
-  .status { margin-top: 10px; min-height: 20px; font-size: 13px; }
-  .status.ok { color: var(--ok); }
-  .status.err { color: var(--err); }
-  .hint { color: var(--muted); font-size: 12px; margin-top: 14px; line-height: 1.6; }
+</style>
+<style>
+  .wb-code {
+    width: 100%; min-height: 320px; background: var(--wb-bg2); color: var(--wb-text);
+    border: 1px solid var(--wb-border); border-radius: 10px; padding: 14px;
+    font-family: Consolas, 'Cascadia Code', monospace; font-size: 12.5px; line-height: 1.55;
+    white-space: pre; resize: vertical;
+  }
+  .wb-code:focus { outline: none; border-color: var(--wb-accent); }
+  .wb-status { margin-top: 10px; min-height: 20px; font-size: 13px; }
+  .wb-status.ok { color: var(--wb-ok); }
+  .wb-status.err { color: var(--wb-err); }
+  .wb-hint { color: var(--wb-muted); font-size: 12px; margin-top: 14px; line-height: 1.6; }
+
+  /* ── Editor visual: campos lado a lado com a previa ──────── */
+  .wb-visual-item {
+    display: grid; grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+    gap: 20px; padding: 18px; margin-bottom: 18px;
+    border: 1px solid var(--wb-border); border-radius: 12px; background: var(--wb-bg2);
+  }
+  .wb-visual-item > h3 {
+    grid-column: 1 / -1; margin: 0; font-size: 12px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--wb-muted);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .wb-fields { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .wb-field label {
+    display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--wb-muted); margin-bottom: 4px;
+  }
+  .wb-field input[type="text"], .wb-field textarea {
+    width: 100%; background: var(--wb-bg); color: var(--wb-text);
+    border: 1px solid var(--wb-border); border-radius: 8px; padding: 8px 10px;
+    font-size: 13px;
+  }
+  .wb-field textarea { min-height: 64px; resize: vertical; }
+  .wb-field input:focus, .wb-field textarea:focus { outline: none; border-color: var(--wb-accent); }
+  .wb-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .wb-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--wb-text); }
+  .wb-img-note { font-size: 11px; color: var(--wb-muted); margin-top: 4px; }
+  .wb-img-note.is-broken { color: var(--wb-err); }
+  .wb-item-tools { display: flex; gap: 6px; margin-left: auto; }
+  .wb-item-tools button {
+    background: transparent; border: 1px solid var(--wb-border); border-radius: 6px;
+    color: var(--wb-muted); font-size: 12px; padding: 3px 9px;
+  }
+  .wb-item-tools button:hover { border-color: var(--wb-accent); color: var(--wb-text); }
+  .wb-preview { min-width: 0; }
+  .wb-preview .artwork-card { pointer-events: none; aspect-ratio: 4 / 3; }
+  .wb-preview .artwork-card__overlay { opacity: 1; }
+  .wb-preview-frame {
+    border: 1px dashed var(--wb-border); border-radius: 10px; padding: 12px; background: var(--wb-bg);
+  }
+  .wb-section-label {
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--wb-muted); margin: 22px 0 10px;
+  }
+  .wb-pane, .wb-mode-pane, .wb-code-wrap, .wb-visual-wrap { display: none; }
+  .wb-pane.is-active, .wb-mode-pane.is-active { display: block; }
+  .wb-code-wrap.is-active, .wb-visual-wrap.is-active { display: block; }
+  @media (max-width: 860px) { .wb-visual-item { grid-template-columns: 1fr; } }
 </style>
 </head>
-<body>
-  <h1>Content Workbench</h1>
-  <p class="sub">Editor offline de <code>art.json</code> e <code>studio.json</code> — edite via codigo, valide, exporte.</p>
+<body class="wb">
+<div class="wb-shell">
+  <div class="wb-head">
+    <div class="wb-title">
+      <h1>Content Workbench</h1>
+      <p class="wb-sub">Editor visual de <code>art.json</code> e <code>studio.json</code> — prévia fiel das seções do site.</p>
+    </div>
+    <div class="wb-fileops">
+      <button id="art-open" title="Abrir um art.json do disco — inclusive um exportado do admin ou daqui">Abrir art… (disco)</button>
+      <button id="art-fetch" title="Recarregar direto de /content/art.json (precisa de servidor local)">Recarregar art</button>
+      <button id="art-export" class="primary" title="Baixa o art.json editado — importe no admin ou commite em /content/">Exportar art.json</button>
+      <button id="studio-open" title="Abrir um studio.json do disco — inclusive um exportado do admin ou daqui">Abrir studio… (disco)</button>
+      <button id="studio-fetch" title="Recarregar direto de /content/studio.json (precisa de servidor local)">Recarregar studio</button>
+      <button id="studio-export" class="primary" title="Baixa o studio.json editado — importe no admin ou commite em /content/">Exportar studio.json</button>
+      <input type="file" id="art-file" accept="application/json,.json" hidden />
+      <input type="file" id="studio-file" accept="application/json,.json" hidden />
+    </div>
+  </div>
 
-  <div class="tabs">
+  <div class="wb-tabs">
     <button data-pane="art" class="is-active">Obras (art.json)</button>
     <button data-pane="studio">Software (studio.json)</button>
   </div>
 
-  <section class="pane is-active" data-pane="art">
-    <div class="toolbar">
-      <button id="art-open">Abrir art.json...</button>
-      <button id="art-fetch">Carregar de /content/</button>
-      <button id="art-format">Formatar</button>
-      <button id="art-export" class="primary">Exportar art.json</button>
-      <input type="file" id="art-file" accept=".json" hidden />
+  <div class="wb-bar">
+    <div class="wb-actions">
+      <div class="wb-modes" role="group" aria-label="Modo de edição">
+        <button data-mode="visual" class="is-active">Visual</button>
+        <button data-mode="code">Código</button>
+      </div>
+      <select id="wb-lang" aria-label="Idioma da prévia">
+        <option value="pt" selected>Prévia: PT</option>
+        <option value="en">Prévia: EN</option>
+      </select>
     </div>
-    <textarea class="editor" id="art-editor" spellcheck="false" placeholder="Carregue o art.json ou cole o conteudo aqui..."></textarea>
-    <div class="status" id="art-status"></div>
+  </div>
+
+  <section class="wb-pane is-active" data-pane="art">
+    <div class="wb-bar">
+      <button id="art-add">+ Obra</button>
+      <div class="wb-actions">
+        <button id="art-format">Formatar JSON</button>
+      </div>
+    </div>
+    <div class="wb-mode-pane is-active" data-mode-pane="visual"><div id="art-visual"></div></div>
+    <div class="wb-mode-pane" data-mode-pane="code">
+      <textarea class="wb-code" id="art-editor" spellcheck="false"></textarea>
+      <div class="wb-status" id="art-status"></div>
+    </div>
   </section>
 
-  <section class="pane" data-pane="studio">
-    <div class="toolbar">
-      <button id="studio-open">Abrir studio.json...</button>
-      <button id="studio-fetch">Carregar de /content/</button>
-      <button id="studio-format">Formatar</button>
-      <button id="studio-export" class="primary">Exportar studio.json</button>
-      <input type="file" id="studio-file" accept=".json" hidden />
+  <section class="wb-pane" data-pane="studio">
+    <div class="wb-bar">
+      <button id="studio-add">+ Entrada (devlog)</button>
+      <button id="studio-add-highlight">+ Destaque</button>
+      <button id="studio-add-roadmap">+ Etapa (roadmap)</button>
+      <button id="studio-add-link">+ Link</button>
+      <div class="wb-actions">
+        <button id="studio-format">Formatar JSON</button>
+      </div>
     </div>
-    <textarea class="editor" id="studio-editor" spellcheck="false" placeholder="Carregue o studio.json ou cole o conteudo aqui..."></textarea>
-    <div class="status" id="studio-status"></div>
+    <div class="wb-mode-pane is-active" data-mode-pane="visual"><div id="studio-visual"></div></div>
+    <div class="wb-mode-pane" data-mode-pane="code">
+      <textarea class="wb-code" id="studio-editor" spellcheck="false"></textarea>
+      <div class="wb-status" id="studio-status"></div>
+    </div>
   </section>
 
-  <p class="hint">
-    Fluxo com agente de IA: peca ao agente para editar diretamente
-    <code>/content/art.json</code> ou <code>/content/studio.json</code> neste projeto.
-    Depois de exportar, importe no painel admin (admin.html, botao Importar JSON)
-    e clique <strong>Publicar</strong>, ou faca commit direto dos arquivos em <code>/content</code>.
+  <p class="wb-hint">
+    <strong>Fluxo com o admin:</strong> em <code>admin.html</code> (aba da área desejada), clique
+    <em>Exportar JSON</em> para baixar o arquivo — depois, aqui em cima, use <em>Abrir… (disco)</em> para
+    carregá-lo, edite no modo Visual e clique <em>Exportar</em>. No admin, use <em>Importar JSON</em> e
+    clique <strong>Publicar</strong>, ou faça commit direto dos arquivos em <code>/content</code>.<br />
+    Imagens: cole <code>https://…</code>, <code>data:image/…</code> ou <code>assets/…</code> (resolve local) —
+    a prévia mostra a imagem real e avisa se ela não carregar. O botão <em>Imagem… (arquivo)</em> converte
+    um arquivo local em data: URL, igual ao painel admin.
   </p>
+</div>
 <script>
 (function () {
   'use strict';
-  var tabs = document.querySelectorAll('.tabs button');
+
+  /* ── Estado ─────────────────────────────────────────────── */
+  var state = {
+    art: { artworks: [] },
+    studio: { meta: {}, intros: { en: [], pt: [] }, highlights: [], roadmap: [], posts: [], links: [] },
+  };
+  var lang = 'pt';
+  var imgInput = null;
+
+  /* ── Utilidades ─────────────────────────────────────────── */
+  function esc(str) {
+    return String(str === undefined || str === null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function field(value) {
+    if (typeof value === 'object' && value !== null) return value[lang] || value.en || value.pt || '';
+    return value || '';
+  }
+  function serialize(obj) { return JSON.stringify(obj, null, 2) + '\n'; }
+  // Mesma allowlist logica do site: assets/ resolve para ../assets/
+  function assetSrc(url) {
+    if (!url || typeof url !== 'string') return '';
+    var u = url.trim();
+    if (u.indexOf('assets/') === 0) return '../' + u;
+    if (/^(https?:\/\/|data:image\/)/i.test(u)) return u;
+    return '';
+  }
+  function onImgError(img, note) {
+    img.style.display = 'none';
+    if (note) { note.textContent = 'Imagem não carregou — confira o link.'; note.classList.add('is-broken'); }
+  }
+
+  function text(labelText, value, onInput) {
+    var wrap = document.createElement('div');
+    wrap.className = 'wb-field';
+    var lab = document.createElement('label');
+    lab.textContent = labelText;
+    var input = document.createElement('input');
+    input.type = 'text'; input.value = value || '';
+    input.addEventListener('input', function () { onInput(input.value); });
+    wrap.appendChild(lab); wrap.appendChild(input);
+    return wrap;
+  }
+  function area(labelText, value, onInput) {
+    var wrap = document.createElement('div');
+    wrap.className = 'wb-field';
+    var lab = document.createElement('label');
+    lab.textContent = labelText;
+    var ta = document.createElement('textarea');
+    ta.value = value || '';
+    ta.addEventListener('input', function () { onInput(ta.value); });
+    wrap.appendChild(lab); wrap.appendChild(ta);
+    return wrap;
+  }
+  function tools(buttons) {
+    var box = document.createElement('div');
+    box.className = 'wb-item-tools';
+    buttons.forEach(function (cfg) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = cfg[0]; b.title = cfg[1];
+      b.addEventListener('click', cfg[2]);
+      box.appendChild(b);
+    });
+    return box;
+  }
+  // Campo de imagem com botao de arquivo -> data URL (igual ao admin)
+  function imageField(labelText, value, onInput) {
+    var wrap = document.createElement('div');
+    wrap.className = 'wb-field';
+    var lab = document.createElement('label');
+    lab.textContent = labelText;
+    var input = document.createElement('input');
+    input.type = 'text'; input.value = value || '';
+    input.placeholder = 'assets/images/… ou https://…';
+    input.addEventListener('input', function () { onInput(input.value); });
+    var fileBtn = document.createElement('button');
+    fileBtn.type = 'button'; fileBtn.textContent = 'Imagem… (arquivo)';
+    fileBtn.addEventListener('click', function () {
+      pickImageFile(function (dataUrl) { input.value = dataUrl; onInput(dataUrl); });
+    });
+    var note = document.createElement('div');
+    note.className = 'wb-img-note';
+    wrap.appendChild(lab); wrap.appendChild(input);
+    wrap.appendChild(fileBtn); wrap.appendChild(note);
+    return { el: wrap, note: note };
+  }
+  function pickImageFile(cb) {
+    if (!imgInput) {
+      imgInput = document.createElement('input');
+      imgInput.type = 'file'; imgInput.accept = 'image/*'; imgInput.hidden = true;
+      document.body.appendChild(imgInput);
+    }
+    imgInput.onchange = function () {
+      var file = imgInput.files && imgInput.files[0];
+      imgInput.value = '';
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var MAX = 1600;
+          var scale = Math.min(1, MAX / Math.max(img.width, img.height));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          cb(canvas.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85));
+        };
+        img.onerror = function () { cb(reader.result); };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    imgInput.click();
+  }
+
+  /* ── Abas + modo + idioma ───────────────────────────────── */
+  var tabs = document.querySelectorAll('.wb-tabs button');
   tabs.forEach(function (btn) {
     btn.addEventListener('click', function () {
       tabs.forEach(function (b) { b.classList.remove('is-active'); });
-      document.querySelectorAll('.pane').forEach(function (p) { p.classList.remove('is-active'); });
+      document.querySelectorAll('.wb-pane').forEach(function (p) { p.classList.remove('is-active'); });
       btn.classList.add('is-active');
-      document.querySelector('.pane[data-pane="' + btn.dataset.pane + '"]').classList.add('is-active');
+      document.querySelector('.wb-pane[data-pane="' + btn.dataset.pane + '"]').classList.add('is-active');
     });
   });
-  ['art', 'studio'].forEach(function (key) {
-    wirePane(key);
+  var modeBtns = document.querySelectorAll('.wb-modes button');
+  modeBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      modeBtns.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var mode = btn.dataset.mode;
+      document.querySelectorAll('.wb-mode-pane').forEach(function (p) {
+        p.classList.toggle('is-active', p.dataset.modePane === mode);
+      });
+      if (mode === 'code') syncCodeFromState();
+    });
   });
+  document.getElementById('wb-lang').addEventListener('change', function (e) {
+    lang = e.target.value === 'en' ? 'en' : 'pt';
+    renderAll();
+  });
+  /* ── ART: editor visual + previa artwork-card ───────────── */
+  function renderArt() {
+    var mount = document.getElementById('art-visual');
+    mount.innerHTML = '';
+    var items = state.art.artworks || [];
+    if (!items.length) {
+      var empty = document.createElement('p');
+      empty.className = 'wb-hint';
+      empty.textContent = 'Nenhuma obra ainda — clique em "+ Obra" ou carregue um JSON.';
+      mount.appendChild(empty);
+    }
+    items.forEach(function (art, i) {
+      mount.appendChild(buildArtItem(art, i));
+    });
+  }
+  function buildArtItem(art, i) {
+    ['title', 'category', 'description'].forEach(function (k) {
+      if (typeof art[k] !== 'object' || art[k] === null) art[k] = { en: '', pt: '' };
+    });
+    var card = document.createElement('div');
+    card.className = 'wb-visual-item';
+
+    var head = document.createElement('h3');
+    head.textContent = 'Obra ' + (i + 1);
+    head.appendChild(tools([
+      ['↑', 'Mover para cima', function () { move(state.art.artworks, i, -1); }],
+      ['↓', 'Mover para baixo', function () { move(state.art.artworks, i, 1); }],
+      ['⧉', 'Duplicar', function () {
+        state.art.artworks.splice(i + 1, 0, JSON.parse(JSON.stringify(art)));
+        renderAll();
+      }],
+      ['✕', 'Remover', function () {
+        if (!window.confirm('Remover esta obra?')) return;
+        state.art.artworks.splice(i, 1);
+        renderAll();
+      }],
+    ]));
+    card.appendChild(head);
+
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    var row = document.createElement('div');
+    row.className = 'wb-field-row';
+    row.appendChild(text('Titulo (PT)', art.title.pt, function (v) { art.title.pt = v; liveArtPreview(card, art); }));
+    row.appendChild(text('Title (EN)', art.title.en, function (v) { art.title.en = v; liveArtPreview(card, art); }));
+    fields.appendChild(row);
+    var row2 = document.createElement('div');
+    row2.className = 'wb-field-row';
+    row2.appendChild(text('Categoria (PT)', art.category.pt, function (v) { art.category.pt = v; liveArtPreview(card, art); }));
+    row2.appendChild(text('Category (EN)', art.category.en, function (v) { art.category.en = v; liveArtPreview(card, art); }));
+    fields.appendChild(row2);
+    var img = imageField('Imagem (URL ou arquivo)', art.imageUrl, function (v) { art.imageUrl = v; liveArtPreview(card, art); });
+    fields.appendChild(img.el);
+    fields.appendChild(area('Descricao (PT)', art.description.pt, function (v) { art.description.pt = v; }));
+    fields.appendChild(area('Description (EN)', art.description.en, function (v) { art.description.en = v; }));
+    var check = document.createElement('label');
+    check.className = 'wb-check';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = !!art.nsfw;
+    cb.addEventListener('change', function () { art.nsfw = cb.checked; liveArtPreview(card, art); });
+    check.appendChild(cb);
+    check.appendChild(document.createTextNode('NSFW (18+)'));
+    fields.appendChild(check);
+    card.appendChild(fields);
+
+    var preview = document.createElement('div');
+    preview.className = 'wb-preview';
+    card.appendChild(preview);
+    liveArtPreview(card, art);
+    return card;
+  }
+  function liveArtPreview(card, art) {
+    var box = card.querySelector('.wb-preview');
+    var note = card.querySelector('.wb-img-note');
+    if (note) { note.textContent = ''; note.classList.remove('is-broken'); }
+    var src = assetSrc(art.imageUrl);
+    var nsfwBadge = art.nsfw ? '<div class="artwork-card__nsfw-badge">18+</div>' : '';
+    box.innerHTML =
+      '<article class="artwork-card">' +
+        (src ? '<img class="artwork-card__image" src="' + esc(src) + '" alt="' + esc(field(art.title)) + '" />' : '') +
+        nsfwBadge +
+        '<div class="artwork-card__overlay">' +
+          '<span class="artwork-card__category">' + esc(field(art.category)) + '</span>' +
+          '<h3 class="artwork-card__title">' + esc(field(art.title)) + '</h3>' +
+        '</div>' +
+      '</article>';
+    if (src) {
+      var pic = box.querySelector('img');
+      pic.addEventListener('error', function () { onImgError(pic, note); });
+    } else if (note) {
+      note.textContent = 'Sem imagem — cole um link ou escolha um arquivo.';
+    }
+  }
+  function move(arr, i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    renderAll();
+  }
+  /* ── STUDIO: secoes (intro / destaques / roadmap / links) ── */
+  function sectionHead(title, addLabel, onAdd) {
+    var row = document.createElement('div');
+    row.className = 'wb-section-head';
+    var h = document.createElement('h4');
+    h.textContent = title;
+    row.appendChild(h);
+    if (addLabel) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'wb-btn'; b.textContent = addLabel;
+      b.addEventListener('click', onAdd);
+      row.appendChild(b);
+    }
+    return row;
+  }
+  function previewFrame() {
+    var box = document.createElement('div');
+    box.className = 'wb-preview';
+    var frame = document.createElement('div');
+    frame.className = 'wb-preview-frame';
+    box.appendChild(frame);
+    return box;
+  }
+  function emptyHint(mount, text) {
+    var p = document.createElement('p');
+    p.className = 'wb-hint';
+    p.textContent = text;
+    mount.appendChild(p);
+  }
+  function splitLines(v) {
+    return String(v || '').split(/\r?\n/)
+      .map(function (l) { return l.trim(); })
+      .filter(Boolean);
+  }
+  function sectionTools(arr, i, cloneFn) {
+    return tools([
+      ['↑', 'Mover para cima', function () { move(arr, i, -1); }],
+      ['↓', 'Mover para baixo', function () { move(arr, i, 1); }],
+      ['⧉', 'Duplicar', function () { arr.splice(i + 1, 0, cloneFn()); renderAll(); }],
+      ['✕', 'Remover', function () {
+        if (!window.confirm('Remover este item?')) return;
+        arr.splice(i, 1);
+        renderAll();
+      }],
+    ]);
+  }
+
+  /* Intro — um paragrafo por linha (mesmo formato do painel admin) */
+  function renderIntroSection(mount, s) {
+    s.intros = s.intros || { en: [], pt: [] };
+    if (!Array.isArray(s.intros.pt)) s.intros.pt = [];
+    if (!Array.isArray(s.intros.en)) s.intros.en = [];
+    mount.appendChild(sectionHead('Intro (paragrafos)'));
+    var item = document.createElement('div');
+    item.className = 'wb-visual-item';
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    fields.appendChild(area('Intro (PT) — um paragrafo por linha', s.intros.pt.join('\n'), function (v) {
+      s.intros.pt = splitLines(v); liveIntroPreview(item, s);
+    }));
+    fields.appendChild(area('Intro (EN) — one paragraph per line', s.intros.en.join('\n'), function (v) {
+      s.intros.en = splitLines(v); liveIntroPreview(item, s);
+    }));
+    item.appendChild(fields);
+    item.appendChild(previewFrame());
+    mount.appendChild(item);
+    liveIntroPreview(item, s);
+  }
+  function liveIntroPreview(item, s) {
+    var frame = item.querySelector('.wb-preview-frame');
+    var paras = (s.intros[lang] || []).filter(Boolean);
+    frame.innerHTML =
+      '<div class="studio__intro">' +
+        (paras.length
+          ? paras.map(function (p) { return '<p class="studio__paragraph">' + esc(p) + '</p>'; }).join('')
+          : '<p class="studio__paragraph" style="opacity:.5">Sem texto — escreva um paragrafo por linha.</p>') +
+      '</div>';
+  }
+
+  /* Destaques — cards com icone, titulo e texto (.studio-card) */
+  function renderHighlightsSection(mount, s) {
+    s.highlights = Array.isArray(s.highlights) ? s.highlights : [];
+    mount.appendChild(sectionHead('Destaques', '+ Destaque', function () {
+      s.highlights.push({ icon: '\u2726', title: { en: '', pt: '' }, text: { en: '', pt: '' } });
+      renderAll();
+    }));
+    s.highlights.forEach(function (hl, i) {
+      mount.appendChild(buildHighlightItem(s.highlights, hl, i));
+    });
+    if (!s.highlights.length) emptyHint(mount, 'Nenhum destaque ainda — clique em "+ Destaque".');
+  }
+  function buildHighlightItem(arr, hl, i) {
+    if (typeof hl.title !== 'object' || hl.title === null) hl.title = { en: '', pt: '' };
+    if (typeof hl.text !== 'object' || hl.text === null) hl.text = { en: '', pt: '' };
+    var card = document.createElement('div');
+    card.className = 'wb-visual-item';
+    var head = document.createElement('h3');
+    head.textContent = 'Destaque ' + (i + 1);
+    head.appendChild(sectionTools(arr, i, function () { return JSON.parse(JSON.stringify(hl)); }));
+    card.appendChild(head);
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    fields.appendChild(text('Icone (ex: \u2726, \u25c6)', hl.icon, function (v) { hl.icon = v; liveHighlightPreview(card, hl); }));
+    var tr = document.createElement('div');
+    tr.className = 'wb-field-row';
+    tr.appendChild(text('Titulo (PT)', hl.title.pt, function (v) { hl.title.pt = v; liveHighlightPreview(card, hl); }));
+    tr.appendChild(text('Title (EN)', hl.title.en, function (v) { hl.title.en = v; liveHighlightPreview(card, hl); }));
+    fields.appendChild(tr);
+    fields.appendChild(area('Texto (PT)', hl.text.pt, function (v) { hl.text.pt = v; liveHighlightPreview(card, hl); }));
+    fields.appendChild(area('Text (EN)', hl.text.en, function (v) { hl.text.en = v; liveHighlightPreview(card, hl); }));
+    card.appendChild(fields);
+    card.appendChild(previewFrame());
+    liveHighlightPreview(card, hl);
+    return card;
+  }
+  function liveHighlightPreview(card, hl) {
+    var frame = card.querySelector('.wb-preview-frame');
+    frame.innerHTML =
+      '<div class="studio__cards">' +
+        '<article class="studio-card">' +
+          '<div class="studio-card__icon" aria-hidden="true">' + esc(hl.icon || '\u2726') + '</div>' +
+          '<h3 class="studio-card__title">' + esc(field(hl.title)) + '</h3>' +
+          '<p class="studio-card__text">' + esc(field(hl.text)) + '</p>' +
+        '</article>' +
+      '</div>';
+  }
+
+  /* Roadmap — fases com marcador (.studio-roadmap__item) */
+  function renderRoadmapSection(mount, s) {
+    s.roadmap = Array.isArray(s.roadmap) ? s.roadmap : [];
+    mount.appendChild(sectionHead('Roadmap', '+ Fase', function () {
+      s.roadmap.push({
+        phase: String(s.roadmap.length + 1) + '.0',
+        title: { en: '', pt: '' },
+        done: false,
+      });
+      renderAll();
+    }));
+    s.roadmap.forEach(function (step, i) {
+      mount.appendChild(buildRoadmapItem(s.roadmap, step, i));
+    });
+    if (!s.roadmap.length) emptyHint(mount, 'Nenhuma fase ainda — clique em "+ Fase".');
+  }
+  function buildRoadmapItem(arr, step, i) {
+    if (typeof step.title !== 'object' || step.title === null) step.title = { en: '', pt: '' };
+    var card = document.createElement('div');
+    card.className = 'wb-visual-item';
+    var head = document.createElement('h3');
+    head.textContent = 'Fase ' + (i + 1);
+    head.appendChild(sectionTools(arr, i, function () { return JSON.parse(JSON.stringify(step)); }));
+    card.appendChild(head);
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    var tr = document.createElement('div');
+    tr.className = 'wb-field-row';
+    tr.appendChild(text('Fase (ex: 0.1)', step.phase, function (v) { step.phase = v; liveRoadmapPreview(card, step); }));
+    var doneWrap = document.createElement('label');
+    doneWrap.className = 'wb-check';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!step.done;
+    cb.addEventListener('change', function () { step.done = cb.checked; liveRoadmapPreview(card, step); });
+    doneWrap.appendChild(cb);
+    doneWrap.appendChild(document.createTextNode('Concluida (done)'));
+    tr.appendChild(doneWrap);
+    fields.appendChild(tr);
+    var tt = document.createElement('div');
+    tt.className = 'wb-field-row';
+    tt.appendChild(text('Titulo (PT)', step.title.pt, function (v) { step.title.pt = v; liveRoadmapPreview(card, step); }));
+    tt.appendChild(text('Title (EN)', step.title.en, function (v) { step.title.en = v; liveRoadmapPreview(card, step); }));
+    fields.appendChild(tt);
+    card.appendChild(fields);
+    card.appendChild(previewFrame());
+    liveRoadmapPreview(card, step);
+    return card;
+  }
+  function liveRoadmapPreview(card, step) {
+    var frame = card.querySelector('.wb-preview-frame');
+    frame.innerHTML =
+      '<ol class="studio-roadmap">' +
+        '<li class="studio-roadmap__item' + (step.done ? ' is-done' : '') + '">' +
+          '<span class="studio-roadmap__phase">' + esc(step.phase || '') + '</span>' +
+          '<span class="studio-roadmap__title">' + esc(field(step.title)) + '</span>' +
+          '<span class="studio-roadmap__mark" aria-hidden="true">' + (step.done ? '\u2713' : '\u00b7') + '</span>' +
+        '</li>' +
+      '</ol>';
+  }
+
+  /* Links — chips (.studio-link); label/url/icon sao texto simples */
+  function renderLinksSection(mount, s) {
+    s.links = Array.isArray(s.links) ? s.links : [];
+    mount.appendChild(sectionHead('Links', '+ Link', function () {
+      s.links.push({ label: '', url: '', icon: '\u25c6' });
+      renderAll();
+    }));
+    s.links.forEach(function (link, i) {
+      mount.appendChild(buildLinkItem(s.links, link, i));
+    });
+    if (!s.links.length) emptyHint(mount, 'Nenhum link ainda — clique em "+ Link".');
+  }
+  function buildLinkItem(arr, link, i) {
+    var card = document.createElement('div');
+    card.className = 'wb-visual-item';
+    var head = document.createElement('h3');
+    head.textContent = 'Link ' + (i + 1);
+    head.appendChild(sectionTools(arr, i, function () { return JSON.parse(JSON.stringify(link)); }));
+    card.appendChild(head);
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    var r1 = document.createElement('div');
+    r1.className = 'wb-field-row';
+    r1.appendChild(text('Rotulo (ex: GitHub)', link.label, function (v) { link.label = v; liveLinkPreview(card, link); }));
+    r1.appendChild(text('Icone (ex: \u25c6, \u2726)', link.icon, function (v) { link.icon = v; liveLinkPreview(card, link); }));
+    fields.appendChild(r1);
+    fields.appendChild(text('URL (https://… ou assets/…)', link.url, function (v) { link.url = v; liveLinkPreview(card, link); }));
+    card.appendChild(fields);
+    card.appendChild(previewFrame());
+    liveLinkPreview(card, link);
+    return card;
+  }
+  function liveLinkPreview(card, link) {
+    var frame = card.querySelector('.wb-preview-frame');
+    var safe = assetSrc(link.url) || '#';
+    frame.innerHTML =
+      '<div class="studio__links">' +
+        '<a class="studio-link" href="' + esc(safe) + '" target="_blank" rel="noopener">' +
+          '<span class="studio-link__icon" aria-hidden="true">' + esc(link.icon || '\u25c6') + '</span>' +
+          '<span class="studio-link__label">' + esc(link.label || '') + '</span>' +
+        '</a>' +
+      '</div>';
+  }
+
+  /* ── STUDIO: cabecalho + feed ───────────────────────────── */
+  function renderStudio() {
+    var mount = document.getElementById('studio-visual');
+    mount.innerHTML = '';
+    var s = state.studio;
+    s.meta = s.meta || {};
+    ['name', 'tagline', 'status'].forEach(function (k) {
+      if (typeof s.meta[k] !== 'object' || s.meta[k] === null) s.meta[k] = { en: '', pt: '' };
+    });
+    var hero = document.createElement('div');
+    hero.className = 'wb-visual-item';
+    var heroHead = document.createElement('h3');
+    heroHead.textContent = 'Cabecalho do Software';
+    hero.appendChild(heroHead);
+    var heroFields = document.createElement('div');
+    heroFields.className = 'wb-fields';
+    var r1 = document.createElement('div');
+    r1.className = 'wb-field-row';
+    r1.appendChild(text('Nome (PT)', s.meta.name.pt, function (v) { s.meta.name.pt = v; liveHeroPreview(hero, s); }));
+    r1.appendChild(text('Name (EN)', s.meta.name.en, function (v) { s.meta.name.en = v; liveHeroPreview(hero, s); }));
+    heroFields.appendChild(r1);
+    var r2 = document.createElement('div');
+    r2.className = 'wb-field-row';
+    r2.appendChild(text('Tagline (PT)', s.meta.tagline.pt, function (v) { s.meta.tagline.pt = v; liveHeroPreview(hero, s); }));
+    r2.appendChild(text('Tagline (EN)', s.meta.tagline.en, function (v) { s.meta.tagline.en = v; liveHeroPreview(hero, s); }));
+    heroFields.appendChild(r2);
+    var r3 = document.createElement('div');
+    r3.className = 'wb-field-row';
+    r3.appendChild(text('Status (PT)', s.meta.status.pt, function (v) { s.meta.status.pt = v; liveHeroPreview(hero, s); }));
+    r3.appendChild(text('Status (EN)', s.meta.status.en, function (v) { s.meta.status.en = v; liveHeroPreview(hero, s); }));
+    heroFields.appendChild(r3);
+    heroFields.appendChild(text('Versao', s.meta.version, function (v) { s.meta.version = v; liveHeroPreview(hero, s); }));
+    var heroImg = imageField('Hero image (URL ou arquivo)', s.meta.heroImage, function (v) { s.meta.heroImage = v; liveHeroPreview(hero, s); });
+    heroFields.appendChild(heroImg.el);
+    hero.appendChild(heroFields);
+    var heroPrev = document.createElement('div');
+    heroPrev.className = 'wb-preview';
+    hero.appendChild(heroPrev);
+    mount.appendChild(hero);
+    liveHeroPreview(hero, s);
+    renderIntroSection(mount, s);
+    renderHighlightsSection(mount, s);
+    renderRoadmapSection(mount, s);
+    renderLinksSection(mount, s);
+    var feed = s.posts || [];
+    var feedLabel = document.createElement('div');
+    feedLabel.className = 'wb-section-label';
+    feedLabel.textContent = 'Entradas (devlog) — ' + feed.length;
+    mount.appendChild(feedLabel);
+    // O site publica o feed ordenado por data (mais recente primeiro).
+    var sorted = feed.slice().sort(function (a, b) {
+      return String(b.date || '').localeCompare(String(a.date || ''));
+    });
+    var outOfOrder = sorted.some(function (p, i) { return p !== feed[i]; });
+    if (outOfOrder) {
+      var warn = document.createElement('div');
+      warn.className = 'wb-hint';
+      warn.style.color = 'var(--err)';
+      warn.textContent = 'Atenção: no site as entradas aparecem ordenadas por DATA (mais recente ' +
+        'primeiro), não na ordem do JSON. Ajuste as datas ou reordene para a prévia bater com o site.';
+      mount.appendChild(warn);
+    }
+    feed.forEach(function (post, i) {
+      mount.appendChild(buildPostItem(post, i));
+    });
+    if (!(s.posts || []).length) {
+      var empty = document.createElement('p');
+      empty.className = 'wb-hint';
+      empty.textContent = 'Nenhuma entrada ainda — clique em "+ Entrada (devlog)".';
+      mount.appendChild(empty);
+    }
+  }
+  function liveHeroPreview(hero, s) {
+    var box = hero.querySelector('.wb-preview');
+    var note = hero.querySelector('.wb-img-note');
+    if (note) { note.textContent = ''; note.classList.remove('is-broken'); }
+    var src = assetSrc(s.meta.heroImage);
+    box.innerHTML =
+      '<div class="wb-preview-frame">' +
+        '<div class="studio-post">' +
+          (src ? '<img class="studio-post__image" src="' + esc(src) + '" alt="" />' : '') +
+          '<h3 class="studio-post__title">' + esc(field(s.meta.name)) + '</h3>' +
+          '<p class="studio-post__meta">' + esc(field(s.meta.tagline)) +
+            (s.meta.version ? ' · v' + esc(s.meta.version) : '') +
+            (field(s.meta.status) ? ' · ' + esc(field(s.meta.status)) : '') + '</p>' +
+        '</div>' +
+      '</div>';
+    if (src) {
+      var pic = box.querySelector('img');
+      pic.addEventListener('error', function () { onImgError(pic, note); });
+    }
+  }
+
+  /* ── STUDIO: item do feed com previa studio-post ────────── */
+  function buildPostItem(post, i) {
+    ['tag', 'title', 'body'].forEach(function (k) {
+      if (typeof post[k] !== 'object' || post[k] === null) post[k] = { en: '', pt: '' };
+    });
+    var card = document.createElement('div');
+    card.className = 'wb-visual-item';
+    var head = document.createElement('h3');
+    head.textContent = 'Entrada ' + (i + 1);
+    head.appendChild(tools([
+      ['↑', 'Mover para cima', function () { move(state.studio.posts, i, -1); }],
+      ['↓', 'Mover para baixo', function () { move(state.studio.posts, i, 1); }],
+      ['⧉', 'Duplicar', function () {
+        state.studio.posts.splice(i + 1, 0, JSON.parse(JSON.stringify(post)));
+        renderAll();
+      }],
+      ['✕', 'Remover', function () {
+        if (!window.confirm('Remover esta entrada?')) return;
+        state.studio.posts.splice(i, 1);
+        renderAll();
+      }],
+    ]));
+    card.appendChild(head);
+    var fields = document.createElement('div');
+    fields.className = 'wb-fields';
+    var tr = document.createElement('div');
+    tr.className = 'wb-field-row';
+    tr.appendChild(text('Etiqueta (PT)', post.tag.pt, function (v) { post.tag.pt = v; livePostPreview(card, post); }));
+    tr.appendChild(text('Tag (EN)', post.tag.en, function (v) { post.tag.en = v; livePostPreview(card, post); }));
+    fields.appendChild(tr);
+    var tt = document.createElement('div');
+    tt.className = 'wb-field-row';
+    tt.appendChild(text('Titulo (PT)', post.title.pt, function (v) { post.title.pt = v; livePostPreview(card, post); }));
+    tt.appendChild(text('Title (EN)', post.title.en, function (v) { post.title.en = v; livePostPreview(card, post); }));
+    fields.appendChild(tt);
+    fields.appendChild(area('Texto (PT)', post.body.pt, function (v) { post.body.pt = v; livePostPreview(card, post); }));
+    fields.appendChild(area('Text (EN)', post.body.en, function (v) { post.body.en = v; livePostPreview(card, post); }));
+    fields.appendChild(text('Data (AAAA-MM-DD)', post.date, function (v) { post.date = v; livePostPreview(card, post); }));
+    var img = imageField('Imagem (URL ou arquivo)', post.image, function (v) { post.image = v; livePostPreview(card, post); });
+    fields.appendChild(img.el);
+    fields.appendChild(text('Video (YouTube/Vimeo/.mp4)', post.video, function (v) { post.video = v; livePostPreview(card, post); }));
+    fields.appendChild(text('Link externo', post.link, function (v) { post.link = v; livePostPreview(card, post); }));
+    card.appendChild(fields);
+    var preview = document.createElement('div');
+    preview.className = 'wb-preview';
+    card.appendChild(preview);
+    livePostPreview(card, post);
+    return card;
+  }
+  function videoEmbed(url) {
+    if (!url || typeof url !== 'string') return '';
+    var u = url.trim();
+    if (/^https:\/\/[^\s]+\.(mp4|webm|ogv|mov|m4v)(\?[^\s]*)?$/i.test(u)) return 'video:' + u;
+    var m = u.match(/^https:\/\/(?:www\.|m\.)?youtube\.com\/watch\?(?:[^#]*&)?v=([\w-]{6,20})/i)
+         || u.match(/^https:\/\/(?:www\.)?youtube\.com\/(?:shorts|embed)\/([\w-]{6,20})/i)
+         || u.match(/^https:\/\/youtu\.be\/([\w-]{6,20})/i);
+    if (m) return 'https://www.youtube-nocookie.com/embed/' + m[1];
+    m = u.match(/^https:\/\/(?:www\.)?vimeo\.com\/(\d{6,12})/i);
+    if (m) return 'https://player.vimeo.com/video/' + m[1];
+    return '';
+  }
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    try {
+      return d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'en-US',
+        { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) { return iso; }
+  }
+  function livePostPreview(card, post) {
+    var box = card.querySelector('.wb-preview');
+    var note = card.querySelector('.wb-img-note');
+    if (note) { note.textContent = ''; note.classList.remove('is-broken'); }
+    var src = assetSrc(post.image);
+    var emb = videoEmbed(post.video);
+    // Markup fiel ao core/studio/private/renderer/index.js (_renderPosts)
+    var videoHtml = '';
+    if (emb.indexOf('video:') === 0) {
+      videoHtml = '<div class="studio-post__video"><video controls preload="metadata" src="' +
+        esc(emb.slice(6)) + '"></video></div>';
+    } else if (emb) {
+      videoHtml = '<div class="studio-post__video"><iframe src="' + esc(emb) +
+        '" title="' + esc(field(post.title)) + '" loading="lazy" allowfullscreen' +
+        ' referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+    }
+    var linkSrc = assetSrc(post.link);
+    box.innerHTML =
+      '<div class="wb-preview-frame">' +
+        '<article class="studio-post"' + (post.id ? ' id="' + esc(post.id) + '"' : '') + '>' +
+          '<header class="studio-post__head">' +
+            '<span class="studio-post__tag">' + esc(field(post.tag)) + '</span>' +
+            '<time class="studio-post__date" datetime="' + esc(post.date || '') + '">' +
+              esc(fmtDate(post.date)) + '</time>' +
+          '</header>' +
+          '<h3 class="studio-post__title">' + esc(field(post.title)) + '</h3>' +
+          (src ? '<img class="studio-post__image" src="' + esc(src) + '" alt="" loading="lazy" />' : '') +
+          videoHtml +
+          '<p class="studio-post__body">' + esc(field(post.body)) + '</p>' +
+          (linkSrc ? '<a class="studio-post__link" href="' + esc(linkSrc) +
+            '" target="_blank" rel="noopener">Leia mais &rarr;</a>' : '') +
+        '</article>' +
+      '</div>';
+    if (src) {
+      var pic = box.querySelector('img');
+      pic.addEventListener('error', function () { onImgError(pic, note); });
+    }
+  }
+  function renderAll() { renderArt(); renderStudio(); }
+  function stateToCode(key) {
+    return key === 'art' ? serialize(state.art) : serialize(state.studio);
+  }
+  function syncCodeFromState() {
+    document.getElementById('art-editor').value = stateToCode('art');
+    document.getElementById('studio-editor').value = stateToCode('studio');
+  }
+  function say(key, text, cls) {
+    var el = document.getElementById(key + '-status');
+    el.textContent = text;
+    el.className = 'wb-status' + (cls ? ' ' + cls : '');
+  }
+  function loadText(key, raw, from) {
+    var data;
+    try {
+      data = JSON.parse(raw);
+      if (!data || typeof data !== 'object') throw new Error('raiz não é objeto');
+    } catch (err) {
+      say(key, 'JSON invalido: ' + err.message, 'err');
+      return false;
+    }
+    if (key === 'art') {
+      if (!Array.isArray(data.artworks)) { say(key, 'art.json precisa de "artworks" (array).', 'err'); return false; }
+      state.art = data;
+    } else {
+      if (!data.meta) data.meta = {};
+      ['intros', 'highlights', 'roadmap', 'posts', 'links'].forEach(function (k) {
+        if (k === 'intros') {
+          if (!data.intros || typeof data.intros !== 'object') data.intros = { en: [], pt: [] };
+          if (!Array.isArray(data.intros.pt)) data.intros.pt = [];
+          if (!Array.isArray(data.intros.en)) data.intros.en = [];
+        } else if (!Array.isArray(data[k])) {
+          data[k] = [];
+        }
+      });
+      state.studio = data;
+    }
+    document.getElementById(key + '-editor').value = serialize(data);
+    renderAll();
+    say(key, from + ' carregado e válido.', 'ok');
+    return true;
+  }
   function wirePane(key) {
     var editor = document.getElementById(key + '-editor');
-    var status = document.getElementById(key + '-status');
     var fileInput = document.getElementById(key + '-file');
-    function say(text, cls) {
-      status.textContent = text;
-      status.className = 'status' + (cls ? ' ' + cls : '');
-    }
-    function parse() {
-      try {
-        var data = JSON.parse(editor.value);
-        if (!data || typeof data !== 'object') throw new Error('raiz nao e objeto');
-        return data;
-      } catch (err) {
-        say('JSON invalido: ' + err.message, 'err');
-        return null;
-      }
-    }
-    function load(text, from) {
-      editor.value = text;
-      if (parse()) say(from + ' carregado e valido', 'ok');
-    }
     document.getElementById(key + '-open').addEventListener('click', function () { fileInput.click(); });
     fileInput.addEventListener('change', function () {
       var file = fileInput.files && fileInput.files[0];
-      if (file) file.text().then(function (t) { load(t, file.name); });
+      if (file) file.text().then(function (t) { loadText(key, t, file.name); });
       fileInput.value = '';
     });
     document.getElementById(key + '-fetch').addEventListener('click', function () {
@@ -146,20 +935,24 @@
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.text();
         })
-        .then(function (t) { load(t, '/content/' + key + '.json'); })
-        .catch(function () { say('Nao encontrou ../content/' + key + '.json - rode um servidor na raiz ou use Abrir.', 'err'); });
+        .then(function (t) { loadText(key, t, '/content/' + key + '.json'); })
+        .catch(function () { say(key, 'Não encontrou ../content/' + key + '.json — rode um servidor na raiz ou use Abrir.', 'err'); });
     });
     document.getElementById(key + '-format').addEventListener('click', function () {
-      var data = parse();
-      if (data) {
-        editor.value = JSON.stringify(data, null, 2) + '\n';
-        say('Formatado (2 espacos, igual ao publisher)', 'ok');
-      }
+      var raw = editor.value;
+      var data;
+      try { data = JSON.parse(raw); }
+      catch (err) { say(key, 'JSON inválido: ' + err.message, 'err'); return; }
+      editor.value = serialize(data);
+      loadText(key, editor.value, 'Código formatado');
     });
     document.getElementById(key + '-export').addEventListener('click', function () {
-      var data = parse();
-      if (!data) return;
-      var blob = new Blob([JSON.stringify(data, null, 2) + '\n'], { type: 'application/json;charset=utf-8' });
+      var activeMode = document.querySelector('.wb-modes button.is-active').dataset.mode;
+      var body = activeMode === 'visual' ? stateToCode(key) : editor.value;
+      var data;
+      try { data = JSON.parse(body); }
+      catch (err) { say(key, 'JSON inválido: ' + err.message, 'err'); return; }
+      var blob = new Blob([serialize(data)], { type: 'application/json;charset=utf-8' });
       var url = URL.createObjectURL(blob);
       var link = document.createElement('a');
       link.href = url;
@@ -168,10 +961,72 @@
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      say(key + '.json exportado - importe no admin ou commite em /content/', 'ok');
+      say(key, key + '.json exportado — importe no admin ou commite em /content/.', 'ok');
+    });
+    editor.addEventListener('input', function () {
+      var data;
+      try { data = JSON.parse(editor.value); }
+      catch (err) { say(key, 'Editando… (' + err.message + ')', ''); return; }
+      if (key === 'art' && Array.isArray(data.artworks)) state.art = data;
+      else if (key === 'studio' && data.meta) state.studio = data;
+      else { say(key, 'Estrutura inesperada — confira as chaves.', 'err'); return; }
+      renderAll();
+      say(key, 'Código válido — prévia atualizada.', 'ok');
     });
   }
+  document.getElementById('art-add').addEventListener('click', function () {
+    state.art.artworks.push({
+      id: 'artwork-' + Date.now().toString(36),
+      title: { en: '', pt: '' }, category: { en: '', pt: '' },
+      description: { en: '', pt: '' }, imageUrl: '', nsfw: false,
+    });
+    renderAll();
+  });
+  document.getElementById('studio-add').addEventListener('click', function () {
+    state.studio.posts.unshift({
+      id: 'post-' + Date.now().toString(36),
+      date: new Date().toISOString().slice(0, 10),
+      tag: { en: '', pt: '' }, title: { en: '', pt: '' },
+      body: { en: '', pt: '' }, image: '', video: '', link: '',
+    });
+    renderAll();
+  });
+  document.getElementById('studio-add-highlight').addEventListener('click', function () {
+    state.studio.highlights = Array.isArray(state.studio.highlights) ? state.studio.highlights : [];
+    state.studio.highlights.push({
+      icon: '\u2726', title: { en: '', pt: '' }, text: { en: '', pt: '' },
+    });
+    renderAll();
+  });
+  document.getElementById('studio-add-roadmap').addEventListener('click', function () {
+    state.studio.roadmap = Array.isArray(state.studio.roadmap) ? state.studio.roadmap : [];
+    state.studio.roadmap.push({
+      phase: (state.studio.roadmap.length + 1) + '.0',
+      title: { en: '', pt: '' }, done: false,
+    });
+    renderAll();
+  });
+  document.getElementById('studio-add-link').addEventListener('click', function () {
+    state.studio.links = Array.isArray(state.studio.links) ? state.studio.links : [];
+    state.studio.links.push({ label: '', url: '', icon: '\u25c6' });
+    renderAll();
+  });
+  wirePane('art');
+  wirePane('studio');
+  // Conteudo inicial: tenta /content/, cai para exemplos editaveis
+  fetch('../content/art.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
+    .then(function (t) { loadText('art', t, '/content/art.json'); })
+    .catch(function () { renderArt(); });
+  fetch('../content/studio.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
+    .then(function (t) { loadText('studio', t, '/content/studio.json'); })
+    .catch(function () { renderStudio(); });
+  syncCodeFromState();
 })();
 </script>
+
+</div>
+
 </body>
 </html>

@@ -827,6 +827,16 @@
             Esta área é agnóstica: nenhum campo tem nome de produto. Preencha os textos e as listas
             abaixo e o site monta a página a partir delas. Lista vazia = seção escondida.
           </p>
+          <div class="list-actions">
+            <button class="btn-secondary" type="button" id="studio-json-export">Exportar JSON (studio.json)</button>
+            <button class="btn-secondary" type="button" id="studio-json-import">Importar JSON (studio.json)</button>
+            <input type="file" id="studio-json-file" accept=".json,application/json" hidden />
+            <a class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;" href="tools/content-workbench.html" target="_blank" rel="noopener">Abrir no Content Workbench ↗</a>
+          </div>
+          <p class="hint-block" style="margin-bottom:var(--space-6);font-size:var(--text-xs);color:var(--color-text-muted);">
+            Fluxo sugerido: <strong>Exportar JSON</strong> → edite no <strong>Content Workbench</strong> →
+            <strong>Importar JSON</strong> de volta aqui → <strong>Publicar</strong> para gravar em <code>/content</code>.
+          </p>
           <div class="form-grid">
             <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-studio-name-en">Name (EN)</label>
@@ -960,9 +970,6 @@
 
           <div class="list-actions">
             <button class="btn-secondary" type="button" data-add-list="posts">+ Add Entry</button>
-            <button class="btn-secondary" type="button" id="studio-json-export">Exportar JSON (studio.json)</button>
-            <button class="btn-secondary" type="button" id="studio-json-import">Importar JSON (studio.json)</button>
-            <input type="file" id="studio-json-file" accept=".json,application/json" hidden />
           </div>
           <div class="studio-editor-list" id="studio-posts-editor"></div>
         </div>
