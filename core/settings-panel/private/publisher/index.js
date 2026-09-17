@@ -163,6 +163,16 @@ const Publisher = (() => {
   async function _publish() {
     const isEn = I18n.getLang() === 'en';
 
+    try {
+      await _publishInner(isEn);
+    } catch (err) {
+      // Never fail silently: surface the real reason in the publish log.
+      _log(`✖ ${isEn ? 'Unexpected error' : 'Erro inesperado'}: ${err && err.message ? err.message : err}`);
+      console.error('[Publisher] publish failed:', err);
+    }
+  }
+
+  async function _publishInner(isEn) {
     if (!GitHubApi.isConfigured()) {
       _log(isEn() ? '✖ Fill owner and repository first.' : ' Preencha owner e repositório primeiro.');
       return;
