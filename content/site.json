@@ -20,7 +20,7 @@
         "Sediado no Brasil, trabalho como artista digital independente criando ilustrações, concept art e obras abstratas para clientes e projetos pessoais em todo o mundo."
       ]
     },
-    "avatarUrl": "assets/images/avatar.jpg",
+    "avatarUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789685947/Avatar.png",
     "specialties": [
       {
         "en": "Digital Illustration",
@@ -53,7 +53,7 @@
     "youtube": ""
   },
   "contact": {
-    "email": "hello@hideakibell.art",
+    "email": "contact@hideakibell.studio",
     "formspreeEndpoint": ""
   },
   "seo": {
