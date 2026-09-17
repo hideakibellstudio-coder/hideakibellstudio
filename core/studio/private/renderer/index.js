@@ -50,6 +50,10 @@ const StudioRenderer = (() => {
       if (url) hero.src = url;
       else hero.removeAttribute('src');
       hero.alt = I18n.tField(meta.name) || '';
+      hero.setAttribute('data-media', 'image');
+      hero.setAttribute('role', 'button');
+      hero.setAttribute('tabindex', '0');
+      hero.setAttribute('aria-label', _t('View fullscreen', 'Ver em tela cheia'));
       _toggleSection(hero, !!url);
     }
 
@@ -117,10 +121,11 @@ const StudioRenderer = (() => {
       const image = _safeUrl(post.image);
       const link  = _safeUrl(post.link);
       const video = _videoEmbed(post.video);
+      const fsBtn = `<button class="studio-post__fs" type="button" data-media-fs aria-label="${_esc(_t('Fullscreen', 'Tela cheia'))}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>`;
       const videoHtml = video
         ? (/\.(mp4|webm|ogv|mov)(\?.*)?$/i.test(video)
-          ? `<div class="studio-post__video"><video controls preload="metadata" src="${_esc(video)}"></video></div>`
-          : `<div class="studio-post__video"><iframe src="${_esc(video)}" title="${_esc(I18n.tField(post.title))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`)
+          ? `<div class="studio-post__video"><video controls preload="metadata" src="${_esc(video)}"></video>${fsBtn}</div>`
+          : `<div class="studio-post__video"><iframe src="${_esc(video)}" title="${_esc(I18n.tField(post.title))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>${fsBtn}</div>`)
         : '';
       return `
         <article class="studio-post" id="${_esc(post.id || '')}">
@@ -129,7 +134,7 @@ const StudioRenderer = (() => {
             <time class="studio-post__date" datetime="${_esc(post.date || '')}">${_esc(_formatDate(post.date))}</time>
           </header>
           <h3 class="studio-post__title">${_esc(I18n.tField(post.title))}</h3>
-          ${image ? `<img class="studio-post__image" src="${image}" alt="" loading="lazy" />` : ''}
+          ${image ? `<img class="studio-post__image" src="${image}" alt="" loading="lazy" data-media="image" role="button" tabindex="0" aria-label="${_esc(_t('View fullscreen', 'Ver em tela cheia'))}" />` : ''}
           ${videoHtml}
           <p class="studio-post__body">${_esc(I18n.tField(post.body))}</p>
           ${link ? `<a class="studio-post__link" href="${link}" target="_blank" rel="noopener">${_esc(I18n.t('studio_read_more'))}</a>` : ''}
@@ -221,6 +226,9 @@ const StudioRenderer = (() => {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
   }
+
+  /** Bilingual inline label (module-local strings, no i18n key needed). */
+  function _t(en, pt) { return I18n.getLang() === 'pt' ? pt : en; }
 
   return Object.freeze({ render });
 })();

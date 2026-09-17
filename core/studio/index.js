@@ -36,6 +36,8 @@ const StudioModule = (() => {
   function _render() {
     if (!document.getElementById('studio-root')) return;
     StudioRenderer.render(_content);
+    // Fullscreen media viewer for feed captures/videos (idempotent)
+    if (typeof MediaViewer !== 'undefined') MediaViewer.init();
   }
 
   return Object.freeze({ init, update });
