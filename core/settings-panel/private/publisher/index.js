@@ -133,7 +133,7 @@ const Publisher = (() => {
   // ── Export (no token required) ────────────────────────────
 
   function _exportAll() {
-    const isEn = I18n.getLang() === 'en';
+    const isEn = () => I18n.getLang() === 'en';
     const data = _collect();
 
     KEYS.forEach((key, index) => {
@@ -164,7 +164,7 @@ const Publisher = (() => {
     const isEn = I18n.getLang() === 'en';
 
     try {
-      await _publishInner(isEn);
+      await _publishInner();
     } catch (err) {
       // Never fail silently: surface the real reason in the publish log.
       _log(`✖ ${isEn ? 'Unexpected error' : 'Erro inesperado'}: ${err && err.message ? err.message : err}`);
@@ -172,7 +172,9 @@ const Publisher = (() => {
     }
   }
 
-  async function _publishInner(isEn) {
+  async function _publishInner() {
+    const isEn = () => I18n.getLang() === 'en';
+
     if (!GitHubApi.isConfigured()) {
       _log(isEn() ? '✖ Fill owner and repository first.' : ' Preencha owner e repositório primeiro.');
       return;
