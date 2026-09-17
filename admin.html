@@ -294,6 +294,221 @@
       grid-column: span 2;
     }
 
+    /* ── v2 Feed editing: language mode, composer, toasts, tools ─ */
+
+    .langmode-chips {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .langmode-chips button {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .langmode-chips button:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-accent);
+    }
+
+    .langmode-chips button.is-active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-white);
+    }
+
+    /* Hide the language not being edited (mode set on <body>) */
+    body[data-lang-mode="pt"] .field-group[data-lang="en"] { display: none !important; }
+    body[data-lang-mode="en"] .field-group[data-lang="pt"] { display: none !important; }
+
+    .dirty-badge {
+      margin-right: auto;
+      align-self: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: #fbbf24;
+    }
+
+    .dirty-badge[hidden] { display: none; }
+
+    #toast-root {
+      position: fixed;
+      bottom: 96px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      z-index: 1000;
+    }
+
+    .admin-toast {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-accent);
+      color: var(--color-text-primary);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      box-shadow: var(--shadow-lg);
+      max-width: 480px;
+      animation: toastIn var(--duration-normal) var(--ease-out);
+      transition: opacity var(--duration-normal) var(--ease-out);
+    }
+
+    .admin-toast.is-success { border-left-color: #4ade80; }
+    .admin-toast.is-error   { border-left-color: #ff6b8b; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Artwork feed card (visual, image-first) */
+    .artwork-editor-card { grid-template-columns: 220px 1fr; }
+
+    .artwork-media-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .artwork-preview-box {
+      width: 100%;
+      height: 220px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .artwork-preview-box.dragover,
+    .composer-drop.dragover {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px var(--color-accent-dim);
+    }
+
+    .artwork-preview-box .drop-hint {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: var(--space-2);
+      font-size: 10px;
+      text-align: center;
+      color: var(--color-text-tertiary);
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      transition: opacity var(--duration-fast) var(--ease-out);
+    }
+
+    .artwork-preview-box:hover .drop-hint,
+    .artwork-preview-box.dragover .drop-hint { opacity: 1; }
+
+    .artwork-card-tools {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      line-height: 1;
+      padding: 6px 9px;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .tool-btn:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-accent);
+    }
+
+    .tool-btn.tool-danger { color: #ff6b8b; }
+    .tool-btn.tool-danger:hover { border-color: rgba(255, 107, 139, 0.5); }
+
+    /* Post composer (Facebook-like) */
+    .post-composer {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .post-composer__trigger { min-height: 64px; cursor: text; }
+
+    .post-composer__extra {
+      display: none;
+      flex-direction: column;
+      gap: var(--space-4);
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-4);
+    }
+
+    .post-composer.is-open .post-composer__extra { display: flex; }
+
+    .composer-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .composer-drop {
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3);
+      text-align: center;
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+    }
+
+    .composer-drop img {
+      display: block;
+      max-height: 140px;
+      margin: 0 auto var(--space-2);
+      border-radius: var(--radius-sm);
+    }
+
+    .composer-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .composer-hint {
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    .studio-card-thumb {
+      width: 64px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+    }
+
+    @media (max-width: 700px) {
+      .artwork-editor-card { grid-template-columns: 1fr; }
+      .composer-row { grid-template-columns: 1fr; }
+    }
+
     /* ── Sticky Action Bar ────────────────────────────────────── */
     .admin-actions-bar {
       position: sticky;
@@ -434,7 +649,14 @@
           <p id="studio-subtitle">Edit your portfolio settings and content</p>
         </div>
         <!-- Language selector in Dashboard -->
-        <button class="lang-switch" id="lang-switch-btn" aria-label="Switch Language" title="Mudar Idioma">EN</button>
+        <div style="display:flex;align-items:center;gap:var(--space-4);">
+          <div class="langmode-chips" id="langmode-chips" role="group" aria-label="Editing language">
+            <button type="button" data-mode="both" id="langmode-both">Ambos</button>
+            <button type="button" data-mode="pt" id="langmode-pt">PT</button>
+            <button type="button" data-mode="en" id="langmode-en">EN</button>
+          </div>
+          <button class="lang-switch" id="lang-switch-btn" aria-label="Switch Language" title="Mudar Idioma">EN</button>
+        </div>
       </header>
 
       <!-- 1. IDENTITY & PROFILE PANE -->
@@ -458,11 +680,11 @@
               <label class="admin-label" for="s-artist-name">Display Name</label>
               <input class="admin-input" type="text" id="s-artist-name" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-artist-tagline-en">Tagline (English)</label>
               <input class="admin-input" type="text" id="s-artist-tagline-en" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-artist-tagline-pt">Tagline (Portuguese)</label>
               <input class="admin-input" type="text" id="s-artist-tagline-pt" />
             </div>
@@ -470,11 +692,11 @@
               <label class="admin-label" for="s-artist-avatar">Profile Image URL</label>
               <input class="admin-input" type="text" id="s-artist-avatar" />
             </div>
-            <div class="field-group full-width">
+            <div class="field-group full-width" data-lang="en">
               <label class="admin-label" for="s-artist-specialties">Specialties (English, comma-separated)</label>
               <input class="admin-input" type="text" id="s-artist-specialties-en" />
             </div>
-            <div class="field-group full-width">
+            <div class="field-group full-width" data-lang="pt">
               <label class="admin-label" for="s-artist-specialties">Specialties (Portuguese, comma-separated)</label>
               <input class="admin-input" type="text" id="s-artist-specialties-pt" />
             </div>
@@ -484,19 +706,19 @@
         <div class="form-section">
           <h2 class="form-section-title">Bilingual Biography</h2>
           <div class="form-grid">
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-artist-bio-en-1">Bio Paragraph 1 (English)</label>
               <textarea class="admin-textarea" id="s-artist-bio-en-1"></textarea>
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-artist-bio-pt-1">Bio Paragraph 1 (Portuguese)</label>
               <textarea class="admin-textarea" id="s-artist-bio-pt-1"></textarea>
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-artist-bio-en-2">Bio Paragraph 2 (English)</label>
               <textarea class="admin-textarea" id="s-artist-bio-en-2"></textarea>
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-artist-bio-pt-2">Bio Paragraph 2 (Portuguese)</label>
               <textarea class="admin-textarea" id="s-artist-bio-pt-2"></textarea>
             </div>
@@ -600,27 +822,27 @@
             abaixo e o site monta a página a partir delas. Lista vazia = seção escondida.
           </p>
           <div class="form-grid">
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-studio-name-en">Name (EN)</label>
               <input class="admin-input" id="s-studio-name-en" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-studio-name-pt">Name (PT)</label>
               <input class="admin-input" id="s-studio-name-pt" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-studio-tagline-en">Tagline (EN)</label>
               <input class="admin-input" id="s-studio-tagline-en" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-studio-tagline-pt">Tagline (PT)</label>
               <input class="admin-input" id="s-studio-tagline-pt" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-studio-status-en">Status (EN)</label>
               <input class="admin-input" id="s-studio-status-en" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-studio-status-pt">Status (PT)</label>
               <input class="admin-input" id="s-studio-status-pt" type="text" />
             </div>
@@ -632,11 +854,11 @@
               <label class="admin-label" for="s-studio-hero">Hero image path / URL</label>
               <input class="admin-input" id="s-studio-hero" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-studio-cta-label-en">CTA label (EN)</label>
               <input class="admin-input" id="s-studio-cta-label-en" type="text" />
             </div>
-            <div class="field-group">
+            <div class="field-group" data-lang="pt">
               <label class="admin-label" for="s-studio-cta-label-pt">CTA label (PT)</label>
               <input class="admin-input" id="s-studio-cta-label-pt" type="text" />
             </div>
@@ -644,11 +866,11 @@
               <label class="admin-label" for="s-studio-cta-url">CTA URL (anchor or link)</label>
               <input class="admin-input" id="s-studio-cta-url" type="text" placeholder="#studio-feed" />
             </div>
-            <div class="field-group full-width">
+            <div class="field-group full-width" data-lang="en">
               <label class="admin-label" for="s-studio-intro-en">Intro (EN) — one paragraph per line</label>
               <textarea class="admin-textarea" id="s-studio-intro-en"></textarea>
             </div>
-            <div class="field-group full-width">
+            <div class="field-group full-width" data-lang="pt">
               <label class="admin-label" for="s-studio-intro-pt">Intro (PT) — um parágrafo por linha</label>
               <textarea class="admin-textarea" id="s-studio-intro-pt"></textarea>
             </div>
@@ -673,6 +895,63 @@
 
         <div class="form-section">
           <h2 class="form-section-title">Entries (devlog / changelog)</h2>
+
+          <!-- Facebook-like composer: post an update to the feed -->
+          <div class="post-composer" id="studio-post-composer">
+            <textarea class="admin-textarea post-composer__trigger" id="composer-trigger-pt" data-lang="pt" rows="2" placeholder="Escreva uma novidade… (o que mudou no projeto?)"></textarea>
+            <textarea class="admin-textarea post-composer__trigger" id="composer-trigger-en" data-lang="en" rows="2" placeholder="Share an update… (what changed in the project?)"></textarea>
+
+            <div class="post-composer__extra">
+              <div class="composer-row">
+                <div class="field-group" data-lang="pt">
+                  <label class="admin-label" for="composer-tag-pt">Etiqueta (ex: Devlog, Release)</label>
+                  <input class="admin-input" id="composer-tag-pt" type="text" />
+                </div>
+                <div class="field-group" data-lang="en">
+                  <label class="admin-label" for="composer-tag-en">Tag (e.g. Devlog, Release)</label>
+                  <input class="admin-input" id="composer-tag-en" type="text" />
+                </div>
+                <div class="field-group" data-lang="pt">
+                  <label class="admin-label" for="composer-title-pt">Título</label>
+                  <input class="admin-input" id="composer-title-pt" type="text" />
+                </div>
+                <div class="field-group" data-lang="en">
+                  <label class="admin-label" for="composer-title-en">Title</label>
+                  <input class="admin-input" id="composer-title-en" type="text" />
+                </div>
+              </div>
+
+              <div class="field-group" data-lang="pt">
+                <label class="admin-label" for="composer-body-pt">Texto</label>
+                <textarea class="admin-textarea" id="composer-body-pt" rows="4"></textarea>
+              </div>
+              <div class="field-group" data-lang="en">
+                <label class="admin-label" for="composer-body-en">Text</label>
+                <textarea class="admin-textarea" id="composer-body-en" rows="4"></textarea>
+              </div>
+
+              <div class="composer-row">
+                <div class="field-group">
+                  <label class="admin-label" for="composer-image">Imagem (URL ou arraste um arquivo)</label>
+                  <input class="admin-input" id="composer-image" type="text" placeholder="assets/images/… ou https://…" />
+                  <div class="composer-drop" id="composer-drop">Arraste uma imagem aqui ou clique para escolher</div>
+                  <input type="file" id="composer-file" accept="image/*" hidden />
+                </div>
+                <div class="field-group">
+                  <label class="admin-label" for="composer-link">Link externo (opcional)</label>
+                  <input class="admin-input" id="composer-link" type="text" placeholder="https://…" />
+                  <label class="admin-label" for="composer-video" style="margin-top:var(--space-3);">Vídeo (YouTube/Vimeo/.mp4) (opcional)</label>
+                  <input class="admin-input" id="composer-video" type="text" placeholder="https://youtu.be/…" />
+                </div>
+              </div>
+
+              <div class="composer-actions">
+                <button class="btn-primary btn-save" type="button" id="composer-post">Publicar novidade</button>
+                <span class="composer-hint" id="composer-hint">Data e id são gerados automaticamente.</span>
+              </div>
+            </div>
+          </div>
+
           <div class="list-actions">
             <button class="btn-secondary" type="button" data-add-list="posts">+ Add Entry</button>
           </div>
@@ -782,6 +1061,7 @@
 
       <!-- Sticky bottom actions bar -->
       <div class="admin-actions-bar">
+        <span class="dirty-badge" id="dirty-badge" hidden>● <span id="dirty-badge-text">Alterações não salvas</span></span>
         <button class="btn-secondary" id="admin-export-btn">Export config.js</button>
         <button class="btn-primary btn-save" id="admin-save-btn">Save Changes</button>
       </div>
@@ -789,6 +1069,9 @@
     </main>
 
   </div>
+
+  <!-- Toast feedback (replaces alert()) -->
+  <div id="toast-root" aria-live="polite"></div>
 
   <!-- ── SCRIPTS ── -->
   <!-- Infrastructure -->

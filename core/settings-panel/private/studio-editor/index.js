@@ -122,16 +122,61 @@ const StudioEditor = (() => {
 
     const head = document.createElement('div');
     head.className = 'studio-editor-card__head';
-    head.innerHTML = `<span>${_esc(_t(def.label))} ${index + 1}</span>`;
+    head.innerHTML = `<span style="flex:1;">${_esc(_t(def.label))} ${index + 1}</span>`;
+
+    // Feed-like thumbnail preview for posts with an image
+    if (def.key === 'posts') {
+      const safeImg = _sanitizeUrl(item.image || '');
+      if (safeImg) {
+        const thumb = document.createElement('img');
+        thumb.className = 'studio-card-thumb';
+        thumb.src = safeImg;
+        thumb.alt = '';
+        head.appendChild(thumb);
+      }
+    }
+
+    const tool = (txt, title, fn) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tool-btn';
+      b.textContent = txt;
+      b.title = title;
+      b.addEventListener('click', fn);
+      return b;
+    };
+
+    const moveUp = tool('↑', isEn ? 'Move up' : 'Mover para cima', () => {
+      if (index <= 0) return;
+      const items = _readList(def);
+      [items[index - 1], items[index]] = [items[index], items[index - 1]];
+      _renderList(def, items);
+    });
+    const moveDown = tool('↓', isEn ? 'Move down' : 'Mover para baixo', () => {
+      const items = _readList(def);
+      if (index >= items.length - 1) return;
+      [items[index + 1], items[index]] = [items[index], items[index + 1]];
+      _renderList(def, items);
+    });
+    const duplicate = tool('⧉', isEn ? 'Duplicate' : 'Duplicar', () => {
+      const items = _readList(def);
+      items.splice(index + 1, 0, _clone(items[index]));
+      _renderList(def, items);
+    });
 
     const remove = document.createElement('button');
     remove.type = 'button';
     remove.className = 'btn-ghost-danger';
     remove.textContent = isEn ? 'Remove' : 'Remover';
     remove.addEventListener('click', () => {
+      if (!window.confirm(isEn ? 'Remove this item?' : 'Remover este item?')) return;
       const items = _readList(def).filter((_, i) => i !== index);
       _renderList(def, items);
     });
+
+    head.appendChild(moveUp);
+    head.appendChild(moveDown);
+    head.appendChild(duplicate);
     head.appendChild(remove);
     card.appendChild(head);
 
@@ -152,6 +197,7 @@ const StudioEditor = (() => {
   function _buildField(field, value, lang) {
     const wrap = document.createElement('div');
     wrap.className = 'field-group';
+    if (lang) wrap.dataset.lang = lang;
 
     const labelText = _t(field.label) + (lang ? ` (${lang.toUpperCase()})` : '');
     const inputId = `f-${field.name}-${lang || 'x'}-${Math.random().toString(36).slice(2, 7)}`;
@@ -210,6 +256,24 @@ const StudioEditor = (() => {
 
   // ── Helpers ────────────────────────────────────────────────
 
+  /** Insert an item at the top of a list (used by the post composer). */
+  function prepend(key, item) {
+    const def = LIST_DEFS.find((d) => d.key === key);
+    if (!def) return false;
+    const items = _readList(def);
+    items.unshift(_clone(item));
+    _renderList(def, items);
+    return true;
+  }
+
+  /** URL allowlist — mirrors the public renderers and the admin previews. */
+  function _sanitizeUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    const u = url.trim();
+    if (/^(https?:\/\/|data:image\/)/i.test(u) || u.startsWith('assets/')) return u;
+    return '';
+  }
+
   function _t(pair) {
     return pair[I18n.getLang()] || pair.en;
   }
@@ -227,5 +291,5 @@ const StudioEditor = (() => {
       .replace(/'/g, '&#39;');
   }
 
-  return Object.freeze({ mount, read, LIST_DEFS });
+  return Object.freeze({ mount, read, prepend, LIST_DEFS });
 })();

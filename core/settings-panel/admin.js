@@ -40,9 +40,12 @@ async function _bootDashboard() {
 
   _translateStaticUI();
   _bindNavigation();
+  _bindLangMode();
   _populateFields(_config);
   _populateStudioFields(_studioContent);
   _bindColorSync();
+  _bindDirtyTracking();
+  _bindPostComposer();
   _bindActions(_config);
   _bindSecurity();
 
@@ -189,6 +192,7 @@ function _buildArtworkCard(art, i) {
   card.className = 'artwork-editor-card';
   card.dataset.index = i;
 
+  const isEn = I18n.getLang() === 'en';
   const titleEn = art.title?.en || art.title || '';
   const titlePt = art.title?.pt || art.title || '';
   const catEn   = art.category?.en || art.category || '';
@@ -199,35 +203,42 @@ function _buildArtworkCard(art, i) {
   const safePreview = _sanitizeUrl(art.imageUrl || '');
 
   card.innerHTML = `
-      <div class="artwork-preview-box">
-        ${safePreview ? `<img src="${_esc(safePreview)}" alt="Preview" />` : '<span class="no-img">No Image</span>'}
+      <div class="artwork-media-col">
+        <div class="artwork-preview-box" tabindex="0" role="button" aria-label="${_esc(isEn ? 'Change image: drop a file or click to choose' : 'Trocar imagem: arraste um arquivo ou clique para escolher')}">
+          ${safePreview ? `<img src="${_esc(safePreview)}" alt="Preview" />` : `<span class="no-img">${_esc(isEn ? 'No Image' : 'Sem imagem')}</span>`}
+          <span class="drop-hint">${_esc(isEn ? 'Drop an image here or click to choose' : 'Arraste uma imagem aqui ou clique para escolher')}</span>
+        </div>
+        <input class="admin-input art-img" type="text" value="${_esc(art.imageUrl)}" placeholder="${_esc(isEn ? 'assets/images/… · https://… · or drop a file' : 'assets/images/… · https://… · ou arraste um arquivo')}" />
+        <div class="artwork-card-tools">
+          <button type="button" class="tool-btn" data-tool="up" title="${_esc(isEn ? 'Move up' : 'Mover para cima')}">↑</button>
+          <button type="button" class="tool-btn" data-tool="down" title="${_esc(isEn ? 'Move down' : 'Mover para baixo')}">↓</button>
+          <button type="button" class="tool-btn" data-tool="dup" title="${_esc(isEn ? 'Duplicate' : 'Duplicar')}">⧉</button>
+          <button type="button" class="tool-btn tool-danger artwork-remove-btn" data-tool="remove" title="${_esc(isEn ? 'Remove' : 'Remover')}">✕</button>
+        </div>
+        <input type="file" class="art-file" accept="image/*" hidden />
       </div>
       <div class="artwork-editor-fields">
-        <div class="field-group">
+        <div class="field-group" data-lang="en">
           <label class="admin-label">Title (EN)</label>
           <input class="admin-input art-title-en" type="text" value="${_esc(titleEn)}" />
         </div>
-        <div class="field-group">
+        <div class="field-group" data-lang="pt">
           <label class="admin-label">Title (PT)</label>
           <input class="admin-input art-title-pt" type="text" value="${_esc(titlePt)}" />
         </div>
-        <div class="field-group">
+        <div class="field-group" data-lang="en">
           <label class="admin-label">Category (EN)</label>
           <input class="admin-input art-cat-en" type="text" value="${_esc(catEn)}" />
         </div>
-        <div class="field-group">
+        <div class="field-group" data-lang="pt">
           <label class="admin-label">Category (PT)</label>
           <input class="admin-input art-cat-pt" type="text" value="${_esc(catPt)}" />
         </div>
-        <div class="field-group full">
-          <label class="admin-label">Image Path</label>
-          <input class="admin-input art-img" type="text" value="${_esc(art.imageUrl)}" />
-        </div>
-        <div class="field-group">
+        <div class="field-group" data-lang="en">
           <label class="admin-label">Description (EN)</label>
           <textarea class="admin-textarea art-desc-en">${_esc(descEn)}</textarea>
         </div>
-        <div class="field-group">
+        <div class="field-group" data-lang="pt">
           <label class="admin-label">Description (PT)</label>
           <textarea class="admin-textarea art-desc-pt">${_esc(descPt)}</textarea>
         </div>
@@ -260,36 +271,84 @@ function _buildArtworkCard(art, i) {
       }
     }
 
-    imgInput.addEventListener('input', () => {
+    function updatePreview() {
       const preview = card.querySelector('.artwork-preview-box');
       const safeUrl = _sanitizeUrl(imgInput.value.trim());
       if (safeUrl) {
         preview.innerHTML = `<img src="${_esc(safeUrl)}" alt="Preview" />`;
       } else {
-        preview.innerHTML = '<span class="no-img">No Image</span>';
+        preview.innerHTML = `<span class="no-img">${_esc(isEn ? 'No Image' : 'Sem imagem')}</span>`;
       }
       updateWarning();
+    }
+
+    imgInput.addEventListener('input', () => {
+      updatePreview();
+      _markDirty();
     });
 
-    nsfwCheck.addEventListener('change', updateWarning);
+    nsfwCheck.addEventListener('change', () => {
+      updateWarning();
+      _markDirty();
+    });
 
-    // Remove button (bottom-right of each card)
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'admin-btn artwork-remove-btn';
-    removeBtn.textContent = I18n.getLang() === I18n.LANGUAGES.PT
-      ? '✕ Remover obra'
-      : '✕ Remove artwork';
-    removeBtn.addEventListener('click', () => {
+    // Image picker: click / drag & drop / file input → resized data URL
+    _wireImageDropzone({
+      zone: card.querySelector('.artwork-preview-box'),
+      fileInput: card.querySelector('.art-file'),
+      onResult: (dataUrl) => {
+        imgInput.value = dataUrl;
+        updatePreview();
+        _markDirty();
+        _warnIfHeavyImage(dataUrl, isEn);
+      },
+    });
+
+    // Card tools: move / duplicate / remove
+    card.querySelector('[data-tool="up"]').addEventListener('click', () => _moveArtworkCard(card, -1));
+    card.querySelector('[data-tool="down"]').addEventListener('click', () => _moveArtworkCard(card, 1));
+    card.querySelector('[data-tool="dup"]').addEventListener('click', () => {
+      const clone = _readArtworkCard(card);
+      const newCard = _buildArtworkCard(clone, Number(card.dataset.index) + 1);
+      card.after(newCard);
+      newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      _markDirty();
+    });
+    card.querySelector('[data-tool="remove"]').addEventListener('click', () => {
+      if (!window.confirm(isEn ? 'Remove this artwork?' : 'Remover esta obra?')) return;
       card.remove();
       if (!_gridHasAddButton()) _ensureAddButton();
+      _markDirty();
     });
-    card.querySelector('.artwork-editor-fields').appendChild(removeBtn);
 
     // Run check on load
     updateWarning();
 
     return card;
+}
+
+/** Read the fields of one artwork card back into an artwork object. */
+function _readArtworkCard(card) {
+  const v = (sel) => {
+    const el = card.querySelector(sel);
+    return el ? el.value.trim() : '';
+  };
+  const nsfwEl = card.querySelector('.art-nsfw');
+  return {
+    title:       { en: v('.art-title-en'), pt: v('.art-title-pt') },
+    category:    { en: v('.art-cat-en'),   pt: v('.art-cat-pt') },
+    description: { en: v('.art-desc-en'),  pt: v('.art-desc-pt') },
+    imageUrl:    v('.art-img'),
+    nsfw:        !!(nsfwEl && nsfwEl.checked),
+  };
+}
+
+/** Swap an artwork card with its previous/next sibling card. */
+function _moveArtworkCard(card, dir) {
+  const sib = dir < 0 ? card.previousElementSibling : card.nextElementSibling;
+  if (!sib || !sib.classList.contains('artwork-editor-card')) return;
+  card.parentNode.insertBefore(dir < 0 ? card : sib, dir < 0 ? sib : card);
+  _markDirty();
 }
 
 // Keep the "Add artwork" button as the last child of the grid
@@ -334,6 +393,218 @@ function _buildArtworksGridAddOnly() {
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   container.appendChild(addBtn);
+}
+
+// ── Image helpers (shared: artworks + post composer) ─────────
+/** Downscale an image file into a compact data URL (CSP-safe: img-src data:). */
+function _fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    if (!file || !/^image\//i.test(file.type)) {
+      reject(new Error('not-an-image'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('read-failed'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('decode-failed'));
+      img.onload = () => {
+        const MAX = 1600; // long edge — keeps data URLs reasonably small
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/** Shared toast for oversized embedded images. */
+function _warnIfHeavyImage(dataUrl, isEn) {
+  if (dataUrl && dataUrl.length > 700000) {
+    _toast(isEn
+      ? `Large image embedded as data URL (~${Math.round(dataUrl.length / 1024)} KB). Prefer an external host (e.g. Cloudinary) to keep the JSON light.`
+      : `Imagem grande embutida como data URL (~${Math.round(dataUrl.length / 1024)} KB). Prefira um host externo (ex: Cloudinary) para deixar o JSON leve.`);
+  }
+}
+
+/** Wire click + drag & drop on a zone, feeding the result to onResult(dataUrl). */
+function _wireImageDropzone({ zone, fileInput, onResult }) {
+  if (!zone || !fileInput) return;
+  const isEn = I18n.getLang() === 'en';
+  const fail = () => _toast(
+    isEn ? 'Could not read that image file.' : 'Não foi possível ler esse arquivo de imagem.',
+    'error'
+  );
+
+  zone.addEventListener('click', () => fileInput.click());
+  zone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    zone.classList.add('dragover');
+  });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file) return;
+    _fileToDataUrl(file).then(onResult).catch(fail);
+  });
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+    _fileToDataUrl(file).then(onResult).catch(fail);
+    fileInput.value = '';
+  });
+}
+
+// ── Post composer (Facebook-like) ────────────────────────────
+function _bindPostComposer() {
+  const composer = document.getElementById('studio-post-composer');
+  if (!composer) return;
+  const isEn = I18n.getLang() === 'en';
+
+  const openComposer = (focusLang) => {
+    composer.classList.add('is-open');
+    let target = document.getElementById(`composer-body-${focusLang}`);
+    if (!target || target.offsetParent === null) {
+      // Field hidden by the language mode — focus the visible one instead.
+      target = document.getElementById(focusLang === 'en' ? 'composer-body-pt' : 'composer-body-en');
+    }
+    if (target) target.focus();
+  };
+
+  ['pt', 'en'].forEach((lang) => {
+    const trigger = document.getElementById(`composer-trigger-${lang}`);
+    trigger?.addEventListener('focus', () => openComposer(lang));
+    trigger?.addEventListener('click', () => openComposer(lang));
+  });
+
+  // Keep the composer open while typing anywhere in it
+  composer.addEventListener('input', () => composer.classList.add('is-open'));
+
+  // Image dropzone (file → resized data URL, or paste a URL above)
+  _wireImageDropzone({
+    zone: document.getElementById('composer-drop'),
+    fileInput: document.getElementById('composer-file'),
+    onResult: (dataUrl) => {
+      const urlInput = document.getElementById('composer-image');
+      const drop = document.getElementById('composer-drop');
+      if (urlInput) urlInput.value = dataUrl;
+      if (drop) drop.innerHTML = `<img src="${_esc(dataUrl)}" alt="" />`;
+      _markDirty();
+      _warnIfHeavyImage(dataUrl, isEn);
+    },
+  });
+
+  // Publish the entry into the feed (top) — id + today's date are automatic
+  document.getElementById('composer-post')?.addEventListener('click', () => {
+    const val = (id) => {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    };
+    const bodyEn = val('composer-body-en');
+    const bodyPt = val('composer-body-pt');
+    if (!bodyEn && !bodyPt) {
+      _toast(isEn ? 'Write something before posting.' : 'Escreva algo antes de publicar.', 'error');
+      return;
+    }
+
+    StudioEditor.prepend('posts', {
+      id: 'post-' + Date.now().toString(36),
+      date: new Date().toISOString().slice(0, 10),
+      tag:   { en: val('composer-tag-en'),   pt: val('composer-tag-pt') },
+      title: { en: val('composer-title-en'), pt: val('composer-title-pt') },
+      body:  { en: bodyEn, pt: bodyPt },
+      image: val('composer-image'),
+      video: val('composer-video'),
+      link:  val('composer-link'),
+    });
+
+    [
+      'composer-tag-pt', 'composer-tag-en',
+      'composer-title-pt', 'composer-title-en',
+      'composer-body-pt', 'composer-body-en',
+      'composer-image', 'composer-video', 'composer-link',
+    ].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    const drop = document.getElementById('composer-drop');
+    if (drop) {
+      drop.textContent = isEn
+        ? 'Drag an image here or click to choose'
+        : 'Arraste uma imagem aqui ou clique para escolher';
+    }
+    composer.classList.remove('is-open');
+    _markDirty();
+    _toast(isEn
+      ? 'Update added to the feed. Use Save / Publish to make it live.'
+      : 'Novidade adicionada ao feed. Use Salvar / Publicar para torná-la pública.',
+      'success');
+  });
+}
+
+// ── Editing language mode (both / pt / en) ───────────────────
+const LANGMODE_KEY = 'hb_admin_langmode';
+
+function _applyLangMode(mode) {
+  document.body.dataset.langMode = mode;
+  document.querySelectorAll('.langmode-chips button').forEach((btn) => {
+    btn.classList.toggle('is-active', btn.dataset.mode === mode);
+  });
+}
+
+function _bindLangMode() {
+  let saved = 'both';
+  try { saved = localStorage.getItem(LANGMODE_KEY) || 'both'; } catch { /* noop */ }
+  _applyLangMode(['both', 'pt', 'en'].includes(saved) ? saved : 'both');
+  document.querySelectorAll('.langmode-chips button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      _applyLangMode(btn.dataset.mode);
+      try { localStorage.setItem(LANGMODE_KEY, btn.dataset.mode); } catch { /* noop */ }
+    });
+  });
+}
+
+// ── Unsaved-changes tracking + toasts ────────────────────────
+let _isDirty = false;
+
+function _markDirty() {
+  if (_isDirty) return;
+  _isDirty = true;
+  document.getElementById('dirty-badge')?.removeAttribute('hidden');
+  document.getElementById('admin-save-btn')?.classList.add('is-dirty');
+}
+
+function _markClean() {
+  _isDirty = false;
+  document.getElementById('dirty-badge')?.setAttribute('hidden', '');
+  document.getElementById('admin-save-btn')?.classList.remove('is-dirty');
+}
+
+function _bindDirtyTracking() {
+  const content = document.querySelector('.admin-content');
+  if (!content) return;
+  content.addEventListener('input', _markDirty);
+  content.addEventListener('change', _markDirty);
+}
+
+function _toast(message, type) {
+  const root = document.getElementById('toast-root');
+  if (!root) return;
+  const el = document.createElement('div');
+  el.className = 'admin-toast' + (type ? ` is-${type}` : '');
+  el.textContent = message;
+  root.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    setTimeout(() => el.remove(), 350);
+  }, 4500);
 }
 
 // ─ Populate the Software Area (agnostic) fields ─────────────
@@ -432,9 +703,19 @@ function _bindActions(originalConfig) {
 
     Publisher.refreshStatus();
 
-    alert(isEn()
+    _markClean();
+    _toast(isEn()
       ? 'Saved locally! Open the Publish & Security tab to make it public, or refresh the site to preview.'
-      : 'Salvo localmente! Abra a aba Publicar & Segurança para tornar público, ou atualize o site para pré-visualizar.');
+      : 'Salvo localmente! Abra a aba Publicar & Segurança para tornar público, ou atualize o site para pré-visualizar.',
+      'success');
+  });
+
+  // Ctrl/Cmd+S saves too
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && String(e.key).toLowerCase() === 's') {
+      e.preventDefault();
+      document.getElementById('admin-save-btn')?.click();
+    }
   });
 
   // Export button — downloads config.js (works even without a token)
@@ -609,6 +890,30 @@ function _translateStaticUI() {
     const el = document.getElementById(id);
     if (el) el.textContent = publishLabels[id];
   });
+
+  // Language-mode chips + unsaved badge + composer strings
+  const bothChip = document.getElementById('langmode-both');
+  if (bothChip) bothChip.textContent = isEn ? 'Both' : 'Ambos';
+  const dirtyText = document.getElementById('dirty-badge-text');
+  if (dirtyText) dirtyText.textContent = isEn ? 'Unsaved changes' : 'Alterações não salvas';
+
+  const setPh = (id, ph) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = ph;
+  };
+  setPh('composer-trigger-pt', 'Escreva uma novidade… (o que mudou no projeto?)');
+  setPh('composer-trigger-en', 'Share an update… (what changed in the project?)');
+
+  const postBtn = document.getElementById('composer-post');
+  if (postBtn) postBtn.textContent = isEn ? 'Post update' : 'Publicar novidade';
+  const compHint = document.getElementById('composer-hint');
+  if (compHint) compHint.textContent = isEn
+    ? 'Date and id are generated automatically.'
+    : 'Data e id são gerados automaticamente.';
+  const compDrop = document.getElementById('composer-drop');
+  if (compDrop) compDrop.textContent = isEn
+    ? 'Drag an image here or click to choose'
+    : 'Arraste uma imagem aqui ou clique para escolher';
 
   // Sidebar back link
   const back = document.getElementById('back-to-site-link');
