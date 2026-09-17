@@ -1,67 +1,881 @@
 {
-  "_comment": "Fonte de verdade da ÁREA SOFTWARE (agnóstica). Nenhum campo tem nome de produto: renomeie/reescreva quando quiser personalizar. Arrays vazios apenas escondem a seção correspondente.",
+  "_comment": "Fonte de verdade da ÁREA SOFTWARE do portfólio de Hideaki Bell. Contrato agnóstico ARCcC.",
   "meta": {
     "slug": "studio",
-    "status": { "en": "In Development", "pt": "Em Desenvolvimento" },
-    "name": { "en": "Project Name", "pt": "Nome do Projeto" },
-    "tagline": {
-      "en": "One line about what your software does.",
-      "pt": "Uma linha sobre o que o seu software faz."
+    "name": {
+      "en": "Lumenia — Digital Art & Paint Studio",
+      "pt": "Lumenia — Estúdio de Arte e Pintura Digital"
     },
-    "version": "0.1.0",
-    "heroImage": "assets/images/artwork-3.jpg",
+    "tagline": {
+      "en": "High-performance desktop painting studio powered by ALADYN C++20 SIMD Native Engine and PySide6.",
+      "pt": "Estúdio desktop de arte e pintura digital de alta performance com motor nativo ALADYN C++20 SIMD e PySide6."
+    },
+    "status": {
+      "en": "v0.2.0 Alpha",
+      "pt": "v0.2.0 Alpha"
+    },
+    "version": "0.2.0",
+    "heroImage": "assets/images/devlog/36_fase12_lumenia_flagship.png",
     "cta": {
-      "label": { "en": "Read the updates", "pt": "Ler as novidades" },
+      "label": {
+        "en": "Explore Devlogs",
+        "pt": "Explorar Devlogs"
+      },
       "url": "#studio-feed"
     }
   },
   "intros": {
     "en": [
-      "This area is dedicated to the software I am building. Use it for release notes, development logs, features, screenshots and downloads.",
-      "Replace this text in the Creator Studio (admin.html) → tab \"Software Area\"."
+      "Lumenia was born from an improbable question in August 2024: is it possible to build a high-performance digital painting studio from absolute scratch, carrying only high school programming logic concepts from 2016 and collaborating with frontier AI models? Having never written a single line of commercial code before, this devlog chronicles a two-year journey of engineering evolution.",
+      "What began as seven lines of Python opening a blank 300x200 pixel window evolved into the ALADYN C++20 SIMD native engine, ARCcC ultra-atomic architecture, 60 FPS selection tools, Catmull-Rom spline inking, and professional color proofing. Below is the complete chronological journal spanning 36 milestones across all 12 developmental phases."
     ],
     "pt": [
-      "Esta área é dedicada ao software que estou desenvolvendo. Use-a para notas de versão, diário de desenvolvimento, recursos, capturas de tela e downloads.",
-      "Substitua este texto no Creator Studio (admin.html) → aba \"Área Software\"."
+      "O Lumenia nasceu de uma pergunta improvável em agosto de 2024: seria possível construir um software de desenho digital de alta performance do zero absoluto, tendo como única bagagem conceitual um curso básico de lógica de programação do ensino médio em 2016 e a colaboração de modelos de inteligência artificial de ponta? Sem jamais ter escrito uma linha de código comercial antes, este diário de desenvolvimento documenta uma jornada de mais de dois anos.",
+      "O que começou com sete linhas em Python para abrir uma janela cinza de 300x200 pixels culminou em um motor nativo em C++20 com instruções SIMD, arquitetura contratual ARCcC, ferramentas de seleção a 60 FPS, interpolação Catmull-Rom e prova de cores profissional. Abaixo encontra-se o diário cronológico completo reunindo 36 marcos detalhados ao longo das 12 fases do projeto."
     ]
   },
   "highlights": [
     {
-      "icon": "✦",
-      "title": { "en": "Feature One", "pt": "Recurso Um" },
-      "text": { "en": "Describe a capability of your software here.", "pt": "Descreva aqui uma capacidade do seu software." }
+      "icon": "⚡",
+      "title": {
+        "en": "ALADYN C++20 SIMD Native Engine",
+        "pt": "Motor Nativo ALADYN C++20 SIMD"
+      },
+      "text": {
+        "en": "High-throughput sub-pixel rendering pipeline leveraging vectorized C++20 instructions for zero-latency inking and 60 FPS continuous blending.",
+        "pt": "Pipeline de renderização sub-pixel de alto rendimento com instruções vetoriais C++20 para traço instantâneo e mesclagem contínua a 60 FPS."
+      }
     },
     {
-      "icon": "◈",
-      "title": { "en": "Feature Two", "pt": "Recurso Dois" },
-      "text": { "en": "Describe another capability here.", "pt": "Descreva aqui outra capacidade." }
+      "icon": "🖋️",
+      "title": {
+        "en": "Catmull-Rom Spline & Advanced Inker",
+        "pt": "Inker Catmull-Rom & Estabilização"
+      },
+      "text": {
+        "en": "Cubic parametric interpolation and dynamic deadzone stabilizers eliminating sawtooth artifacts while preserving fine hand gestures.",
+        "pt": "Interpolação paramétrica cúbica e estabilizadores com deadzones dinâmicas que eliminam o serrilhado preservando a sutileza do gesto."
+      }
     },
     {
-      "icon": "◇",
-      "title": { "en": "Feature Three", "pt": "Recurso Três" },
-      "text": { "en": "Describe another capability here.", "pt": "Descreva aqui outra capacidade." }
+      "icon": "🏗️",
+      "title": {
+        "en": "ARCcC Ultra-Atomic Architecture",
+        "pt": "Arquitetura Ultra-Atômica ARCcC"
+      },
+      "text": {
+        "en": "Atomic Recursive Componentization by Contract separating Boundary, Core, and Infrastructure for reliable human and AI co-engineering.",
+        "pt": "Componentização Atômica Recursiva por Contrato separando Boundary, Core e Infrastructure para co-criação fluida entre humanos e IAs."
+      }
+    },
+    {
+      "icon": "📐",
+      "title": {
+        "en": "Dynamic Symmetry & Curvilinear Rulers",
+        "pt": "Simetria Dinâmica & Réguas Curvilíneas"
+      },
+      "text": {
+        "en": "Real-time radial symmetry (2-32 axes), 6-point curvilinear fisheye perspective guides, and magnetic Bézier snapping.",
+        "pt": "Simetria radial em tempo real (2 a 32 eixos), guias de perspectiva curvilínea de 6 pontos (fisheye) e atração magnética Bézier."
+      }
+    },
+    {
+      "icon": "✨",
+      "title": {
+        "en": "Smart Selection & Free Transform",
+        "pt": "Seleção Inteligente & Free Transform"
+      },
+      "text": {
+        "en": "Contiguous Magic Wand with zero lineart bleeding, 60 FPS animated marching ants, and Ctrl+T free transform with native bicubic resampling.",
+        "pt": "Varinha mágica contígua sem vazamentos sob o traço, marching ants a 60 FPS e transformação livre Ctrl+T com reamostragem bicúbica."
+      }
+    },
+    {
+      "icon": "🎨",
+      "title": {
+        "en": "Color Accuracy & Blindness Proofing",
+        "pt": "Gestão de Cor & Prova de Daltonismo"
+      },
+      "text": {
+        "en": "Real-time color proofing for Protanopia, Deuteranopia, and Tritanopia alongside Display P3 and sRGB color profile support.",
+        "pt": "Prova de cores em tempo real para Protanopia, Deuteranopia e Tritanopia integrada a perfis de espaço de cor sRGB e Display P3."
+      }
     }
   ],
   "roadmap": [
-    { "phase": "0.1", "title": { "en": "Foundation", "pt": "Fundação" }, "done": true },
-    { "phase": "0.2", "title": { "en": "Next milestone", "pt": "Próximo marco" }, "done": false }
+    {
+      "phase": "0.1",
+      "title": {
+        "en": "Genesis & Viewport Camera",
+        "pt": "Gênese & Câmera de Viewport"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.2",
+      "title": {
+        "en": "Stylus Physics & Unova Stabilizers",
+        "pt": "Física da Stylus & Estabilizadores Unova"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.3",
+      "title": {
+        "en": "Sparse Tiling Substrate (256x256)",
+        "pt": "Substrato de Tiling Esparso (256x256)"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.4",
+      "title": {
+        "en": "Hierarchical Layer Graph & Blend Shaders",
+        "pt": "Grafo de Camadas & Shaders de Mesclagem"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.5",
+      "title": {
+        "en": "First Unified Lumenia Desktop Shell",
+        "pt": "Primeiro Shell Desktop Unificado Lumenia"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.6",
+      "title": {
+        "en": "Cockpit Master & Catmull-Rom Smoothing",
+        "pt": "Cockpit Master & Suavização Catmull-Rom"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.7",
+      "title": {
+        "en": "Modular Workspace & TOYS Vector Iconography",
+        "pt": "Workspace Modular & Iconografia TOYS"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.8",
+      "title": {
+        "en": "Visual Brush Logic & Natural Media Recipes",
+        "pt": "Visual Brush Logic & Receitas de Mídias"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.9",
+      "title": {
+        "en": "ECS Architectural Research & PIL App",
+        "pt": "Pesquisa Arquitetural ECS & App PIL"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.10",
+      "title": {
+        "en": "Aladyn Engine & Rebuilding from Scratch",
+        "pt": "Motor Aladyn & Reconstrução das Bases"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.11",
+      "title": {
+        "en": "ARCcC Architecture & WGPU FFI Surface",
+        "pt": "Arquitetura ARCcC & Superfície WGPU FFI"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.12",
+      "title": {
+        "en": "Lumenia 0.2.0 Alpha Native (C++20 SIMD)",
+        "pt": "Lumenia 0.2.0 Alpha Native (C++20 SIMD)"
+      },
+      "done": true
+    },
+    {
+      "phase": "0.13",
+      "title": {
+        "en": "Arbitrary ICC Profiles & RGBA16 Float Pipeline",
+        "pt": "Perfis ICC Arbitrários & Pipeline RGBA16 Float"
+      },
+      "done": false
+    },
+    {
+      "phase": "1.0",
+      "title": {
+        "en": "Cross-Platform Commercial Release",
+        "pt": "Lançamento Comercial Multiplataforma"
+      },
+      "done": false
+    }
   ],
   "posts": [
     {
-      "id": "post-1",
+      "id": "post-36",
       "date": "2026-09-16",
-      "tag": { "en": "Devlog", "pt": "Devlog" },
-      "title": { "en": "First entry", "pt": "Primeira entrada" },
-      "body": {
-        "en": "Write here about progress, decisions, experiments or releases. Every entry is just an item in this list.",
-        "pt": "Escreva aqui sobre progresso, decisões, experimentos ou lançamentos. Cada entrada é apenas um item desta lista."
+      "tag": {
+        "en": "Alpha Milestone",
+        "pt": "Marco Alpha"
       },
-      "image": "",
+      "title": {
+        "en": "Lumenia 0.2.0 Alpha: The Sovereign Digital Art Studio",
+        "pt": "Lumenia 0.2.0 Alpha: O Estúdio de Arte Digital Soberano"
+      },
+      "body": {
+        "en": "Two years after the first blank Tkinter window, Lumenia has reached true engineering maturity. The software now operates as a complete, autonomous desktop painting studio combining PySide6's refined interface architecture with the native ALADYN C++20 engine running SIMD instructions.\n\nFrom dynamic radial symmetry (spanning 2 to 32 points with real-time kaleidoscope modes) to live color blindness proofing (Protanopia, Deuteranopia, Tritanopia) and infinite Bézier magnetic rulers, every element of the UI responds instantly under pen pressure. Looking back at where we started, this version proves that relentless iteration and AI-assisted architectural discipline can build software capable of standing shoulder-to-shoulder with established industry tools.",
+        "pt": "Dois anos após a primeira janela vazia em Tkinter, o Lumenia atinge sua verdadeira maturidade de engenharia. O software agora opera como um estúdio de pintura desktop completo e autônomo, unindo a arquitetura refinada de interface em PySide6 com o motor nativo ALADYN em C++20 acelerado por instruções vetoriais SIMD.\n\nDas réguas de simetria radial dinâmica (de 2 a 32 pontas com modo caleidoscópio em tempo real) à prova instantânea de daltonismo (Protanopia, Deuteranopia e Tritanopia) e guias magnéticas Bézier com atração gravitacional, cada elemento responde sem hesitação sob a caneta digital. Olhar para trás e ver onde tudo começou torna este marco uma vitória inesquecível de persistência técnica."
+      },
+      "image": "assets/images/devlog/36_fase12_lumenia_flagship.png",
+      "link": ""
+    },
+    {
+      "id": "post-35",
+      "date": "2026-08-28",
+      "tag": {
+        "en": "Selection Suite",
+        "pt": "Suíte de Seleção"
+      },
+      "title": {
+        "en": "Free Transform (Ctrl+T) & 60 FPS Marching Ants Magic Wand",
+        "pt": "Transformação Livre (Ctrl+T) e Varinha Mágica com Marching Ants a 60 FPS"
+      },
+      "body": {
+        "en": "Illustration workflows demand surgical precision when manipulating existing pixels. In this milestone, we finalized our high-speed selection suite and Free Transform mechanism.\n\nThe Magic Wand operates with contiguous flood-fill algorithms optimized to prevent white fringe artifacts under lineart through automatic 1px edge expansion. Around selected regions, animated 'marching ants' dashed lines dance at 60 FPS across any background luminosity. Simultaneously, pressing Ctrl+T exposes an 8-handle bounding box with a movable pivot point, allowing artists to rotate limbs around natural anatomical joints using C++ native bicubic resampling.",
+        "pt": "O fluxo de trabalho em ilustração exige precisão cirúrgica ao manipular pixels já desenhados. Neste marco, finalizamos nossa suíte de seleção rápida e a ferramenta de Transformação Livre.\n\nA Varinha Mágica opera com algoritmos de inundação contígua otimizados para evitar frestas brancas sob a lineart através de expansão automática de borda de 1px. Ao redor das regiões ativas, a linha pontilhada 'marching ants' é animada a 60 FPS com visibilidade perfeita em qualquer tom de canvas. Pressionar Ctrl+T abre a bounding box com 8 alças e pivô reposicionável, permitindo rotações anatômicas naturais com reamostragem bicúbica nativa em C++."
+      },
+      "image": "assets/images/devlog/35_fase12_selection_transform.png",
+      "link": ""
+    },
+    {
+      "id": "post-34",
+      "date": "2026-08-12",
+      "tag": {
+        "en": "Native Core",
+        "pt": "Núcleo Nativo"
+      },
+      "title": {
+        "en": "Boot Sequence: Loading the ALADYN C++20 SIMD Native Core",
+        "pt": "Sequência de Boot: Inicializando o Núcleo Nativo ALADYN C++20 SIMD"
+      },
+      "body": {
+        "en": "The transition from pure Python computation to compiled machine code is officially sealed. When Lumenia boots, its progressive splash screen orchestrates the initialization of the ALADYN C++20 binary compiled for Windows x64.\n\nThe native core takes ownership of continuous Catmull-Rom spline interpolation, brush stroke stamping, tile allocation, and color matrix conversions. By offloading hot-loop numerical computation to SIMD vectors, the Python UI thread remains completely unburdened, guaranteeing that the canvas never stutters or drops input packets even during violent, full-arm drawing gestures.",
+        "pt": "A transição definitiva da computação em Python para código compilado de máquina está selada. Quando o Lumenia inicia, sua splash screen progressiva orquestra a inicialização do binário nativo ALADYN C++20 compilado para Windows x64.\n\nO núcleo nativo assume a responsabilidade pela interpolação spline Catmull-Rom contínua, carimbagem de dabs, alocação de tiles e conversão de matrizes de cor. Ao transferir o processamento de laços pesados para instruções vetoriais SIMD, a interface Qt em Python fica livre de sobrecarga, garantindo que o canvas jamais trave mesmo sob traços ultrarrápidos de braço inteiro."
+      },
+      "image": "assets/images/devlog/34_fase12_native_core_splash.png",
+      "link": ""
+    },
+    {
+      "id": "post-33",
+      "date": "2026-07-31",
+      "tag": {
+        "en": "WGPU Surface",
+        "pt": "Superfície WGPU"
+      },
+      "title": {
+        "en": "60 FPS GPU Rendering via WGPU Surface & Driver Learnings",
+        "pt": "Renderização a 60 FPS via WGPU Surface e Lições de Driver"
+      },
+      "body": {
+        "en": "Seeing raw GPU shaders render custom stylus strokes directly onto a Windows HWND surface was an exhilarating breakthrough. By bridging PySide6 and a Rust WGPU backend, brush dabs were composited at fluid 60 FPS.\n\nHowever, this phase also brought hard lessons regarding hardware video drivers. We discovered that improper GPU surface handling across window resize events and sleep states could cause device loss errors. This critical diagnostic paved the way for our eventual transition into a battle-tested C++ native engine architecture in Phase 12.",
+        "pt": "Ver shaders da GPU renderizando traços de caneta diretamente sobre uma superfície HWND do Windows foi uma conquista emocionante. Conectando o PySide6 a um backend WGPU em Rust, os dabs de pincel foram compostos a 60 FPS fluidos.\n\nContudo, esta etapa também trouxe lições duras sobre drivers de vídeo. Descobrimos que o gerenciamento incorreto de superfícies da GPU durante redimensionamentos de janela ou suspensão do sistema causava erros de perda de dispositivo. Esse diagnóstico foi decisivo para pavimentar a arquitetura nativa em C++ na fase seguinte."
+      },
+      "image": "assets/images/devlog/33_fase11_wgpu_surface.png",
+      "link": ""
+    },
+    {
+      "id": "post-32",
+      "date": "2026-07-20",
+      "tag": {
+        "en": "Concurrency",
+        "pt": "Concorrência"
+      },
+      "title": {
+        "en": "Breaking Free from the Python GIL: The Asynchronous Worker Thread",
+        "pt": "Rompendo o GIL do Python: A Worker Thread Assíncrona"
+      },
+      "body": {
+        "en": "In digital painting, any micro-freeze caused by Python's Global Interpreter Lock (GIL) ruins the tactile sensation of drawing. To eliminate this bottleneck, we engineered a dedicated FFI bridge using PyO3.\n\nWhen stylus events enter the dispatcher, Python immediately releases the GIL and pushes lightweight DrawCommands into an asynchronous ring channel. A secondary native Worker Thread consumes this queue in parallel, uploading vertex buffers to the GPU without ever competing with the Qt event loop.",
+        "pt": "Na pintura digital, qualquer micro-travamento gerado pelo Global Interpreter Lock (GIL) do Python destrói a ilusão tátil do desenho. Para eliminar esse gargalo, projetamos uma ponte FFI com PyO3.\n\nQuando os eventos de caneta entram no despachante, o Python libera o GIL imediatamente e insere comandos DrawCommand em um canal de comunicação assíncrono. Uma Worker Thread nativa consome essa fila em paralelo, atualizando buffers na GPU sem disputar tempo com o loop de eventos da interface Qt."
+      },
+      "image": "assets/images/devlog/32_fase11_rust_ffi_bridge.png",
+      "link": ""
+    },
+    {
+      "id": "post-31",
+      "date": "2026-07-06",
+      "tag": {
+        "en": "ARCcC Architecture",
+        "pt": "Arquitetura ARCcC"
+      },
+      "title": {
+        "en": "The Birth of ARCcC: Designing Code for Humans and AI Agents",
+        "pt": "O Nascimento do ARCcC: Desenhando Código para Humanos e Agentes de IA"
+      },
+      "body": {
+        "en": "As project complexity multiplied, traditional software structures collapsed under AI context limits and human cognitive fatigue. The solution was conceiving a brand-new paradigm: ARCcC (Atomic Recursive Componentization by Contract).\n\nUnder ARCcC, every single directory is an autonomous black box structured into three inviolable tiers: Boundary (public facade), Core (pure business logic), and Infrastructure (hardware/storage). By enforcing strict contracts and forbidding side effects, AI assistants and developers can refactor deep subsystems without unpredictable cascading breaks.",
+        "pt": "À medida que a complexidade do projeto se multiplicava, estruturas tradicionais entravam em colapso diante das janelas de contexto da IA e da fadiga cognitiva humana. A solução foi conceber um paradigma inédito: ARCcC (Atomic Recursive Componentization by Contract).\n\nNo padrão ARCcC, cada diretório é uma caixa preta autônoma estruturada em três camadas invioláveis: Boundary (fachadas públicas), Core (lógica pura) e Infrastructure (hardware/armazenamento). Com contratos formais rígidos, agentes de IA e desenvolvedores podem refatorar subsistemas profundos sem provocar quebras em cascata."
+      },
+      "image": "assets/images/devlog/31_fase11_arccc_paradigm.png",
+      "link": ""
+    },
+    {
+      "id": "post-30",
+      "date": "2026-05-30",
+      "tag": {
+        "en": "Stress Testing",
+        "pt": "Testes de Estresse"
+      },
+      "title": {
+        "en": "Lumenia Omicron: Hitting the Ceiling of Interpreted Code",
+        "pt": "Lumenia Omicron: Atingindo o Teto do Código Interpretado"
+      },
+      "body": {
+        "en": "With the experimental Lumenia Omicron build, we pushed the brush engine to extreme resolutions with dozens of overlapping layers. The stress tests revealed an undeniable mathematical truth: interpreted Python could not sustain 240Hz stylus polling with complex blending equations.\n\nIt was a moment of painful humility. To build a truly competitive creative tool, we had to discard legacy workarounds and rebuild the computational core in a compiled systems language.",
+        "pt": "Com a versão experimental Lumenia Omicron, submetemos o motor de pincéis a resoluções extremas e dezenas de camadas sobrepostas. Os testes de estresse revelaram uma verdade matemática indiscutível: o Python interpretado não suporta taxas de 240Hz de caneta com equações complexas de mesclagem sem oscilações.\n\nFoi um momento de profunda reflexão. Para erguer um software verdadeiramente competitivo, era imperativo descartar remendos e reconstruir o núcleo de cálculo em uma linguagem compilada de baixo nível."
+      },
+      "image": "assets/images/devlog/30_fase10_omicron_stress_test.png",
+      "link": ""
+    },
+    {
+      "id": "post-29",
+      "date": "2026-05-18",
+      "tag": {
+        "en": "Texture Atlas",
+        "pt": "Atlas de Texturas"
+      },
+      "title": {
+        "en": "Aladyn 0.3: Fighting the Garbage Collector with Dynamic Atlasing",
+        "pt": "Aladyn 0.3: Lutando contra o Garbage Collector com Atlas Dinâmico"
+      },
+      "body": {
+        "en": "Allocating thousands of individual brush dab images triggered frequent Python Garbage Collection sweeps, producing micro-stutters during rapid sketching. Aladyn 0.3 countered this by introducing a procedural Texture Atlas.\n\nAll brush tips and noise heightmaps were consolidated into a single contiguous texture memory block. Instead of churning memory allocations, the renderer sampled UV coordinates from the atlas, noticeably smoothing stroke flow.",
+        "pt": "Alocar milhares de imagens individuais para carimbar dabs ativava o coletor de lixo (GC) do Python repetidamente, gerando engasgos visíveis no meio de esboços rápidos. O Aladyn 0.3 combateu esse problema introduzindo um Atlas de Texturas procedural.\n\nTodas as pontas de pincel e mapas de ruído foram agrupados em um único bloco contíguo de memória. Em vez de criar e destruir objetos em tempo real, o motor passou a amostrar coordenadas UV no atlas compartilhado."
+      },
+      "image": "assets/images/devlog/29_fase10_aladyn_03_atlas.png",
+      "link": ""
+    },
+    {
+      "id": "post-28",
+      "date": "2026-05-04",
+      "tag": {
+        "en": "Rebuild",
+        "pt": "Reconstrução"
+      },
+      "title": {
+        "en": "Aladyn 0.0: Synthesizing Lessons and Rebuilding from Clean Foundations",
+        "pt": "Aladyn 0.0: Sintetizando Lições e Recomeçando do Zero"
+      },
+      "body": {
+        "en": "As noted in our project journal: 'In this phase, I truly began gathering all heavy knowledge, past mistakes, trials, and research into a single project aimed at building a competitive painting software.'\n\nAladyn 0.0 stripped away previous bloated UI experiments to focus exclusively on raw brush rendering fidelity, clean tile management, and disciplined state machines.",
+        "pt": "Conforme registrado nas anotações originais da época: 'Nesta fase comecei de fato juntar todo o conhecimento pesado, erros anteriores, tentativas, testes e estudos em um projeto único que levasse ao objetivo final: um software de desenho competitivo.'\n\nO Aladyn 0.0 descartou experimentos visuais inflados para concentrar-se exclusivamente na fidelidade do cálculo de traço, gestão limpa de tiles e máquinas de estado disciplinadas."
+      },
+      "image": "assets/images/devlog/28_fase10_aladyn_00_boot.png",
+      "link": ""
+    },
+    {
+      "id": "post-27",
+      "date": "2026-03-29",
+      "tag": {
+        "en": "Fallback App",
+        "pt": "App Autônomo"
+      },
+      "title": {
+        "en": "A Full Drawing Suite in Pure Python & PIL: The Resilient Fallback",
+        "pt": "Uma Suíte Completa em Python e PIL Puro: O Fallback Resiliente"
+      },
+      "body": {
+        "en": "To guarantee that our drawing logic was mathematically sound independent of GPU drivers or external bindings, we built a complete standalone painting application in pure Tkinter and PIL.\n\nFeaturing layers, opacity sliders, a tool rack, and interactive color pickers, this self-contained app proved that the underlying stroke algorithms functioned reliably across any environment without third-party acceleration.",
+        "pt": "Para assegurar que nossa lógica matemática de traço era sólida independentemente de drivers de GPU ou bibliotecas externas, construímos uma aplicação autônoma completa em Tkinter e Pillow puros.\n\nCom suporte a múltiplas camadas, controle de opacidade, seletor de ferramentas e paleta de cores, este aplicativo serviu como base de homologação e prova viva de que a engenharia conceitual do pincel estava correta."
+      },
+      "image": "assets/images/devlog/27_fase9_python_pil_app.png",
+      "link": ""
+    },
+    {
+      "id": "post-26",
+      "date": "2026-03-17",
+      "tag": {
+        "en": "ECS Architecture",
+        "pt": "Arquitetura ECS"
+      },
+      "title": {
+        "en": "Researching Entity Component Systems for 2D Graphics Engines",
+        "pt": "Investigando Entity Component Systems para Motores Gráficos 2D"
+      },
+      "body": {
+        "en": "We paused implementation to delve deep into architectural literature, studying Entity Component Systems (ECS) applied to 2D rendering pipelines.\n\nTreating strokes, tiles, and layers as pure numeric entities composed of decoupled memory slices (Position, Velocity, Color, Bounds) provided valuable mental models for maximizing cache locality and avoiding deep object inheritance hierarchies.",
+        "pt": "Pausamos a implementação direta para mergulhar em literatura arquitetural pesada, analisando a aplicação de Entity Component Systems (ECS) ao pipeline gráfico 2D.\n\nModelar traços, tiles e camadas como entidades numéricas puras compostas por fatias desacopladas de dados (Posição, Velocidade, Cor, Limites) forneceu o modelo mental ideal para otimizar localidade de cache e exterminar hierarquias profundas de classes."
+      },
+      "image": "assets/images/devlog/26_fase9_ecs_architecture.png",
+      "link": ""
+    },
+    {
+      "id": "post-25",
+      "date": "2026-03-03",
+      "tag": {
+        "en": "Philosophy",
+        "pt": "Filosofia"
+      },
+      "title": {
+        "en": "The Manifesto: Modular Philosophy for Developing Complex Applications",
+        "pt": "O Manifesto: Filosofia Modular de Desenvolvimento de Apps Complexos"
+      },
+      "body": {
+        "en": "Developing software with AI agents requires explicit architectural principles. In Phase 9, we authored the 'Modular Philosophy' whitepaper, formalizing the rules of engagement.\n\nKey doctrines included: strict single-responsibility boundaries, explicit event-driven contracts, and writing self-documenting code structured so that AI models can reason about modules without context bleed.",
+        "pt": "Desenvolver software em parceria com agentes de IA exige princípios arquiteturais explícitos. Na Fase 9, redigimos o documento 'Filosofia Modular de Desenvolvimento de Apps Complexos', formalizando as regras do jogo.\n\nDentre os pilares: responsabilidade única por componente, comunicação estritamente orientada a eventos e código estruturado de forma que modelos de IA possam auditar subsistemas sem poluição de contexto."
+      },
+      "image": "assets/images/devlog/25_fase9_filosofia_modular.png",
+      "link": ""
+    },
+    {
+      "id": "post-24",
+      "date": "2026-01-15",
+      "tag": {
+        "en": "Visual Brush Lab",
+        "pt": "Laboratório de Pincéis"
+      },
+      "title": {
+        "en": "Visual Brush Logic 23.0: Integrating FX and Reverse Lens Inspection",
+        "pt": "Visual Brush Logic 23.0: Integrando Efeitos e Inspeção por Lente Reversa"
+      },
+      "body": {
+        "en": "Visual Brush Logic evolved into an advanced testing workbench. Artists could sketch while dynamically toggling real-time effects: horizontal canvas mirroring, Gaussian blur filtering, and high-contrast grayscale inversion.\n\nThese analytical viewing modes allowed us to evaluate brush stroke balance, compositional silhouette readability, and tonal values under real production conditions.",
+        "pt": "O Visual Brush Logic transformou-se em uma bancada de testes de ponta. O desenhista podia testar seus traços enquanto acionava filtros em tempo real: espelhamento horizontal instantâneo, desfoque gaussiano e visualização monocromática.\n\nEsses modos de inspeção analítica permitiram avaliar o equilíbrio do traço, a leitura de silhueta e os valores tonais em condições reais de criação artística."
+      },
+      "image": "assets/images/devlog/24_fase8_visual_brush_main.png",
+      "link": ""
+    },
+    {
+      "id": "post-23",
+      "date": "2025-12-20",
+      "tag": {
+        "en": "Material Recipes",
+        "pt": "Receitas de Materiais"
+      },
+      "title": {
+        "en": "Simulating Natural Media: The Physics of Watercolor, Oil, and Charcoal",
+        "pt": "Simulando Mídias Analógicas: A Física da Aquarela, Óleo e Carvão"
+      },
+      "body": {
+        "en": "Digital paint should feel organic. In this milestone, we researched procedural 'material recipes' to mimic real artistic tools.\n\nFor watercolor, we simulated pigment diffusion, wet-on-wet pooling, and edge paper fringing. For oil paint, we tracked 3D impasto volume and color pickup. For charcoal and graphite, we mapped tooth noise textures to paper friction curves.",
+        "pt": "A tinta digital precisa respirar como matéria viva. Neste marco, pesquisamos 'receitas físicas' procedurais para emular mídias analógicas reais.\n\nNa aquarela, simulamos difusão de pigmento sobre papel molhado e acúmulo de borda seca. No óleo, calculamos relevo volumétrico 3D (impasto) e mistura úmida. No carvão e grafite, mapeamos o atrito da granulação de papel contra a pressão da mão."
+      },
+      "image": "assets/images/devlog/23_fase8_receitas_aquarela_grafite.png",
+      "link": ""
+    },
+    {
+      "id": "post-22",
+      "date": "2025-12-03",
+      "tag": {
+        "en": "Engine Pipeline",
+        "pt": "Pipeline do Motor"
+      },
+      "title": {
+        "en": "Mapping the Complete Pipeline: From Stylus Sensor to Final Pixel",
+        "pt": "Mapeando o Pipeline Completo: Do Sensor da Stylus ao Pixel Final"
+      },
+      "body": {
+        "en": "To coordinate dynamic brush physics, we documented the complete engine architecture in detailed technical flowcharts.\n\nThe pipeline mapped the continuous progression: raw OS pointer events -> Catmull-Rom spline interpolation -> dynamics LUT evaluation -> dab generation -> tile read/write rasterization -> multi-layer compositing.",
+        "pt": "Para coordenar a física complexa dos novos pincéis, estruturamos a arquitetura do motor em fluxogramas técnicos exaustivos.\n\nO pipeline mapeou cada etapa: eventos brutos do sistema operacional -> interpolação de curvas Catmull-Rom -> avaliação de LUTs de dinâmica -> cálculo de dabs -> gravação raster em tiles -> composição final das camadas."
+      },
+      "image": "assets/images/devlog/22_fase8_fluxograma_engine.png",
+      "link": ""
+    },
+    {
+      "id": "post-21",
+      "date": "2025-11-14",
+      "tag": {
+        "en": "Dock System",
+        "pt": "Sistema de Docks"
+      },
+      "title": {
+        "en": "Modular Workspace: Designing a Flexible Multi-Panel Dock System",
+        "pt": "Espaço de Trabalho Modular: Projetando um Sistema Flexível de Docks"
+      },
+      "body": {
+        "en": "Every artist works differently. Some want their color wheel pinned on the right, while others require extensive layer trees occupying the full screen height. To cater to both, we engineered a custom docking system.\n\nThe WorkspaceManager allowed panels for Tools, Options, Layers, History, and Colors to dock, undock, collapse, and reorder fluidly.",
+        "pt": "Cada artista possui uma ergonomia própria. Alguns exigem a roda de cores à direita, enquanto outros dedicam a altura inteira da tela para pilhas de camadas. Para atender a todos, projetamos um sistema modular de docks.\n\nO WorkspaceManager permitiu acoplar, destacar, colapsar e reordenar painéis de Ferramentas, Opções, Camadas, Histórico e Cores de forma fluida."
+      },
+      "image": "assets/images/devlog/21_fase7_workspace_docking.png",
+      "link": ""
+    },
+    {
+      "id": "post-20",
+      "date": "2025-10-22",
+      "tag": {
+        "en": "Floating Panels",
+        "pt": "Painéis Flutuantes"
+      },
+      "title": {
+        "en": "Decoupled UI Architecture: Floating Widgets and Dynamic Geometry",
+        "pt": "Arquitetura Desacoplada: Widgets Flutuantes e Geometria Dinâmica"
+      },
+      "body": {
+        "en": "Monolithic interfaces resist adaptation. In Phase 7, we decoupled individual panels into independent widgets that could detach from the main window into free-floating companion HUDs.\n\nThis decoupled geometry laid the groundwork for dual-monitor setups and minimalist full-canvas distraction-free modes.",
+        "pt": "Interfaces monolíticas não se adaptam bem. Na Fase 7, desacoplamos painéis individuais em widgets autônomos capazes de se desprender da janela principal em janelas flutuantes auxiliares.\n\nEssa geometria desacoplada criou a base para fluxos com múltiplos monitores e modos de tela cheia sem distrações."
+      },
+      "image": "assets/images/devlog/20_fase7_floating_panels.png",
+      "link": ""
+    },
+    {
+      "id": "post-19",
+      "date": "2025-10-05",
+      "tag": {
+        "en": "Iconography",
+        "pt": "Iconografia"
+      },
+      "title": {
+        "en": "Project TOYS: Crafting a Bespoke Vector Icon Suite for Digital Art",
+        "pt": "Projeto TOYS: Criando uma Biblioteca Autoral de Ícones Vetoriais"
+      },
+      "body": {
+        "en": "Generic icon libraries fail to communicate the nuanced tools of digital illustration. Through Project TOYS, we designed a library of bespoke SVG vector icons specifically tailored for creative workflows.\n\nCustom glyphs covered polygonal lassos, wand tolerances, alpha locks, layer blend differences, smudge blenders, and perspective vanishing points.",
+        "pt": "Bibliotecas genéricas de ícones não capturam as ferramentas especializadas da ilustração digital. Com o Projeto TOYS, desenhamos uma biblioteca autoral de ícones vetoriais SVG sob medida para criadores.\n\nOs novos glifos cobriam laços poligonais, tolerância de varinha mágica, bloqueios de canal alfa, modos de mesclagem, espátulas e pontos de fuga de perspectiva."
+      },
+      "image": "assets/images/devlog/19_fase7_toys_icons_grid.png",
+      "link": ""
+    },
+    {
+      "id": "post-18",
+      "date": "2025-08-18",
+      "tag": {
+        "en": "Stroke Smoothing",
+        "pt": "Suavização do Traço"
+      },
+      "title": {
+        "en": "Cockpit Master & Catmull-Rom Smoothing: Eliminating the Sawtooth Effect",
+        "pt": "Cockpit Master e Suavização Catmull-Rom: Exterminando o Efeito Serrilhado"
+      },
+      "body": {
+        "en": "Rapid stylus movements previously produced jagged 'scales' or sawtooth artifacts. Phase 6 resolved this through the introduction of cubic Catmull-Rom spline interpolation in the InputProcessor.\n\nBy calculating smooth parametric curves between raw stylus packets (spaced at 1 point per 4 pixels), strokes gained silk-smooth line quality without perceptible input latency.",
+        "pt": "Movimentos rápidos de caneta anteriormente geravam escamas angulares ou serrilhados grosseiros. A Fase 6 superou esse obstáculo com a introdução da interpolação cúbica Catmull-Rom no InputProcessor.\n\nAo calcular curvas paramétricas suaves entre pacotes de dados da caneta (espaçados em 1 ponto a cada 4 pixels), o traço adquiriu a precisão de um inker profissional, sem atraso perceptível."
+      },
+      "image": "assets/images/devlog/18_fase6_catmull_rom_smoothing.png",
+      "link": ""
+    },
+    {
+      "id": "post-17",
+      "date": "2025-07-25",
+      "tag": {
+        "en": "Color Mastery",
+        "pt": "Maestria de Cores"
+      },
+      "title": {
+        "en": "Color Mastery: Global Synchronization and Preventing Signal Recursion",
+        "pt": "Maestria de Cores: Sincronização Global e Fim da Recursão de Sinais"
+      },
+      "body": {
+        "en": "Synchronizing color state between the Color Wheel, RGB/HSV sliders, and Swatch palettes created an insidious bug: recursive signal loops causing stack overflows and freezes.\n\nWe implemented strict update guards (`_updating_from_external`) and unified event routing under `app:color:set`, establishing stable bidirectional color synchronization across all UI components.",
+        "pt": "Sincronizar o estado de cores entre a Roda de Cores, controles deslizantes RGB/HSV e paletas gerou um bug insidioso: loops recursivos de sinais que congelavam a aplicação.\n\nImplementamos travas estritas de atualização (`_updating_from_external`) e unificamos a distribuição no barramento `app:color:set`, garantindo sincronização cromática estável em todos os painéis."
+      },
+      "image": "assets/images/devlog/17_fase6_color_mastery.png",
+      "link": ""
+    },
+    {
+      "id": "post-16",
+      "date": "2025-07-08",
+      "tag": {
+        "en": "Technical Debt",
+        "pt": "Dívida Técnica"
+      },
+      "title": {
+        "en": "Confronting the Legacy Monolith: Mapping the Architectural Ducts",
+        "pt": "Encarando o Monólito Legado: Mapeando os Dutos Arquiteturais"
+      },
+      "body": {
+        "en": "Rapid prototyping had accumulated severe architectural technical debt. Our legacy diagram laid bare the circular dependencies and entangled buses threatening the project's scalability.\n\nWe made the hard call to refactor: eliminating redundant directories, standardizing plugin paths, and separating the central workspace into an orchestrating 'Cockpit' and dumb view canvas.",
+        "pt": "A prototipagem rápida gerou uma dívida técnica considerável. O diagrama arquitetural do sistema legado expôs dependências circulares e barramentos sobrepostos que ameaçavam o futuro do software.\n\nTomamos a decisão firme de refatorar: eliminamos pastas redundantes, padronizamos extensões e dividimos o workspace em um 'Cockpit' orquestrador e um canvas desacoplado."
+      },
+      "image": "assets/images/devlog/16_fase6_estrutura_legado.png",
+      "link": ""
+    },
+    {
+      "id": "post-15",
+      "date": "2025-05-29",
+      "tag": {
+        "en": "Integrated Shell",
+        "pt": "Shell Integrado"
+      },
+      "title": {
+        "en": "The First Unified Desktop Shell: The Lumenia Interface Takes Shape",
+        "pt": "O Primeiro Shell Desktop Integrado: A Interface do Lumenia Toma Forma"
+      },
+      "body": {
+        "en": "For the first time, our disparate standalone experiments coalesced into a single integrated desktop software window.\n\nWith top menus, tool sidebars, a dark Fusion theme, and an interactive canvas, the program proudly bore the name 'Lumenia' on its title bar.",
+        "pt": "Pela primeira vez, os experimentos isolados convergiram em uma janela unificada de software para desktop.\n\nCom barras de menu superiores, gaveta de ferramentas lateral, tema Fusion escuro e canvas interativo, o programa ostentou com orgulho o nome oficial 'Lumenia' em sua barra de título."
+      },
+      "image": "assets/images/devlog/15_fase5_primeiro_shell_ui.png",
+      "link": ""
+    },
+    {
+      "id": "post-14",
+      "date": "2025-05-16",
+      "tag": {
+        "en": "Plugin Bus",
+        "pt": "Barramento de Plugins"
+      },
+      "title": {
+        "en": "Decoupled Extensibility: Designing the Plugin System and Event Manager",
+        "pt": "Extensibilidade Desacoplada: Projetando o Sistema de Plugins e Eventos"
+      },
+      "body": {
+        "en": "To prevent core modules from ballooning with ad-hoc features, we engineered an extensible plugin bus.\n\nTools and panels registered through dynamic interfaces using a centralized ServiceLocator, enabling the engine to discover and load new capabilities at runtime without touching root application files.",
+        "pt": "Para evitar que o núcleo da aplicação inchasse com recursos desordenados, projetamos um barramento desacoplado de plugins.\n\nFerramentas e janelas passaram a se registrar através de interfaces dinâmicas com um ServiceLocator centralizado, permitindo carregar novas extensões em tempo de execução."
+      },
+      "image": "assets/images/devlog/14_fase5_plugins_architecture.png",
+      "link": ""
+    },
+    {
+      "id": "post-13",
+      "date": "2025-05-02",
+      "tag": {
+        "en": "Project Genesis",
+        "pt": "Gênese do Projeto"
+      },
+      "title": {
+        "en": "Christening the Vision: The Genesis of the Lumenia Codebase",
+        "pt": "O Batismo da Visão: A Gênese da Base de Código Lumenia"
+      },
+      "body": {
+        "en": "Until this moment, our work consisted of isolated test sandboxes. In early May 2025, we took the decisive step of establishing a unified repository titled 'LUMENIA'.\n\nWe implemented structured logging, crash recovery marker flags, and JSON configuration files (`settings.json`, `lumenia_config.json`), establishing commercial-grade engineering foundations.",
+        "pt": "Até este instante, nosso trabalho consistia em sandboxes de teste avulsos. No início de maio de 2025, demos o passo definitivo de criar um repositório central denominado 'LUMENIA'.\n\nImplementamos logging estruturado, marcadores de recuperação de crash e arquivos de configuração persistentes (`settings.json`), estabelecendo fundações sólidas de engenharia."
+      },
+      "image": "assets/images/devlog/13_fase5_lumenia_boot.png",
+      "link": ""
+    },
+    {
+      "id": "post-12",
+      "date": "2025-03-15",
+      "tag": {
+        "en": "Curvilinear 6P",
+        "pt": "Curvilínea 6P"
+      },
+      "title": {
+        "en": "Pushing Geometry to the Limits: 6-Point Curvilinear Perspective",
+        "pt": "Elevando a Geometria aos Limites: Perspectiva Curvilínea de 6 Pontos"
+      },
+      "body": {
+        "en": "Capturing epic panoramic scenes requires moving beyond straight-line vanishing points. In this milestone, we engineered a standalone sandbox for 6-Point Curvilinear Perspective.\n\nFeaturing full 3D camera controls (yaw, pitch, FOV up to 130 degrees), the engine projects spherical fisheye grids and magnetically snaps pen strokes to dynamic Bézier arcs in real time.",
+        "pt": "Criar cenários panorâmicos épicos exige ir além das linhas retas euclidianas. Neste marco, desenvolvemos um sandbox dedicado à Perspectiva Curvilínea de 6 Pontos.\n\nCom controle tridimensional de rotação (yaw, pitch e campo de visão até 130 graus), o motor projeta grids esféricos olho-de-peixe e atrai a caneta magneticamente para arcos Bézier perfeitos em tempo real."
+      },
+      "image": "assets/images/devlog/12_fase4_perspectiva_curvilinea.png",
+      "link": ""
+    },
+    {
+      "id": "post-11",
+      "date": "2025-02-22",
+      "tag": {
+        "en": "Blend Modes",
+        "pt": "Modos de Mesclagem"
+      },
+      "title": {
+        "en": "Advanced Layer Compositing: Multiply, Screen, Overlay & GPU Shaders",
+        "pt": "Composição Avançada de Camadas: Multiplicação, Tela, Sobreposição e Shaders"
+      },
+      "body": {
+        "en": "Color grading and lighting effects depend entirely on blend modes. We upgraded the Layer Graph engine with standard digital art blend math: Multiply, Screen, Overlay, Add, and Difference.\n\nWe implemented both a GLSL fragment shader composition pipeline and a robust QPainter software fallback to guarantee identical visual rendering across any hardware.",
+        "pt": "Pintura de iluminação e pós-processamento dependem intrinsecamente de modos de mesclagem. Expandimos o motor de camadas com fórmulas matemáticas clássicas: Multiplicação, Tela, Sobreposição, Adição e Diferença.\n\nImplementamos tanto shaders GLSL de fragmento quanto um fallback em software via QPainter para garantir paridade visual em qualquer máquina."
+      },
+      "image": "assets/images/devlog/11_fase4_layer_graph_blends.png",
+      "link": ""
+    },
+    {
+      "id": "post-10",
+      "date": "2025-02-06",
+      "tag": {
+        "en": "Layer Graph",
+        "pt": "Grafo de Camadas"
+      },
+      "title": {
+        "en": "The Layer Graph: Hierarchical Trees, Collapsible Groups & Drag-and-Drop",
+        "pt": "O Grafo de Camadas: Árvore Hierárquica, Grupos Colapsáveis e Drag-and-Drop"
+      },
+      "body": {
+        "en": "Managing complex multi-character illustrations requires deep layer hierarchies. We engineered `layer_graph.py`, supporting full layer CRUD, inline renaming, duplication, and Z-index reordering via Drag & Drop.\n\nArtists could nest layers within collapsible groups, perform Merge Down operations, and toggle alpha lock and visibility with zero latency.",
+        "pt": "Ilustrações ricas exigem hierarquias profundas de organização. Desenvolvemos o `layer_graph.py`, com suporte a CRUD de camadas, renomeação inline, duplicação e reordenação Z-index via arrastar e soltar.\n\nO artista passou a agrupar camadas em pastas expansíveis, realizar operações de Merge Down e alternar bloqueios de canal alfa com resposta instantânea."
+      },
+      "image": "assets/images/devlog/10_fase4_layer_graph_tree.png",
+      "link": ""
+    },
+    {
+      "id": "post-09",
+      "date": "2025-01-14",
+      "tag": {
+        "en": "Sparse Layers",
+        "pt": "Camadas Esparsas"
+      },
+      "title": {
+        "en": "Multi-Layer Sparse Raster Engine: Independent Tile Hierarchies",
+        "pt": "Motor Raster Multi-Camadas: Hierarquias Independentes de Tiles"
+      },
+      "body": {
+        "en": "Combining multi-layer painting with sparse tiling was a major architectural leap. In `layer-engine.py`, each raster layer received its own sparse dictionary of TileBuffers.\n\nWhen a dab touches the canvas, only the active layer's intersecting tiles are allocated, composited, and marked dirty, keeping memory footprint astonishingly compact.",
+        "pt": "Fundir múltiplas camadas com o particionamento esparso foi um salto arquitetural formidável. No `layer-engine.py`, cada camada raster recebeu seu próprio dicionário de TileBuffers.\n\nQuando um traço atinge a tela, apenas os blocos que intersectam a área desenhada são alocados e mesclados, mantendo o consumo de RAM em níveis incrivelmente baixos."
+      },
+      "image": "assets/images/devlog/09_fase3_layer_engine.png",
+      "link": ""
+    },
+    {
+      "id": "post-08",
+      "date": "2024-12-20",
+      "tag": {
+        "en": "Dirty Tracking",
+        "pt": "Rastreamento Sujo"
+      },
+      "title": {
+        "en": "60 FPS Frame Scheduling with Asynchronous Dirty Region Tracking",
+        "pt": "Agendamento de Frames a 60 FPS com Rastreamento de Regiões Sujas"
+      },
+      "body": {
+        "en": "Redrawing an entire 4K canvas on every mouse movement instantly drops framerates to single digits. We introduced the `DirtyTracker` and `TileScheduler`.\n\nInstead of refreshing the whole window, modified tiles register their coordinates as 'dirty regions'. A master 16ms timer batches and flushes only the affected tiles to the viewport screen buffer at solid 60 FPS.",
+        "pt": "Redesenhar uma tela 4K inteira a cada pixel de movimento do mouse derruba a taxa de quadros imediatamente. Introduzimos o `DirtyTracker` e o `TileScheduler`.\n\nEm vez de repintar a janela toda, os blocos alterados registram suas coordenadas como 'regiões sujas'. Um temporizador mestre de 16ms agrupa e envia apenas os tiles alterados ao buffer de tela a 60 FPS constantes."
+      },
+      "image": "assets/images/devlog/08_fase3_blending_engine.png",
+      "link": ""
+    },
+    {
+      "id": "post-07",
+      "date": "2024-12-04",
+      "tag": {
+        "en": "Sparse Tiling",
+        "pt": "Tiling Esparso"
+      },
+      "title": {
+        "en": "The Memory Wall: Inventing Sparse 256x256 Tile Allocation",
+        "pt": "O Muro da Memória: Criando a Alocação Esparsa de Tiles 256x256"
+      },
+      "body": {
+        "en": "Attempting to create high-resolution digital painting canvases (8000x8000 pixels) in raw RGBA bitmaps caused immediate memory crashes. This wall led to the conception of our sparse Tiling engine.\n\nThe canvas was partitioned into a virtual grid of 256x256 blocks. Memory is never pre-allocated: a tile only comes into physical existence the exact microsecond a brush dab touches its quadrant.",
+        "pt": "Tentar criar telas de pintura em alta resolução (8000x8000 pixels) com bitmaps brutos em RGBA causava estouros imediatos de memória. Esse choque levou à criação do motor de Tiling esparso.\n\nO canvas foi particionado em uma grade virtual de blocos 256x256. A memória física não é pré-alocada: um tile só passa a existir no exato microssegundo em que uma pincelada toca seu quadrante."
+      },
+      "image": "assets/images/devlog/07_fase3_tile_engine_grid.png",
+      "link": ""
+    },
+    {
+      "id": "post-06",
+      "date": "2024-11-12",
+      "tag": {
+        "en": "Stabilization",
+        "pt": "Estabilização"
+      },
+      "title": {
+        "en": "The Stabilizer Marathon: From Erratic Oscillations to Deadzones",
+        "pt": "A Maratona dos Estabilizadores: Das Oscilações às Deadzones"
+      },
+      "body": {
+        "en": "Human hands tremor naturally. When drawing lineart, this tremor creates ugly wobbles. In our Unova Engine, we embarked on a seven-iteration research marathon (`stab1` to `stab7`).\n\nEarly smoothing algorithms suffered from massive lag or erratic rubber-banding. We resolved this by implementing physical drag strings, momentum averaging, and custom deadzones that filter hand jitter while keeping corners crisp.",
+        "pt": "As mãos humanas possuem tremores naturais. Em desenhos de lineart fina, esse tremor produz oscilações irregulares. Na Unova Engine, embarcamos em uma maratona de sete iterações consecutivas (`stab1` a `stab7`).\n\nOs primeiros algoritmos sofriam de atraso excessivo ou efeito elástico. A superação veio com amortecimento por corda virtual, médias de momento e deadzones calibradas que filtram ruído sem arredondar quinas."
+      },
+      "image": "assets/images/devlog/06_fase2_estabilizadores_deadzone.png",
+      "link": ""
+    },
+    {
+      "id": "post-05",
+      "date": "2024-10-24",
+      "tag": {
+        "en": "Dynamics LUT",
+        "pt": "LUT de Dinâmica"
+      },
+      "title": {
+        "en": "Calibrating Stylus Curves: Pressure, Velocity, and Tilt Multipliers",
+        "pt": "Calibrando Curvas da Stylus: Multiplicadores de Pressão, Velocidade e Inclinação"
+      },
+      "body": {
+        "en": "To feel like a real pen, pressure cannot be linear. In `curve_window.py`, we engineered interactive cubic Bézier curve editors generating 256-point float Look-Up Tables (LUTs).\n\nThe final stroke force dynamically combined three physical vectors: `pressure_final = p_mapped * v_factor * t_factor`, automatically tapering lines when the pen swept quickly across the tablet.",
+        "pt": "Para responder como uma pena de verdade, a pressão não pode ser linear. No `curve_window.py`, desenvolvemos editores interativos de curvas Bézier que geram tabelas de busca (LUTs) de 256 pontos.\n\nA intensidade final do traço combinou três vetores físicos: `pressure_final = p_mapped * v_factor * t_factor`, afinando o traço quando a caneta se move rapidamente sobre a mesa digitalizadora."
+      },
+      "image": "assets/images/devlog/05_fase2_curve_window.png",
+      "link": ""
+    },
+    {
+      "id": "post-04",
+      "date": "2024-10-08",
+      "tag": {
+        "en": "Stylus Sensors",
+        "pt": "Sensores da Stylus"
+      },
+      "title": {
+        "en": "Deciphering Tablet Hardware: Intercepting Raw Stylus Packets",
+        "pt": "Decifrando a Mesa Digitalizadora: Capturando Pacotes Brutos da Stylus"
+      },
+      "body": {
+        "en": "Entering the world of digital pens meant facing raw hardware sensors. In `Tabevents.py`, we began intercepting low-level tablet packets: pressure (0.0 to 1.0), tilt angles (-60 to +60 degrees), and high-frequency polling rates.\n\nUnderstanding how hardware reports physical contact laid the foundation for creating realistic stroke dynamics in the Unova Engine.",
+        "pt": "Entrar no universo das mesas digitalizadoras significou encarar sensores de hardware em nível baixo. No `Tabevents.py`, começamos a interceptar pacotes brutos: níveis de pressão (0.0 a 1.0), ângulos de inclinação e altas frequências de amostragem.\n\nCompreender a telemetria do contato físico lançou os fundamentos para modelar a dinâmica do traço na Unova Engine."
+      },
+      "image": "assets/images/devlog/04_fase2_pressao_sensores.png",
+      "link": ""
+    },
+    {
+      "id": "post-03",
+      "date": "2024-09-05",
+      "tag": {
+        "en": "Camera & Viewport",
+        "pt": "Câmera e Viewport"
+      },
+      "title": {
+        "en": "Building the Camera: Pan, Zoom, Rotation & Coordinate Projection",
+        "pt": "Construindo a Câmera: Pan, Zoom, Rotação e Projeção de Coordenadas"
+      },
+      "body": {
+        "en": "Drawing requires a canvas that can rotate, scale, and navigate effortlessly. In `canvas_viewport_camera.py`, we created our first interactive camera system.\n\nWe implemented bidirectional coordinate mapping between Screen Space (pixels on the monitor) and Canvas Space (sub-pixel floating-point coordinates), giving the artist unrestricted pan, zoom, and free rotation controls.",
+        "pt": "Desenhar com liberdade exige um papel que gire, amplie e navegue confortavelmente. No `canvas_viewport_camera.py`, criamos nosso primeiro sistema interativo de câmera.\n\nImplementamos o mapeamento bidirecional entre o Espaço da Tela (pixels do monitor) e o Espaço do Canvas (coordenadas flutuantes sub-pixel), permitindo navegação livre com pan, zoom e rotação contínua."
+      },
+      "image": "assets/images/devlog/03_fase1_canvas_viewport.png",
+      "link": ""
+    },
+    {
+      "id": "post-02",
+      "date": "2024-08-22",
+      "tag": {
+        "en": "Procedural Brushes",
+        "pt": "Pincéis Procedurais"
+      },
+      "title": {
+        "en": "Web Sandboxes & Dab Spacing: The Anatomy of a Digital Brush",
+        "pt": "Sandboxes Web e Espaçamento de Dabs: A Anatomia de um Pincel Digital"
+      },
+      "body": {
+        "en": "How does a computer draw a line? It stamps overlapping circular dabs in rapid succession along a path. In `Template_Brush.py` and our web sandboxes, we explored dab spacing ratios and shape masks.\n\nWe tested procedural circles, squares, and heightmaps, learning how dab density directly dictates performance versus visual continuity.",
+        "pt": "Como um computador desenha uma linha contínua? Ele carimba círculos sobrepostos em sucessão rápida ao longo do caminho. No `Template_Brush.py` e em sandboxes web, investigamos o espaçamento relativo entre dabs e máscaras de ponta.\n\nTestamos formas procedurais circulares, quadradas e heightmaps, descobrindo como a densidade de carimbagem impacta diretamente a fluidez visual contra o custo de processamento."
+      },
+      "image": "assets/images/devlog/02_fase1_brush_sandbox.png",
+      "link": ""
+    },
+    {
+      "id": "post-01",
+      "date": "2024-08-10",
+      "tag": {
+        "en": "Point Zero",
+        "pt": "Ponto Zero"
+      },
+      "title": {
+        "en": "Point Zero: A Blank 300x200 Window and an Audacious Dream",
+        "pt": "Ponto Zero: Uma Janela Vazia de 300x200 e um Sonho Audacioso"
+      },
+      "body": {
+        "en": "Every long odyssey begins with a single step. On August 10, 2024, without ever having written professional software before, I wrote seven lines of Python in `janela.py`:\n\n```python\nimport tkinter as tk\njanela = tk.Tk()\njanela.title('Minha Primeira Janela')\njanela.geometry('300x200')\njanela.mainloop()\n```\n\nArmed only with high-school programming logic from 2016 and frontier AI models as collaborative mentors, this simple gray box sparked the ambition to create a world-class digital painting studio from absolute scratch.",
+        "pt": "Toda grande odisseia começa com um único passo. Em 10 de agosto de 2024, sem jamais ter escrito código comercial antes, digitei sete linhas de Python no arquivo `janela.py`:\n\n```python\nimport tkinter as tk\njanela = tk.Tk()\njanela.title('Minha Primeira Janela')\njanela.geometry('300x200')\njanela.mainloop()\n```\n\nArmado unicamente com noções de lógica de programação do ensino médio em 2016 e a parceria com modelos avançados de IA, essa caixinha cinza vazia foi o ponto de ignição para a criação de um estúdio de arte digital de alto desempenho."
+      },
+      "image": "assets/images/devlog/01_fase1_janela_tkinter.png",
       "link": ""
     }
   ],
   "links": [
-    { "label": "GitHub", "url": "", "icon": "◆" },
-    { "label": "Changelog", "url": "", "icon": "◆" }
+    {
+      "label": "GitHub",
+      "url": "https://github.com",
+      "icon": "◆"
+    },
+    {
+      "label": "ARCcC Architecture",
+      "url": "#studio-feed",
+      "icon": "◈"
+    }
   ]
 }

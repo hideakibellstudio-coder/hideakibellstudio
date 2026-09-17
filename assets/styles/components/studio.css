@@ -215,6 +215,7 @@
   font-size: var(--text-base);
   color: var(--color-text-secondary);
   line-height: var(--leading-relaxed);
+  white-space: pre-line;
 }
 
 .studio-post__link {
