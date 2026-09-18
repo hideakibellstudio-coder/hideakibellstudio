@@ -13,7 +13,7 @@
       "en": "v0.2.0 Alpha",
       "pt": "Lumenia"
     },
-    "version": "0.2.0",
+    "version": "ALPHA 0.0.13",
     "heroImage": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789618389/CAPA2.png",
     "cta": {
       "label": {
@@ -203,14 +203,6 @@
       "title": {
         "en": "Arbitrary ICC Profiles & RGBA16 Float Pipeline",
         "pt": "Perfis ICC Arbitrários & Pipeline RGBA16 Float"
-      },
-      "done": false
-    },
-    {
-      "phase": "1.0",
-      "title": {
-        "en": "Cross-Platform Commercial Release",
-        "pt": "Lançamento Comercial Multiplataforma"
       },
       "done": false
     }
