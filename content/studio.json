@@ -11,9 +11,9 @@
     },
     "status": {
       "en": "v0.2.0 Alpha",
-      "pt": "Lumenia ALPHA"
+      "pt": "v0.2.0 Alpha"
     },
-    "version": "0.0.13",
+    "version": "0.2.0",
     "heroImage": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789618389/CAPA2.png",
     "cta": {
       "label": {
@@ -205,6 +205,14 @@
         "pt": "Perfis ICC Arbitrários & Pipeline RGBA16 Float"
       },
       "done": false
+    },
+    {
+      "phase": "1.0",
+      "title": {
+        "en": "Cross-Platform Commercial Release",
+        "pt": "Lançamento Comercial Multiplataforma"
+      },
+      "done": false
     }
   ],
   "posts": [
@@ -243,7 +251,7 @@
         "pt": "O fluxo de trabalho em ilustração exige precisão cirúrgica ao manipular pixels já desenhados. Neste marco, finalizamos nossa suíte de seleção rápida e a ferramenta de Transformação Livre.\n\nA Varinha Mágica opera com algoritmos de inundação contígua otimizados para evitar frestas brancas sob a lineart através de expansão automática de borda de 1px. Ao redor das regiões ativas, a linha pontilhada 'marching ants' é animada a 60 FPS com visibilidade perfeita em qualquer tom de canvas. Pressionar Ctrl+T abre a bounding box com 8 alças e pivô reposicionável, permitindo rotações anatômicas naturais com reamostragem bicúbica nativa em C++."
       },
       "image": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789679958/3006d60a-13a7-46a7-9690-5f5518500297.png",
-      "video": "https://res.cloudinary.com/exkhrwyx/video/upload/v1789945585/Transforma%C3%A7%C3%A3o.mp4",
+      "video": "",
       "link": ""
     },
     {
