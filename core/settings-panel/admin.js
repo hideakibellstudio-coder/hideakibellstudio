@@ -632,7 +632,7 @@ function _populateStudioFields(content) {
   setValue('s-studio-intro-en', (intros.en || []).join('\n'));
   setValue('s-studio-intro-pt', (intros.pt || []).join('\n'));
 
-  // Support block (floating button + donation modal)
+  // Support block (dedicated payment/support area)
   const support = studio.support || {};
   const enabled = document.getElementById('s-support-enabled');
   if (enabled) enabled.checked = support.enabled !== false;

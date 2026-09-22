@@ -95,6 +95,17 @@
         </figure>
       </header>
 
+      <!-- Support / payment options (empty or unconfigured → section hidden) -->
+      <section class="studio__section studio-support-section" id="studio-support-section"
+               data-studio-section aria-labelledby="studio-support-title" hidden>
+        <div class="section-header reveal">
+          <span class="section-label" data-i18n="studio_support_eyebrow">Independent project</span>
+          <h2 class="section-title" id="studio-support-title">Support the project</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+        </div>
+        <div class="studio-support__content" id="studio-support-content"></div>
+      </section>
+
       <!-- Highlights (empty list → section hidden) -->
       <section class="studio__section" data-studio-section aria-label="Highlights">
         <div class="section-header reveal">
@@ -173,7 +184,7 @@
   <script src="core/studio/public/types/StudioTypes.js"></script>
   <script src="core/studio/private/renderer/index.js"></script>
   <script src="core/studio/private/devlog-carousel/index.js"></script>
-  <script src="core/studio/private/support-modal/index.js"></script>
+  <script src="core/studio/private/support-section/index.js"></script>
   <script src="core/studio/private/media-viewer/index.js"></script>
   <script src="core/studio/index.js"></script>
 

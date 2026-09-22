@@ -40,8 +40,8 @@ const StudioModule = (() => {
     if (typeof DevlogCarousel !== 'undefined') DevlogCarousel.init();
     // Fullscreen media viewer for feed captures/videos (idempotent)
     if (typeof MediaViewer !== 'undefined') MediaViewer.init();
-    // Floating support button + donation modal (hidden when nothing is configured)
-    if (typeof SupportModal !== 'undefined') SupportModal.render(_content.support);
+    // Dedicated support/payment area (hidden when nothing is configured)
+    if (typeof SupportSection !== 'undefined') SupportSection.render(_content.support);
   }
 
   return Object.freeze({ init, update });

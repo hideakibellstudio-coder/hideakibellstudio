@@ -14,9 +14,9 @@
  * @property {StudioRoadmap[]}   roadmap     — optional; empty hides the section
  * @property {StudioPost[]}      posts       — optional; empty hides the section
  * @property {StudioLink[]}      links       — optional; empty hides the section
- * @property {StudioSupport}     support     — optional; the floating support button
- *                                             only appears when a method URL or a
- *                                             QR image is actually configured
+ * @property {StudioSupport}     support     — optional; the dedicated support/payment
+ *                                             section only appears when a method URL,
+ *                                             QR image or Pix key is configured
  *
  * @typedef {Object} StudioMeta
  * @property {string} slug
@@ -53,8 +53,8 @@
  *
  * @typedef {Object} StudioSupport
  * @property {boolean} enabled                — master switch (default: true)
- * @property {string|object} title            — modal title
- * @property {string|object} buttonLabel      — floating button label / aria-label
+ * @property {string|object} title            — support section title
+ * @property {string|object} buttonLabel      — retained for compatibility with older content
  * @property {Object|string[]} story          — paragraphs explaining the project
  * @property {string} qrImage                 — optional QR image (assets/… or https)
  * @property {string|object} qrCaption

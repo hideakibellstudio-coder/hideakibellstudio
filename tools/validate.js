@@ -70,7 +70,7 @@ try {
   ['highlights', 'roadmap', 'posts', 'links'].forEach((k) => {
     if (!Array.isArray(studio[k])) fail(`content/studio.json: "${k}" deve ser array`);
   });
-  // Support block (floating donation button) — optional, validated when present
+  // Support block (dedicated payment area) — optional, validated when present
   if (studio.support !== undefined) {
     const support = studio.support;
     if (!support || typeof support !== 'object' || Array.isArray(support)) {
@@ -98,7 +98,7 @@ const REQUIRED = {
   'art.html': ['nav-link-art', 'gallery-grid', 'gallery-filters', 'nsfw-checkbox', 'gallery-load-more', 'lang-switch-btn', 'theme-toggle-btn'],
   'about.html': ['nav-link-about', 'about-avatar', 'about-bio', 'about-specialties', 'about-stat-years', 'about-stat-projects', 'about-stat-clients', 'lang-switch-btn', 'theme-toggle-btn'],
   'contact.html': ['nav-link-contact', 'contact-socials', 'contact-email', 'lang-switch-btn', 'theme-toggle-btn'],
-  'studio.html': ['nav-link-studio', 'studio-root', 'studio-highlights', 'studio-posts', 'studio-roadmap', 'studio-links', 'lang-switch-btn'],
+  'studio.html': ['nav-link-studio', 'studio-root', 'studio-support-section', 'studio-support-content', 'studio-support-title', 'studio-highlights', 'studio-posts', 'studio-roadmap', 'studio-links', 'lang-switch-btn'],
   'admin.html': ['gate-overlay', 'gate-pass', 'gate-confirm', 'gate-submit', 'gate-error', 'nav-btn-studio', 'nav-btn-publish',
                  'pane-studio', 'pane-publish', 'studio-highlights-editor', 'studio-posts-editor', 'studio-roadmap-editor', 'studio-links-editor',
                  'studio-support-methods-editor', 's-support-enabled', 's-support-title-en', 's-support-story-pt', 's-support-qr', 's-support-pix',
