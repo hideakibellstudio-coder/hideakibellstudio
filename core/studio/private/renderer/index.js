@@ -141,6 +141,7 @@ const StudioRenderer = (() => {
         <div class="devlog__bar">
           <button class="devlog__nav" type="button" data-devlog-prev aria-label="${_esc(I18n.t('studio_feed_prev'))}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            <span class="devlog__nav-label">${_esc(I18n.t('studio_feed_prev_hint'))}</span>
           </button>
 
           <p class="devlog__status">
@@ -150,6 +151,7 @@ const StudioRenderer = (() => {
 
           <button class="devlog__nav" type="button" data-devlog-next aria-label="${_esc(I18n.t('studio_feed_next'))}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            <span class="devlog__nav-label">${_esc(I18n.t('studio_feed_next_hint'))}</span>
           </button>
 
           <button class="devlog__viewall" type="button" data-devlog-viewall aria-pressed="false">${_esc(I18n.t('studio_feed_view_all'))}</button>

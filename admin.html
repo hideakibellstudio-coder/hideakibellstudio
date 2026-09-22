@@ -9,6 +9,9 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>" />
 
+  <!-- Apply the saved color theme before styles render -->
+  <script src="assets/js/theme-init.js"></script>
+
   <!-- Core Styles -->
   <link rel="stylesheet" href="assets/styles/design-system/tokens.css" />
   <link rel="stylesheet" href="assets/styles/index.css" />
@@ -513,7 +516,7 @@
     .admin-actions-bar {
       position: sticky;
       bottom: var(--space-4);
-      background: rgba(16, 16, 16, 0.95);
+      background: var(--color-bg-secondary);
       backdrop-filter: blur(12px);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
@@ -655,6 +658,15 @@
             <button type="button" data-mode="pt" id="langmode-pt">PT</button>
             <button type="button" data-mode="en" id="langmode-en">EN</button>
           </div>
+          <button class="theme-toggle" id="theme-toggle-btn" aria-label="Switch to light mode" title="Light mode">
+            <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </button>
           <button class="lang-switch" id="lang-switch-btn" aria-label="Switch Language" title="Mudar Idioma">EN</button>
         </div>
       </header>
@@ -983,26 +995,35 @@
         </div>
 
         <div class="form-section">
-          <h2 class="form-section-title">Support / Doações (área separada)</h2>
+          <h2 class="form-section-title">Support / Doações</h2>
           <p class="hint-block" style="margin-bottom:var(--space-6);">
-            Área dedicada com opções de pagamento e uma explicação de que o projeto é
-            independente, solo e de tempo integral. A área só aparece no site quando existe
-            uma opção de pagamento configurada (link, chave Pix ou imagem de QR).<br />
-            <strong>LivePix</strong>: cobre Pix, cartão de crédito e pagamentos internacionais em um
-            único link — o caminho mais direto para o público brasileiro.
-            <strong>Stripe</strong>: Payment Link para cartões internacionais e apoio recorrente.
+            O botão flutuante abre um modal explicando o projeto e mostrando as formas de apoio.
+            Ele aparece sempre que estiver habilitado, mesmo antes de configurar os pagamentos.
           </p>
           <div class="form-grid">
             <div class="field-group" style="flex-direction:row;align-items:center;gap:8px;">
               <input type="checkbox" id="s-support-enabled" style="cursor:pointer;" />
-              <label class="admin-label" for="s-support-enabled" style="cursor:pointer;">Mostrar a área de apoio</label>
+              <label class="admin-label" for="s-support-enabled" style="cursor:pointer;">Exibir botão flutuante de apoio</label>
             </div>
+            <div class="field-group full-width">
+              <label class="admin-label" for="s-support-livepix-url">Link da página LivePix (opcional)</label>
+              <input class="admin-input" id="s-support-livepix-url" type="url" placeholder="https://livepix.gg/…" />
+              <small class="admin-help">O botão de apoio continua visível mesmo sem este link.</small>
+            </div>
+            <div class="field-group full-width">
+              <label class="admin-label" for="s-support-qr">Link direto para imagem PNG do QR Code (opcional)</label>
+              <input class="admin-input" id="s-support-qr" type="url" placeholder="https://…/pix-qr.png" />
+              <small class="admin-help">Cole o endereço da própria imagem PNG, não o link de uma página ou widget.</small>
+            </div>
+            <details class="admin-inline-details full-width">
+              <summary>Personalizar o texto do modal (opcional)</summary>
+              <div class="form-grid">
             <div class="field-group" data-lang="en">
-              <label class="admin-label" for="s-support-title-en">Support area title (EN)</label>
+              <label class="admin-label" for="s-support-title-en">Modal title (EN)</label>
               <input class="admin-input" id="s-support-title-en" type="text" />
             </div>
             <div class="field-group" data-lang="pt">
-              <label class="admin-label" for="s-support-title-pt">Título da área de apoio (PT)</label>
+              <label class="admin-label" for="s-support-title-pt">Título do modal (PT)</label>
               <input class="admin-input" id="s-support-title-pt" type="text" />
             </div>
             <div class="field-group" data-lang="en">
@@ -1020,10 +1041,6 @@
             <div class="field-group full-width" data-lang="pt">
               <label class="admin-label" for="s-support-story-pt">História (PT) — um parágrafo por linha</label>
               <textarea class="admin-textarea" id="s-support-story-pt" rows="4"></textarea>
-            </div>
-            <div class="field-group full-width">
-              <label class="admin-label" for="s-support-qr">QR image path / URL (vazio = sem QR)</label>
-              <input class="admin-input" id="s-support-qr" type="text" placeholder="assets/images/support/livepix-qr.png ou https://…" />
             </div>
             <div class="field-group" data-lang="en">
               <label class="admin-label" for="s-support-qr-caption-en">QR caption (EN)</label>
@@ -1045,11 +1062,17 @@
               <label class="admin-label" for="s-support-thanks-pt">Agradecimento (PT)</label>
               <input class="admin-input" id="s-support-thanks-pt" type="text" />
             </div>
+              </div>
+            </details>
           </div>
-          <div class="list-actions">
-            <button class="btn-secondary" type="button" data-add-list="support.methods">+ Add method</button>
-          </div>
-          <div class="studio-editor-list" id="studio-support-methods-editor"></div>
+          <details class="admin-inline-details admin-inline-details--methods">
+            <summary>Outros links de pagamento (opcional)</summary>
+            <p class="admin-help">Use esta lista apenas para serviços além de LivePix e QR Pix.</p>
+            <div class="list-actions">
+              <button class="btn-secondary" type="button" data-add-list="support.methods">+ Adicionar outro método</button>
+            </div>
+            <div class="studio-editor-list" id="studio-support-methods-editor"></div>
+          </details>
         </div>
 
       </section>
@@ -1185,6 +1208,7 @@
 
   <!-- Core — access gate + language -->
   <script src="core/admin-gate/index.js"></script>
+  <script src="core/theme-toggle/index.js"></script>
   <script src="core/language/index.js"></script>
 
   <!-- Dashboard core script -->

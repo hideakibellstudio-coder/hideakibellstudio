@@ -7,10 +7,9 @@
  * space from the devlog they came to read.
  *
  * Rules:
- *   · Fail closed — the button only exists when the content really offers
- *     something: a method URL (LivePix/Stripe) or a QR image.
- *   · Out of the way — it hides while the reader scrolls down, hides while the
- *     modal is open, and the studio footer keeps clearance under it.
+ *   · The floating button is available whenever support is enabled, even
+ *     before a payment link or QR image has been configured.
+ *   · The modal keeps the project explanation and payment options in one place.
  *   · Content-driven — every text, QR and link comes from content/studio.json
  *     (`support`), so nothing about payments is hardcoded here.
  *
@@ -83,18 +82,25 @@ const SupportModal = (() => {
   // ── Content checks ─────────────────────────────────────────
 
   function _hasSomethingToOffer() {
-    return !!(_support && _support.enabled !== false && (_methods().length || _qr()));
+    return !!(_support && _support.enabled !== false);
   }
 
   function _qr() {
-    return _support ? _safeUrl(_support.qrImage) : '';
+    if (!_support) return '';
+    const qr = _safeUrl(_support.qrImage);
+    const methods = Array.isArray(_support.methods) ? _support.methods : [];
+    const livepix = _safeUrl(_support.livepixUrl)
+      || _safeUrl(methods.find((method) => method && String(method.id || '').toLowerCase() === 'livepix')?.url);
+    return qr && qr !== livepix ? qr : '';
   }
 
   /** Methods with a usable URL, primary first. */
   function _methods() {
     const list = Array.isArray(_support && _support.methods) ? _support.methods : [];
+    const legacyLivePix = list.find((method) => method && String(method.id || '').toLowerCase() === 'livepix');
+    const livepixUrl = _safeUrl(_support && _support.livepixUrl) || _safeUrl(legacyLivePix && legacyLivePix.url);
     const out = list
-      .filter((method) => method && _safeUrl(method.url))
+      .filter((method) => method && !(String(method.id || '').toLowerCase() === 'livepix' && livepixUrl) && _safeUrl(method.url))
       .map((method) => ({
         icon: method.icon || '◆',
         label: I18n.tField(method.label) || method.id || _t('Support', 'Apoiar'),
@@ -102,6 +108,16 @@ const SupportModal = (() => {
         url: _safeUrl(method.url),
         primary: !!method.primary,
       }));
+
+    if (livepixUrl) {
+      out.unshift({
+        icon: (legacyLivePix && legacyLivePix.icon) || '💗',
+        label: I18n.tField(legacyLivePix && legacyLivePix.label) || 'LivePix',
+        note: I18n.tField(legacyLivePix && legacyLivePix.note) || _t('Pix · cards · international', 'Pix · cartão · internacional'),
+        url: livepixUrl,
+        primary: legacyLivePix ? legacyLivePix.primary !== false : true,
+      });
+    }
 
     const primaryIndex = out.findIndex((method) => method.primary);
     if (primaryIndex > 0) out.unshift(out.splice(primaryIndex, 1)[0]);
@@ -174,19 +190,25 @@ const SupportModal = (() => {
     if (closeBtn) closeBtn.setAttribute('aria-label', I18n.t('studio_support_close'));
 
     const scroll = _dialog.querySelector('.support-modal__scroll');
-    if (scroll) scroll.innerHTML = _dialogHtml();
+    if (scroll) {
+      scroll.innerHTML = _dialogHtml();
+      scroll.querySelectorAll('.support-qr__image').forEach((image) => {
+        image.addEventListener('error', () => image.closest('.support-qr')?.setAttribute('hidden', ''), { once: true });
+      });
+    }
   }
 
   // ── Markup ─────────────────────────────────────────────────
 
   function _dialogHtml() {
-    const title = I18n.tField(_support.title);
+    const title = I18n.tField(_support.title) || _t('Support this independent project', 'Apoie este projeto independente');
     const story = I18n.tFieldArray(_support.story).filter(Boolean);
     const qr = _qr();
     const caption = I18n.tField(_support.qrCaption);
     const pixKey = String(_support.pixKey || '').trim();
     const methods = _methods();
     const thanks = I18n.tField(_support.thanks);
+    const hasPaymentOptions = !!(qr || pixKey || methods.length);
 
     return `
       <p class="support-modal__eyebrow">${_esc(I18n.t('studio_support_eyebrow'))}</p>
@@ -194,31 +216,36 @@ const SupportModal = (() => {
 
       ${story.map((paragraph) => `<p class="support-modal__text">${_esc(paragraph)}</p>`).join('')}
 
-      ${qr ? `
-      <figure class="support-qr">
-        <img class="support-qr__image" src="${_esc(qr)}" alt="${_esc(I18n.t('studio_support_qr_alt'))}" loading="lazy" />
-        ${caption ? `<figcaption class="support-qr__caption">${_esc(caption)}</figcaption>` : ''}
-      </figure>` : ''}
+      <section class="support-payment-options" aria-label="${_esc(I18n.t('studio_support_options_title'))}">
+        <h3 class="support-payment-options__title">${_esc(I18n.t('studio_support_options_title'))}</h3>
+        ${qr ? `
+        <figure class="support-qr">
+          <img class="support-qr__image" src="${_esc(qr)}" alt="${_esc(I18n.t('studio_support_qr_alt'))}" loading="lazy" />
+          ${caption ? `<figcaption class="support-qr__caption">${_esc(caption)}</figcaption>` : ''}
+        </figure>` : ''}
 
-      ${pixKey ? `
-      <div class="support-pix">
-        <code class="support-pix__key">${_esc(pixKey)}</code>
-        <button class="support-pix__copy" type="button" data-support-copy
-                data-copied-label="${_esc(I18n.t('studio_support_copied'))}">${_esc(I18n.t('studio_support_copy'))}</button>
-      </div>` : ''}
+        ${pixKey ? `
+        <div class="support-pix">
+          <code class="support-pix__key">${_esc(pixKey)}</code>
+          <button class="support-pix__copy" type="button" data-support-copy
+                  data-copied-label="${_esc(I18n.t('studio_support_copied'))}">${_esc(I18n.t('studio_support_copy'))}</button>
+        </div>` : ''}
 
-      ${methods.length ? `
-      <div class="support-methods">
-        ${methods.map((method) => `
-          <a class="support-method${method.primary ? ' is-primary' : ''}" href="${_esc(method.url)}" target="_blank" rel="noopener">
-            <span class="support-method__icon" aria-hidden="true">${_esc(method.icon)}</span>
-            <span class="support-method__body">
-              <span class="support-method__label">${_esc(method.label)}</span>
-              ${method.note ? `<span class="support-method__note">${_esc(method.note)}</span>` : ''}
-            </span>
-            <span class="support-method__arrow" aria-hidden="true">↗</span>
-          </a>`).join('')}
-      </div>` : ''}
+        ${methods.length ? `
+        <div class="support-methods">
+          ${methods.map((method) => `
+            <a class="support-method${method.primary ? ' is-primary' : ''}" href="${_esc(method.url)}" target="_blank" rel="noopener noreferrer">
+              <span class="support-method__icon" aria-hidden="true">${_esc(method.icon)}</span>
+              <span class="support-method__body">
+                <span class="support-method__label">${_esc(method.label)}</span>
+                ${method.note ? `<span class="support-method__note">${_esc(method.note)}</span>` : ''}
+              </span>
+              <span class="support-method__arrow" aria-hidden="true">↗</span>
+            </a>`).join('')}
+        </div>` : ''}
+
+        ${!hasPaymentOptions ? `<p class="support-payment-options__empty">${_esc(I18n.t('studio_support_options_empty'))}</p>` : ''}
+      </section>
 
       ${thanks ? `<p class="support-modal__thanks">${_esc(thanks)}</p>` : ''}
     `;
@@ -256,17 +283,6 @@ const SupportModal = (() => {
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
-
-    // Keep the reader's line of sight: the button steps aside while scrolling down
-    let lastY = window.scrollY;
-    window.addEventListener('scroll', () => {
-      if (!_fab) return;
-
-      const y = window.scrollY;
-      if (y < 140 || y < lastY - 4) _fab.classList.remove('is-hidden');
-      else if (y > lastY + 4) _fab.classList.add('is-hidden');
-      lastY = y;
-    }, { passive: true });
   }
 
   /** Copy the Pix key (clipboard API, with a legacy fallback). */

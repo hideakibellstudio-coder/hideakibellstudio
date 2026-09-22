@@ -14,9 +14,8 @@
  * @property {StudioRoadmap[]}   roadmap     — optional; empty hides the section
  * @property {StudioPost[]}      posts       — optional; empty hides the section
  * @property {StudioLink[]}      links       — optional; empty hides the section
- * @property {StudioSupport}     support     — optional; the dedicated support/payment
- *                                             section only appears when a method URL,
- *                                             QR image or Pix key is configured
+ * @property {StudioSupport}     support     — optional; controls the floating support
+ *                                             button and its payment modal
  *
  * @typedef {Object} StudioMeta
  * @property {string} slug
@@ -53,10 +52,11 @@
  *
  * @typedef {Object} StudioSupport
  * @property {boolean} enabled                — master switch (default: true)
- * @property {string|object} title            — support section title
+ * @property {string|object} title            — modal title
  * @property {string|object} buttonLabel      — retained for compatibility with older content
  * @property {Object|string[]} story          — paragraphs explaining the project
  * @property {string} qrImage                 — optional QR image (assets/… or https)
+ * @property {string} livepixUrl               — optional LivePix payment page URL
  * @property {string|object} qrCaption
  * @property {string} pixKey                  — optional Pix copy-and-paste key
  * @property {StudioSupportMethod[]} methods  — e.g. LivePix (Pix/card) + Stripe
@@ -71,13 +71,14 @@
  * @property {boolean} primary   — highlighted first (at most one)
  */
 
-/** Built-in support block — disabled by default (fail closed: nothing to click → nothing shown). */
+/** Built-in support block — disabled by default when no explicit content is supplied. */
 const DEFAULT_STUDIO_SUPPORT = Object.freeze({
   enabled: false,
   title:       { en: 'Support the project', pt: 'Apoie o projeto' },
   buttonLabel: { en: 'Support', pt: 'Apoiar' },
   story:       { en: [], pt: [] },
   qrImage: '',
+  livepixUrl: '',
   qrCaption:   { en: '', pt: '' },
   pixKey: '',
   methods: [],
@@ -144,8 +145,8 @@ function normalizeStudioContent(raw) {
 
 /**
  * Coerce the support block into a renderable shape.
- * `enabled` follows the content (absent = enabled); the floating button itself
- * is only rendered when a method URL or a QR image survives validation.
+ * `enabled` follows the content (absent = enabled); payment links and QR images
+ * are optional, so the enabled floating button can open an informational modal.
  * @param {*} raw
  * @returns {StudioSupport}
  */
@@ -161,6 +162,7 @@ function normalizeStudioSupport(raw) {
     buttonLabel: raw.buttonLabel || base.buttonLabel,
     story:       raw.story       || base.story,
     qrImage:     typeof raw.qrImage === 'string' ? raw.qrImage : '',
+    livepixUrl:  typeof raw.livepixUrl === 'string' ? raw.livepixUrl : '',
     qrCaption:   raw.qrCaption   || base.qrCaption,
     pixKey:      typeof raw.pixKey === 'string' ? raw.pixKey : '',
     methods:     Array.isArray(raw.methods) ? raw.methods.filter((m) => m && typeof m === 'object') : [],

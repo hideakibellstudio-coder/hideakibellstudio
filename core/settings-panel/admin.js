@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Init infrastructure and i18n
   I18n.init();
+  if (typeof ThemeToggleModule !== 'undefined') ThemeToggleModule.init();
 
   // The dashboard only boots after the access gate is satisfied
   GateUI.init(() => { _bootDashboard(); });
@@ -51,6 +52,33 @@ async function _bootDashboard() {
 
   // Publish / security pane (needs the current form values when publishing)
   Publisher.init({ collect: _collectContent });
+  _setupAdminAccordions();
+}
+
+/** Keep long settings panes compact while leaving every field in the DOM. */
+function _setupAdminAccordions() {
+  document.querySelectorAll('.admin-pane').forEach((pane) => {
+    const sections = Array.from(pane.querySelectorAll(':scope > .form-section'));
+    sections.forEach((section, index) => {
+      const heading = section.querySelector(':scope > .form-section-title');
+      if (!heading) return;
+
+      const accordion = document.createElement('details');
+      accordion.className = 'form-section admin-accordion';
+      accordion.open = index === 0;
+
+      const summary = document.createElement('summary');
+      summary.className = 'form-section-title';
+      summary.textContent = heading.textContent.trim();
+
+      const body = document.createElement('div');
+      body.className = 'admin-accordion__body';
+      while (heading.nextSibling) body.appendChild(heading.nextSibling);
+
+      accordion.append(summary, body);
+      section.replaceWith(accordion);
+    });
+  });
 }
 
 // ── Navigation tabs switching ────────────────────────────────
@@ -638,7 +666,12 @@ function _populateStudioFields(content) {
   if (enabled) enabled.checked = support.enabled !== false;
   setPair('s-support-title', support.title);
   setPair('s-support-button', support.buttonLabel);
-  setValue('s-support-qr', support.qrImage);
+  const supportMethods = Array.isArray(support.methods) ? support.methods : [];
+  const livepixMethod = supportMethods.find((method) => String(method.id || '').toLowerCase() === 'livepix');
+  setValue('s-support-livepix-url', support.livepixUrl || (livepixMethod && livepixMethod.url));
+  const qrIsLivepixPage = /widget\.livepix\.gg\/embed\//i.test(support.qrImage || '')
+    && support.qrImage === (livepixMethod && livepixMethod.url);
+  setValue('s-support-qr', qrIsLivepixPage ? '' : support.qrImage);
   setPair('s-support-qr-caption', support.qrCaption);
   setValue('s-support-pix', support.pixKey);
   setPair('s-support-thanks', support.thanks);
@@ -646,7 +679,12 @@ function _populateStudioFields(content) {
   setValue('s-support-story-en', (story.en || []).join('\n'));
   setValue('s-support-story-pt', (story.pt || []).join('\n'));
 
-  StudioEditor.mount(studio);
+  const editorContent = Object.assign({}, studio, {
+    support: Object.assign({}, support, {
+      methods: supportMethods.filter((method) => String(method.id || '').toLowerCase() !== 'livepix'),
+    }),
+  });
+  StudioEditor.mount(editorContent);
 }
 
 // ── Read the Software Area form back into a content object ───
@@ -692,7 +730,9 @@ function _collectStudio() {
       qrImage:   value('s-support-qr'),
       qrCaption: pair('s-support-qr-caption'),
       pixKey:    value('s-support-pix'),
-      methods:   (lists.support && lists.support.methods) || [],
+      livepixUrl: value('s-support-livepix-url'),
+      methods:   ((lists.support && lists.support.methods) || [])
+        .filter((method) => String(method.id || '').toLowerCase() !== 'livepix'),
       thanks:    pair('s-support-thanks'),
     },
   };
