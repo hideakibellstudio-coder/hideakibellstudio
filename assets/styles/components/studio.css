@@ -231,6 +231,178 @@
 
 .studio-post__link:hover { color: var(--color-text-primary); }
 
+/* ── Devlog carousel (one entry per view) ─────────────────── */
+/* The track is a native scroll-snap container, so touch swipe, momentum and
+   keyboard scrolling come from the browser; JS only drives the controls. */
+.devlog { margin-top: var(--space-10); }
+
+.devlog__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.devlog__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: none;
+  transition:
+    color        var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background   var(--duration-fast) var(--ease-out);
+}
+
+.devlog__nav:hover:not(:disabled) {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+}
+
+.devlog__nav:disabled { opacity: 0.3; }
+
+.devlog__nav svg { width: 16px; height: 16px; }
+
+.devlog__status {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-tertiary);
+}
+
+.devlog__counter {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.devlog__current {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.devlog__viewall {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  cursor: none;
+  transition:
+    color        var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background   var(--duration-fast) var(--ease-out);
+}
+
+.devlog__viewall:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+}
+
+.devlog__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  border-radius: var(--radius-lg);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.devlog__viewport::-webkit-scrollbar { display: none; }
+
+.devlog__viewport:focus-visible {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.devlog__track { display: flex; align-items: stretch; }
+
+.devlog__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: calc(var(--nav-height) + var(--space-6));
+}
+
+/* "View all" → the same entries as a plain vertical list */
+.devlog[data-devlog-mode="all"] .devlog__viewport { overflow: visible; }
+.devlog[data-devlog-mode="all"] .devlog__track { display: block; }
+.devlog[data-devlog-mode="all"] .devlog__slide { width: auto; }
+.devlog[data-devlog-mode="all"] .devlog__slide + .devlog__slide { margin-top: var(--space-8); }
+.devlog[data-devlog-mode="all"] .devlog__dots { display: none; }
+
+.devlog__dots {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.devlog__dots::-webkit-scrollbar { display: none; }
+
+.devlog__dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border: 0;
+  background: none;
+  cursor: none;
+}
+
+.devlog__dot span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-border-strong);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    transform  var(--duration-fast) var(--ease-out);
+}
+
+.devlog__dot:hover span { background: var(--color-accent); }
+
+.devlog__dot[aria-current="true"] span {
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent-glow);
+  transform: scale(1.4);
+}
+
+@media (max-width: 700px) {
+  .devlog__current { display: none; }
+  .devlog__nav { width: 36px; height: 36px; }
+  .devlog__viewall { padding: var(--space-2) var(--space-4); }
+}
+
 /* ── Roadmap ─────────────────────────────────────────────── */
 .studio-roadmap {
   list-style: none;

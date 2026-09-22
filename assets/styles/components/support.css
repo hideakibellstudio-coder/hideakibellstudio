@@ -1,0 +1,348 @@
+/* ==========================================================
+   SUPPORT — Floating support button + donation modal
+   ARCcC: assets/styles/components/support.css
+   Used by the Software area (core/studio/private/support-modal).
+   ========================================================== */
+
+/* ── Floating button ─────────────────────────────────────── */
+/* z-index 300 (--z-panel): above the page, below the fullscreen media
+   viewer (350) and below the custom cursor (400) so the cursor stays visible. */
+.studio-support {
+  position: fixed;
+  right: var(--space-6);
+  bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-panel);
+  display: inline-flex;
+  align-items: center;
+  height: 52px;
+  min-width: 52px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg);
+  cursor: none;
+  overflow: hidden;
+  transition:
+    opacity      var(--duration-normal) var(--ease-out),
+    transform    var(--duration-normal) var(--ease-out),
+    border-color var(--duration-fast)   var(--ease-out),
+    box-shadow   var(--duration-fast)   var(--ease-out);
+}
+
+.studio-support:hover,
+.studio-support:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 26px var(--color-accent-glow);
+  transform: translateY(-2px);
+}
+
+/* Steps aside while the reader scrolls down, and while the modal is open */
+.studio-support.is-hidden,
+body.is-support-open .studio-support {
+  opacity: 0;
+  transform: translateY(24px);
+  pointer-events: none;
+}
+
+.studio-support__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.studio-support__icon svg { width: 22px; height: 22px; }
+
+.studio-support__label {
+  max-width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition:
+    max-width  var(--duration-normal) var(--ease-out),
+    margin-left var(--duration-normal) var(--ease-out),
+    opacity    var(--duration-normal) var(--ease-out);
+}
+
+.studio-support:hover .studio-support__label,
+.studio-support:focus-visible .studio-support__label {
+  max-width: 220px;
+  margin-left: var(--space-3);
+  opacity: 1;
+}
+
+/* Clearance so the button never sits on top of the last content */
+[data-page="studio"] .site-footer { padding-bottom: calc(var(--space-12) + 64px); }
+
+@media (hover: none) {
+  .studio-support__label { display: none; }
+}
+
+@media (max-width: 700px) {
+  .studio-support {
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    height: 48px;
+    min-width: 48px;
+    padding: 0 13px;
+  }
+  .studio-support__icon svg { width: 20px; height: 20px; }
+}
+
+@media print {
+  .studio-support, .support-modal { display: none; }
+}
+
+/* ── Donation modal ──────────────────────────────────────── */
+/* z-index 360: above the button and the nav, still below the custom
+   cursor (--z-top: 400) — same rule the media viewer follows. */
+.support-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 360;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: rgba(5, 5, 7, 0.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: support-fade var(--duration-normal) var(--ease-out);
+}
+
+.support-modal[hidden] { display: none; }
+
+.support-modal__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 520px);
+  max-height: min(88dvh, 760px);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  animation: support-rise var(--duration-normal) var(--ease-out);
+}
+
+.support-modal__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: none;
+  transition:
+    color        var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background   var(--duration-fast) var(--ease-out);
+}
+
+.support-modal__close:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+}
+
+.support-modal__scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-12) var(--space-8) var(--space-8);
+}
+
+.support-modal__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.support-modal__title {
+  margin-top: var(--space-3);
+  padding-right: var(--space-10);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.support-modal__text {
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* QR code */
+.support-qr { margin-top: var(--space-6); text-align: center; }
+
+.support-qr__image {
+  width: min(100%, 240px);
+  height: auto;
+  padding: var(--space-3);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.support-qr__caption {
+  margin-top: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-tertiary);
+}
+
+/* Pix copy-and-paste key */
+.support-pix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.support-pix__key {
+  flex: 1 1 220px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.support-pix__copy {
+  flex: 0 0 auto;
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  cursor: none;
+  transition:
+    color        var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background   var(--duration-fast) var(--ease-out);
+}
+
+.support-pix__copy:hover,
+.support-pix__copy.is-copied {
+  color: var(--color-accent);
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-dim);
+}
+
+/* Support methods (LivePix, Stripe, …) */
+.support-methods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.support-method {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background   var(--duration-fast) var(--ease-out),
+    transform    var(--duration-fast) var(--ease-out);
+}
+
+.support-method.is-primary {
+  border-color: var(--color-accent-glow);
+  background: var(--color-accent-soft);
+}
+
+.support-method:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.support-method__icon { font-size: var(--text-xl); line-height: 1; }
+
+.support-method__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.support-method__label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.support-method__note {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.support-method__arrow { color: var(--color-accent); }
+
+.support-modal__thanks {
+  margin-top: var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-tertiary);
+}
+
+@keyframes support-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes support-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .support-modal,
+  .support-modal__panel { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .support-modal { align-items: flex-end; padding: var(--space-4); }
+  .support-modal__panel { max-height: 90dvh; }
+  .support-modal__scroll { padding: var(--space-12) var(--space-5) var(--space-6); }
+  .support-modal__title { font-size: var(--text-xl); }
+}

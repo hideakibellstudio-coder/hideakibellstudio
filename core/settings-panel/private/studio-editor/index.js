@@ -12,6 +12,10 @@
  *   'bi'   — bilingual pair (en / pt) text inputs
  *   'bita' — bilingual pair (en / pt) textareas
  *   'bool' — checkbox
+ *
+ * A definition edits `content[def.key]` by default; when the list lives inside
+ * another object (e.g. `support.methods`) the definition declares `path`, and
+ * both reading and rendering follow that dotted path.
  */
 
 const StudioEditor = (() => {
@@ -72,6 +76,21 @@ const StudioEditor = (() => {
         { name: 'icon',  type: 'text', label: { en: 'Icon', pt: 'Ícone' } },
       ],
     },
+    {
+      key: 'methods',
+      path: 'support.methods',
+      mount: 'studio-support-methods-editor',
+      label: { en: 'Support method', pt: 'Método de apoio' },
+      template: { id: '', icon: '◆', label: '', note: { en: '', pt: '' }, url: '', primary: false },
+      fields: [
+        { name: 'id',      type: 'text', label: { en: 'Id (livepix, stripe…)', pt: 'Id (livepix, stripe…)' } },
+        { name: 'icon',    type: 'text', label: { en: 'Icon', pt: 'Ícone' } },
+        { name: 'label',   type: 'text', label: { en: 'Label', pt: 'Rótulo' } },
+        { name: 'note',    type: 'bi',   label: { en: 'Note', pt: 'Observação' } },
+        { name: 'url',     type: 'text', label: { en: 'URL (empty = hidden)', pt: 'URL (vazio = escondido)' } },
+        { name: 'primary', type: 'bool', label: { en: 'Primary', pt: 'Principal' } },
+      ],
+    },
   ]);
 
   /** @type {StudioContent} */
@@ -83,14 +102,34 @@ const StudioEditor = (() => {
    */
   function mount(content) {
     _content = normalizeStudioContent(content);
-    LIST_DEFS.forEach((def) => _renderList(def, _content[def.key] || []));
+    LIST_DEFS.forEach((def) => _renderList(def, _readPath(_content, _pathOf(def)) || []));
   }
 
   /** @returns {Object} the list part of the content (meta is handled elsewhere) */
   function read() {
     const out = {};
-    LIST_DEFS.forEach((def) => { out[def.key] = _readList(def); });
+    LIST_DEFS.forEach((def) => { _writePath(out, _pathOf(def), _readList(def)); });
     return out;
+  }
+
+  // ── Dotted paths (list may live inside another object) ─────
+
+  function _pathOf(def) {
+    return def.path || def.key;
+  }
+
+  function _readPath(source, path) {
+    return path.split('.').reduce((acc, key) => (acc && typeof acc === 'object' ? acc[key] : undefined), source);
+  }
+
+  function _writePath(target, path, value) {
+    const keys = path.split('.');
+    let cursor = target;
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) { cursor[key] = value; return; }
+      if (!cursor[key] || typeof cursor[key] !== 'object') cursor[key] = {};
+      cursor = cursor[key];
+    });
   }
 
   // ── Rendering ──────────────────────────────────────────────
@@ -101,7 +140,7 @@ const StudioEditor = (() => {
 
     container.innerHTML = '';
 
-    const addBtn = document.querySelector(`[data-add-list="${def.key}"]`);
+    const addBtn = document.querySelector(`[data-add-list="${_pathOf(def)}"]`);
     if (addBtn) {
       addBtn.textContent = _t({ en: `+ Add ${def.label.en}`, pt: `+ Adicionar ${def.label.pt}` });
       addBtn.onclick = () => {
@@ -258,7 +297,7 @@ const StudioEditor = (() => {
 
   /** Insert an item at the top of a list (used by the post composer). */
   function prepend(key, item) {
-    const def = LIST_DEFS.find((d) => d.key === key);
+    const def = LIST_DEFS.find((d) => _pathOf(d) === key || d.key === key);
     if (!def) return false;
     const items = _readList(def);
     items.unshift(_clone(item));

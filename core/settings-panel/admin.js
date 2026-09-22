@@ -632,6 +632,20 @@ function _populateStudioFields(content) {
   setValue('s-studio-intro-en', (intros.en || []).join('\n'));
   setValue('s-studio-intro-pt', (intros.pt || []).join('\n'));
 
+  // Support block (floating button + donation modal)
+  const support = studio.support || {};
+  const enabled = document.getElementById('s-support-enabled');
+  if (enabled) enabled.checked = support.enabled !== false;
+  setPair('s-support-title', support.title);
+  setPair('s-support-button', support.buttonLabel);
+  setValue('s-support-qr', support.qrImage);
+  setPair('s-support-qr-caption', support.qrCaption);
+  setValue('s-support-pix', support.pixKey);
+  setPair('s-support-thanks', support.thanks);
+  const story = support.story || {};
+  setValue('s-support-story-en', (story.en || []).join('\n'));
+  setValue('s-support-story-pt', (story.pt || []).join('\n'));
+
   StudioEditor.mount(studio);
 }
 
@@ -667,6 +681,20 @@ function _collectStudio() {
     roadmap:    lists.roadmap,
     posts:      lists.posts,
     links:      lists.links,
+    support: {
+      enabled: document.getElementById('s-support-enabled')?.checked !== false,
+      title:       pair('s-support-title'),
+      buttonLabel: pair('s-support-button'),
+      story: {
+        en: lines('s-support-story-en'),
+        pt: lines('s-support-story-pt'),
+      },
+      qrImage:   value('s-support-qr'),
+      qrCaption: pair('s-support-qr-caption'),
+      pixKey:    value('s-support-pix'),
+      methods:   (lists.support && lists.support.methods) || [],
+      thanks:    pair('s-support-thanks'),
+    },
   };
 }
 

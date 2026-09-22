@@ -36,8 +36,12 @@ const StudioModule = (() => {
   function _render() {
     if (!document.getElementById('studio-root')) return;
     StudioRenderer.render(_content);
+    // Devlog carousel: one entry per view, "view all" restores the plain list
+    if (typeof DevlogCarousel !== 'undefined') DevlogCarousel.init();
     // Fullscreen media viewer for feed captures/videos (idempotent)
     if (typeof MediaViewer !== 'undefined') MediaViewer.init();
+    // Floating support button + donation modal (hidden when nothing is configured)
+    if (typeof SupportModal !== 'undefined') SupportModal.render(_content.support);
   }
 
   return Object.freeze({ init, update });

@@ -982,6 +982,76 @@
           <div class="studio-editor-list" id="studio-links-editor"></div>
         </div>
 
+        <div class="form-section">
+          <h2 class="form-section-title">Support / Doações (botão flutuante)</h2>
+          <p class="hint-block" style="margin-bottom:var(--space-6);">
+            Botão flutuante com ícone de QR code que abre um modal explicando que o projeto é
+            independente, solo e de tempo integral. Ele só aparece no site quando existe
+            algo para clicar (um método com URL ou uma imagem de QR) — nada é exibido "vazio".<br />
+            <strong>LivePix</strong>: cobre Pix, cartão de crédito e pagamentos internacionais em um
+            único link — o caminho mais direto para o público brasileiro.
+            <strong>Stripe</strong>: Payment Link para cartões internacionais e apoio recorrente.
+          </p>
+          <div class="form-grid">
+            <div class="field-group" style="flex-direction:row;align-items:center;gap:8px;">
+              <input type="checkbox" id="s-support-enabled" style="cursor:pointer;" />
+              <label class="admin-label" for="s-support-enabled" style="cursor:pointer;">Mostrar o botão de apoio</label>
+            </div>
+            <div class="field-group" data-lang="en">
+              <label class="admin-label" for="s-support-title-en">Modal title (EN)</label>
+              <input class="admin-input" id="s-support-title-en" type="text" />
+            </div>
+            <div class="field-group" data-lang="pt">
+              <label class="admin-label" for="s-support-title-pt">Título do modal (PT)</label>
+              <input class="admin-input" id="s-support-title-pt" type="text" />
+            </div>
+            <div class="field-group" data-lang="en">
+              <label class="admin-label" for="s-support-button-en">Button label (EN)</label>
+              <input class="admin-input" id="s-support-button-en" type="text" />
+            </div>
+            <div class="field-group" data-lang="pt">
+              <label class="admin-label" for="s-support-button-pt">Rótulo do botão (PT)</label>
+              <input class="admin-input" id="s-support-button-pt" type="text" />
+            </div>
+            <div class="field-group full-width" data-lang="en">
+              <label class="admin-label" for="s-support-story-en">Story (EN) — one paragraph per line</label>
+              <textarea class="admin-textarea" id="s-support-story-en" rows="4"></textarea>
+            </div>
+            <div class="field-group full-width" data-lang="pt">
+              <label class="admin-label" for="s-support-story-pt">História (PT) — um parágrafo por linha</label>
+              <textarea class="admin-textarea" id="s-support-story-pt" rows="4"></textarea>
+            </div>
+            <div class="field-group full-width">
+              <label class="admin-label" for="s-support-qr">QR image path / URL (vazio = sem QR)</label>
+              <input class="admin-input" id="s-support-qr" type="text" placeholder="assets/images/support/livepix-qr.png ou https://…" />
+            </div>
+            <div class="field-group" data-lang="en">
+              <label class="admin-label" for="s-support-qr-caption-en">QR caption (EN)</label>
+              <input class="admin-input" id="s-support-qr-caption-en" type="text" />
+            </div>
+            <div class="field-group" data-lang="pt">
+              <label class="admin-label" for="s-support-qr-caption-pt">Legenda do QR (PT)</label>
+              <input class="admin-input" id="s-support-qr-caption-pt" type="text" />
+            </div>
+            <div class="field-group full-width">
+              <label class="admin-label" for="s-support-pix">Pix copia e cola (opcional)</label>
+              <input class="admin-input" id="s-support-pix" type="text" placeholder="00020126…" />
+            </div>
+            <div class="field-group" data-lang="en">
+              <label class="admin-label" for="s-support-thanks-en">Thanks note (EN)</label>
+              <input class="admin-input" id="s-support-thanks-en" type="text" />
+            </div>
+            <div class="field-group" data-lang="pt">
+              <label class="admin-label" for="s-support-thanks-pt">Agradecimento (PT)</label>
+              <input class="admin-input" id="s-support-thanks-pt" type="text" />
+            </div>
+          </div>
+          <div class="list-actions">
+            <button class="btn-secondary" type="button" data-add-list="support.methods">+ Add method</button>
+          </div>
+          <div class="studio-editor-list" id="studio-support-methods-editor"></div>
+        </div>
+
       </section>
 
       <!-- 6. PUBLISH & SECURITY PANE (content/*.json + GitHub + gate) -->

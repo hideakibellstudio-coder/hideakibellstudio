@@ -106,14 +106,44 @@ console.log('\n[2] art.html (área de arte)');
 console.log('\n[3] studio.html (área de software, agnóstica)');
 {
   const { html, log } = dump(`${BASE}/studio.html`);
+
+  // Counts come from the content itself, so the test grows with the devlog
+  const studioJson = require('../content/studio.json');
+  const postCount      = (studioJson.posts || []).length;
+  const highlightCount = (studioJson.highlights || []).length;
+  const hasSafeUrl     = (url) => typeof url === 'string' && (/^(https?:\/\/|mailto:|#)/i.test(url) || url.startsWith('assets/'));
+  const contentLinks   = (studioJson.links || []).filter((l) => l && hasSafeUrl(l.url));
+
   assertNoJsErrors('studio.html', log);
   check('studio.html', 'nome vindo de content/studio.json', /data-studio="name"[^>]*>[^<]+</.test(html));
-  check('studio.html', 'highlights renderizados', count(html, 'studio-card__title') === 3, `(${count(html, 'studio-card__title')})`);
-  check('studio.html', 'entradas (feed) renderizadas', count(html, 'studio-post__title') >= 1);
+  check('studio.html', 'highlights renderizados', count(html, 'studio-card__title') === highlightCount, `(${count(html, 'studio-card__title')}/${highlightCount})`);
+  check('studio.html', 'entradas (feed) renderizadas', count(html, 'studio-post__title') === postCount, `(${count(html, 'studio-post__title')})`);
   check('studio.html', 'roadmap renderizado', count(html, 'studio-roadmap__item') >= 1);
   check('studio.html', 'versão exibida', /data-studio="version"[^>]*>v[^<]+</.test(html));
   check('studio.html', 'nav marca a área atual', /id="nav-link-studio"[^>]*aria-current="page"/.test(html));
-  check('studio.html', 'links sem URL não renderizam', count(html, 'class="studio-link" href') === 0);
+  check('studio.html', 'links renderizados conforme o conteúdo (fail closed)',
+    count(html, 'class="studio-link" href') === contentLinks.length,
+    `(${count(html, 'class="studio-link" href')}/${contentLinks.length})`);
+
+  // Carousel (one devlog entry per view)
+  check('studio.html', 'carrossel montado com todas as entradas',
+    has(html, 'data-devlog-viewport') && count(html, 'data-devlog-slide') === postCount,
+    `(${count(html, 'data-devlog-slide')}/${postCount})`);
+  check('studio.html', 'contador do carrossel inicia em 1 / total',
+    new RegExp(`data-devlog-counter[^>]*>1 / ${postCount}<`).test(html));
+  check('studio.html', 'um indicador (dot) por entrada', count(html, 'data-devlog-goto') === postCount, `(${count(html, 'data-devlog-goto')})`);
+  check('studio.html', 'somente a entrada ativa é exposta (inert)', count(html, 'inert') === postCount - 1, `(${count(html, 'inert')})`);
+  check('studio.html', 'seta anterior desabilitada na primeira entrada', /data-devlog-prev[^>]*disabled|disabled[^>]*data-devlog-prev/.test(html));
+
+  // Support button: rendered only when the content offers a method URL or a QR
+  const support = studioJson.support || {};
+  const supportMethods = (support.methods || []).filter((m) => m && /^https:\/\//i.test(m.url || ''));
+  const supportReady = support.enabled !== false &&
+    (supportMethods.length > 0 || /^(assets\/|https:\/\/)/i.test(support.qrImage || ''));
+  check('studio.html', 'botão de apoio consistente com o conteúdo',
+    supportReady ? has(html, 'id="studio-support-btn"') : !has(html, 'id="studio-support-btn"'));
+  check('studio.html', 'modal de apoio existe apenas fechado',
+    !has(html, 'id="studio-support-modal"') || /id="studio-support-modal"[^>]*hidden/.test(html));
 }
 
 // ── 4. Admin local (gate liberado) ────────────────────────────

@@ -70,6 +70,24 @@ try {
   ['highlights', 'roadmap', 'posts', 'links'].forEach((k) => {
     if (!Array.isArray(studio[k])) fail(`content/studio.json: "${k}" deve ser array`);
   });
+  // Support block (floating donation button) — optional, validated when present
+  if (studio.support !== undefined) {
+    const support = studio.support;
+    if (!support || typeof support !== 'object' || Array.isArray(support)) {
+      fail('content/studio.json: "support" deve ser objeto');
+    } else {
+      if (!Array.isArray(support.methods)) fail('content/studio.json: "support.methods" deve ser array');
+      (support.methods || []).forEach((m, i) => {
+        if (!m || typeof m !== 'object') { fail(`support.methods[${i}] inválido`); return; }
+        if (typeof m.label !== 'string' && !(m.label && (m.label.en || m.label.pt))) fail(`support.methods[${i}] label inválido`);
+        if (typeof m.url !== 'string') fail(`support.methods[${i}] url deve ser string`);
+        if (m.url && !/^https:\/\//i.test(m.url)) fail(`support.methods[${i}] url deve ser https`);
+      });
+      const qr = support.qrImage;
+      if (qr && typeof qr === 'string' && !/^(assets\/|https:\/\/)/i.test(qr)) fail('support.qrImage deve ser assets/… ou https://…');
+      if (typeof support.pixKey !== 'undefined' && typeof support.pixKey !== 'string') fail('support.pixKey deve ser string');
+    }
+  }
   ok('content/studio.json: contrato agnóstico OK');
 } catch (e) { fail(`content/studio.json inválido: ${e.message}`); }
 
@@ -83,6 +101,7 @@ const REQUIRED = {
   'studio.html': ['nav-link-studio', 'studio-root', 'studio-highlights', 'studio-posts', 'studio-roadmap', 'studio-links', 'lang-switch-btn'],
   'admin.html': ['gate-overlay', 'gate-pass', 'gate-confirm', 'gate-submit', 'gate-error', 'nav-btn-studio', 'nav-btn-publish',
                  'pane-studio', 'pane-publish', 'studio-highlights-editor', 'studio-posts-editor', 'studio-roadmap-editor', 'studio-links-editor',
+                 'studio-support-methods-editor', 's-support-enabled', 's-support-title-en', 's-support-story-pt', 's-support-qr', 's-support-pix',
                  's-studio-name-en', 's-studio-intro-en', 'pub-owner', 'pub-repo', 'pub-branch', 'pub-token', 'pub-publish', 'pub-export-all',
                  'pub-log', 'pub-status', 'sec-change', 'sec-lock', 's-artworks-list', 'admin-save-btn'],
 };

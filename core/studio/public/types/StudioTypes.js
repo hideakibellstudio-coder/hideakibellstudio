@@ -14,6 +14,9 @@
  * @property {StudioRoadmap[]}   roadmap     — optional; empty hides the section
  * @property {StudioPost[]}      posts       — optional; empty hides the section
  * @property {StudioLink[]}      links       — optional; empty hides the section
+ * @property {StudioSupport}     support     — optional; the floating support button
+ *                                             only appears when a method URL or a
+ *                                             QR image is actually configured
  *
  * @typedef {Object} StudioMeta
  * @property {string} slug
@@ -47,7 +50,39 @@
  * @property {string} label
  * @property {string} url
  * @property {string} icon
+ *
+ * @typedef {Object} StudioSupport
+ * @property {boolean} enabled                — master switch (default: true)
+ * @property {string|object} title            — modal title
+ * @property {string|object} buttonLabel      — floating button label / aria-label
+ * @property {Object|string[]} story          — paragraphs explaining the project
+ * @property {string} qrImage                 — optional QR image (assets/… or https)
+ * @property {string|object} qrCaption
+ * @property {string} pixKey                  — optional Pix copy-and-paste key
+ * @property {StudioSupportMethod[]} methods  — e.g. LivePix (Pix/card) + Stripe
+ * @property {string|object} thanks
+ *
+ * @typedef {Object} StudioSupportMethod
+ * @property {string} id
+ * @property {string} icon
+ * @property {string} label
+ * @property {string|object} note
+ * @property {string} url        — empty = the method button is not rendered
+ * @property {boolean} primary   — highlighted first (at most one)
  */
+
+/** Built-in support block — disabled by default (fail closed: nothing to click → nothing shown). */
+const DEFAULT_STUDIO_SUPPORT = Object.freeze({
+  enabled: false,
+  title:       { en: 'Support the project', pt: 'Apoie o projeto' },
+  buttonLabel: { en: 'Support', pt: 'Apoiar' },
+  story:       { en: [], pt: [] },
+  qrImage: '',
+  qrCaption:   { en: '', pt: '' },
+  pixKey: '',
+  methods: [],
+  thanks:      { en: '', pt: '' },
+});
 
 /** Built-in fallback used when content/studio.json cannot be read. */
 const DEFAULT_STUDIO_CONTENT = Object.freeze({
@@ -65,6 +100,7 @@ const DEFAULT_STUDIO_CONTENT = Object.freeze({
   roadmap: [],
   posts: [],
   links: [],
+  support: DEFAULT_STUDIO_SUPPORT,
 });
 
 /**
@@ -102,5 +138,32 @@ function normalizeStudioContent(raw) {
     roadmap: list(raw.roadmap),
     posts: list(raw.posts),
     links: list(raw.links),
+    support: normalizeStudioSupport(raw.support),
+  };
+}
+
+/**
+ * Coerce the support block into a renderable shape.
+ * `enabled` follows the content (absent = enabled); the floating button itself
+ * is only rendered when a method URL or a QR image survives validation.
+ * @param {*} raw
+ * @returns {StudioSupport}
+ */
+function normalizeStudioSupport(raw) {
+  const base = DEFAULT_STUDIO_SUPPORT;
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    return JSON.parse(JSON.stringify(base));
+  }
+
+  return {
+    enabled: raw.enabled !== false,
+    title:       raw.title       || base.title,
+    buttonLabel: raw.buttonLabel || base.buttonLabel,
+    story:       raw.story       || base.story,
+    qrImage:     typeof raw.qrImage === 'string' ? raw.qrImage : '',
+    qrCaption:   raw.qrCaption   || base.qrCaption,
+    pixKey:      typeof raw.pixKey === 'string' ? raw.pixKey : '',
+    methods:     Array.isArray(raw.methods) ? raw.methods.filter((m) => m && typeof m === 'object') : [],
+    thanks:      raw.thanks      || base.thanks,
   };
 }

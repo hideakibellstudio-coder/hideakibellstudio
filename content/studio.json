@@ -912,5 +912,68 @@
       "url": "#studio-feed",
       "icon": "◈"
     }
-  ]
+  ],
+  "support": {
+    "enabled": true,
+    "title": {
+      "en": "This project is built by one person, full time",
+      "pt": "Este projeto é construído por uma só pessoa, em tempo integral"
+    },
+    "buttonLabel": {
+      "en": "Support the project",
+      "pt": "Apoiar o projeto"
+    },
+    "story": {
+      "en": [
+        "There is no company, no team and no investor behind this software: it is an independent, solo project, developed full time and documented in public in this devlog.",
+        "A donation goes straight into development time and hardware — nothing else. Whoever supports it is what keeps the engine, the tooling and the documentation moving forward."
+      ],
+      "pt": [
+        "Não existe empresa, equipe ou investidor por trás deste software: é um projeto independente e solo, desenvolvido em tempo integral e documentado publicamente neste devlog.",
+        "Uma doação vai direto para tempo de desenvolvimento e hardware — nada mais. Quem apoia é o que mantém o motor, as ferramentas e a documentação avançando."
+      ]
+    },
+    "qrImage": "",
+    "qrCaption": {
+      "en": "Scan with your bank app to donate any amount",
+      "pt": "Escaneie com o app do seu banco para doar qualquer valor"
+    },
+    "pixKey": "",
+    "methods": [
+      {
+        "id": "livepix",
+        "icon": "💗",
+        "label": "LivePix",
+        "note": {
+          "en": "Pix · credit card · international",
+          "pt": "Pix · cartão · internacional"
+        },
+        "url": "",
+        "primary": true
+      },
+      {
+        "id": "stripe",
+        "icon": "🌍",
+        "label": "Stripe",
+        "note": {
+          "en": "International cards · recurring support",
+          "pt": "Cartões internacionais · apoio recorrente"
+        },
+        "url": "",
+        "primary": false
+      }
+    ],
+    "thanks": {
+      "en": "Thank you — you keep this project alive.",
+      "pt": "Obrigado — você mantém este projeto vivo."
+    },
+    "_notes": [
+      "O botão flutuante de apoio só aparece quando existe algo para clicar (regra fail-closed).",
+      "1. Cole o seu link da LivePix em methods[0].url (ex.: https://livepix.gg/seu-usuario) — cobre Pix, cartão e pagamentos internacionais em um único link.",
+      "2. Cole um Stripe Payment Link em methods[1].url para cartões internacionais / apoio recorrente.",
+      "3. Opcional: qrImage (ex.: assets/images/support/livepix-qr.png ou uma URL https) mostra o QR dentro do modal; pixKey habilita o botão de copiar.",
+      "Campos de texto aceitam string simples ou { en, pt }; story aceita um parágrafo por linha.",
+      "Estas chaves iniciadas com _ são removidas automaticamente ao exportar/publicar."
+    ]
+  }
 }

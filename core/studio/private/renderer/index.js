@@ -117,32 +117,86 @@ const StudioRenderer = (() => {
       .slice()
       .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
 
-    mount.innerHTML = posts.map((post) => {
-      const image = _safeUrl(post.image);
-      const link  = _safeUrl(post.link);
-      const video = _videoEmbed(post.video);
-      const fsBtn = `<button class="studio-post__fs" type="button" data-media-fs aria-label="${_esc(_t('Fullscreen', 'Tela cheia'))}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>`;
-      const videoHtml = video
-        ? (/\.(mp4|webm|ogv|mov)(\?.*)?$/i.test(video)
-          ? `<div class="studio-post__video"><video controls preload="metadata" src="${_esc(video)}"></video>${fsBtn}</div>`
-          : `<div class="studio-post__video"><iframe src="${_esc(video)}" title="${_esc(I18n.tField(post.title))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>${fsBtn}</div>`)
-        : '';
-      return `
-        <article class="studio-post" id="${_esc(post.id || '')}">
-          <header class="studio-post__head">
-            <span class="studio-post__tag">${_esc(I18n.tField(post.tag))}</span>
-            <time class="studio-post__date" datetime="${_esc(post.date || '')}">${_esc(_formatDate(post.date))}</time>
-          </header>
-          <h3 class="studio-post__title">${_esc(I18n.tField(post.title))}</h3>
-          ${image ? `<img class="studio-post__image" src="${image}" alt="" loading="lazy" data-media="image" role="button" tabindex="0" aria-label="${_esc(_t('View fullscreen', 'Ver em tela cheia'))}" />` : ''}
-          ${videoHtml}
-          <p class="studio-post__body">${_esc(I18n.tField(post.body))}</p>
-          ${link ? `<a class="studio-post__link" href="${link}" target="_blank" rel="noopener">${_esc(I18n.t('studio_read_more'))}</a>` : ''}
-        </article>
-      `;
-    }).join('');
+    if (!posts.length) {
+      mount.innerHTML = '';
+      _toggleSection(mount, false);
+      return;
+    }
 
-    _toggleSection(mount, posts.length > 0);
+    const total = posts.length;
+    const slides = posts.map((post, i) => _postHtml(post, i, total)).join('');
+    const dots = posts.map((post, i) => `
+      <button class="devlog__dot" type="button" data-devlog-goto="${i}"
+              aria-current="${i === 0 ? 'true' : 'false'}"
+              aria-label="${_esc(_t('Entry', 'Entrada'))} ${i + 1} — ${_esc(I18n.tField(post.tag))}">
+        <span aria-hidden="true"></span>
+      </button>
+    `).join('');
+
+    // One entry per view (the page stays short); every entry remains in the DOM
+    // so search engines and screen readers still reach the whole devlog, and the
+    // "view all" toggle restores the plain vertical list.
+    mount.innerHTML = `
+      <div class="devlog" data-devlog data-devlog-mode="carousel">
+        <div class="devlog__bar">
+          <button class="devlog__nav" type="button" data-devlog-prev aria-label="${_esc(I18n.t('studio_feed_prev'))}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+
+          <p class="devlog__status">
+            <span class="devlog__counter" data-devlog-counter aria-live="polite">1 / ${total}</span>
+            <span class="devlog__current" data-devlog-current></span>
+          </p>
+
+          <button class="devlog__nav" type="button" data-devlog-next aria-label="${_esc(I18n.t('studio_feed_next'))}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+
+          <button class="devlog__viewall" type="button" data-devlog-viewall aria-pressed="false">${_esc(I18n.t('studio_feed_view_all'))}</button>
+        </div>
+
+        <div class="devlog__viewport" data-devlog-viewport tabindex="0" role="group"
+             aria-roledescription="${_esc(_t('carousel', 'carrossel'))}"
+             aria-label="${_esc(I18n.t('studio_feed_title'))}">
+          <div class="devlog__track" data-devlog-track>${slides}</div>
+        </div>
+
+        <div class="devlog__dots" data-devlog-dots aria-label="${_esc(I18n.t('studio_feed_dots'))}">${dots}</div>
+      </div>
+    `;
+
+    _toggleSection(mount, true);
+  }
+
+  /** One devlog entry as a carousel slide (ids are preserved for #post-N links). */
+  function _postHtml(post, index, total) {
+    const image = _safeUrl(post.image);
+    const link  = _safeUrl(post.link);
+    const video = _videoEmbed(post.video);
+    const fsBtn = `<button class="studio-post__fs" type="button" data-media-fs aria-label="${_esc(_t('Fullscreen', 'Tela cheia'))}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>`;
+    const videoHtml = video
+      ? (/\.(mp4|webm|ogv|mov)(\?.*)?$/i.test(video)
+        ? `<div class="studio-post__video"><video controls preload="metadata" src="${_esc(video)}"></video>${fsBtn}</div>`
+        : `<div class="studio-post__video"><iframe src="${_esc(video)}" title="${_esc(I18n.tField(post.title))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>${fsBtn}</div>`)
+      : '';
+
+    // Only the visible slide is exposed to assistive tech / keyboard (inert)
+    const active = index === 0;
+
+    return `
+      <article class="studio-post devlog__slide" id="${_esc(post.id || '')}" data-devlog-slide
+               aria-label="${index + 1} / ${total}"${active ? '' : ' aria-hidden="true" inert'}>
+        <header class="studio-post__head">
+          <span class="studio-post__tag">${_esc(I18n.tField(post.tag))}</span>
+          <time class="studio-post__date" datetime="${_esc(post.date || '')}">${_esc(_formatDate(post.date))}</time>
+        </header>
+        <h3 class="studio-post__title">${_esc(I18n.tField(post.title))}</h3>
+        ${image ? `<img class="studio-post__image" src="${image}" alt="" loading="lazy" data-media="image" role="button" tabindex="0" aria-label="${_esc(_t('View fullscreen', 'Ver em tela cheia'))}" />` : ''}
+        ${videoHtml}
+        <p class="studio-post__body">${_esc(I18n.tField(post.body))}</p>
+        ${link ? `<a class="studio-post__link" href="${link}" target="_blank" rel="noopener">${_esc(I18n.t('studio_read_more'))}</a>` : ''}
+      </article>
+    `;
   }
 
   function _renderLinks() {
