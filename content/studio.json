@@ -11,9 +11,9 @@
     },
     "status": {
       "en": "v0.2.0 Alpha",
-      "pt": "v0.2.0 Alpha"
+      "pt": "Lumenia ALPHA"
     },
-    "version": "0.2.0",
+    "version": "0.0.13",
     "heroImage": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789618389/CAPA2.png",
     "cta": {
       "label": {
@@ -205,14 +205,6 @@
         "pt": "Perfis ICC Arbitrários & Pipeline RGBA16 Float"
       },
       "done": false
-    },
-    {
-      "phase": "1.0",
-      "title": {
-        "en": "Cross-Platform Commercial Release",
-        "pt": "Lançamento Comercial Multiplataforma"
-      },
-      "done": false
     }
   ],
   "posts": [
@@ -251,7 +243,7 @@
         "pt": "O fluxo de trabalho em ilustração exige precisão cirúrgica ao manipular pixels já desenhados. Neste marco, finalizamos nossa suíte de seleção rápida e a ferramenta de Transformação Livre.\n\nA Varinha Mágica opera com algoritmos de inundação contígua otimizados para evitar frestas brancas sob a lineart através de expansão automática de borda de 1px. Ao redor das regiões ativas, a linha pontilhada 'marching ants' é animada a 60 FPS com visibilidade perfeita em qualquer tom de canvas. Pressionar Ctrl+T abre a bounding box com 8 alças e pivô reposicionável, permitindo rotações anatômicas naturais com reamostragem bicúbica nativa em C++."
       },
       "image": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789679958/3006d60a-13a7-46a7-9690-5f5518500297.png",
-      "video": "",
+      "video": "https://res.cloudinary.com/exkhrwyx/video/upload/v1789945585/Transforma%C3%A7%C3%A3o.mp4",
       "link": ""
     },
     {
@@ -914,58 +906,30 @@
     }
   ],
   "support": {
-    "enabled": true,
+    "enabled": false,
     "title": {
-      "en": "This project is built by one person, full time",
-      "pt": "Este projeto é construído por uma só pessoa, em tempo integral"
+      "en": "Support the project",
+      "pt": "Apoie o projeto"
     },
     "buttonLabel": {
-      "en": "Support the project",
-      "pt": "Apoiar o projeto"
+      "en": "Support",
+      "pt": "Apoiar"
     },
     "story": {
-      "en": [
-        "There is no company, no team and no investor behind this software: it is an independent, solo project, developed full time and documented in public in this devlog.",
-        "A donation goes straight into development time and hardware — nothing else. Whoever supports it is what keeps the engine, the tooling and the documentation moving forward."
-      ],
-      "pt": [
-        "Não existe empresa, equipe ou investidor por trás deste software: é um projeto independente e solo, desenvolvido em tempo integral e documentado publicamente neste devlog.",
-        "Uma doação vai direto para tempo de desenvolvimento e hardware — nada mais. Quem apoia é o que mantém o motor, as ferramentas e a documentação avançando."
-      ]
+      "en": [],
+      "pt": []
     },
-    "qrImage": "https://widget.livepix.gg/embed/402230ff-77b8-40d0-b391-f89cbcb5c0d8",
+    "qrImage": "",
     "qrCaption": {
-      "en": "Scan with your bank app to donate any amount",
-      "pt": "Escaneie com o app do seu banco para doar qualquer valor"
+      "en": "",
+      "pt": ""
     },
     "pixKey": "",
-    "methods": [
-      {
-        "id": "livepix",
-        "icon": "💗",
-        "label": "LivePix",
-        "note": {
-          "en": "Pix · credit card · international",
-          "pt": "Pix · cartão · internacional"
-        },
-        "url": "https://widget.livepix.gg/embed/402230ff-77b8-40d0-b391-f89cbcb5c0d8",
-        "primary": true
-      },
-      {
-        "id": "stripe",
-        "icon": "🌍",
-        "label": "Stripe",
-        "note": {
-          "en": "International cards · recurring support",
-          "pt": "Cartões internacionais · apoio recorrente"
-        },
-        "url": "",
-        "primary": false
-      }
-    ],
+    "livepixUrl": "https://widget.livepix.gg/embed/402230ff-77b8-40d0-b391-f89cbcb5c0d8",
+    "methods": [],
     "thanks": {
-      "en": "Thank you — you keep this project alive.",
-      "pt": "Obrigado — você mantém este projeto vivo."
+      "en": "",
+      "pt": ""
     }
   }
 }
