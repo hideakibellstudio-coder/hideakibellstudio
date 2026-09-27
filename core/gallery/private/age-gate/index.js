@@ -5,6 +5,7 @@
 const AgeGate = (() => {
   let _modal = null;
   let _onAcceptCallback = null;
+  let _onRejectCallback = null;
 
   function init() {
     _buildModal();
@@ -12,16 +13,18 @@ const AgeGate = (() => {
   }
 
   /**
-   * Verify age before proceeding.
-   * If already verified, calls callback immediately. Otherwise shows modal.
+   * Verify age before proceeding, or always show the warning when requested.
    * @param {Function} onAccept
+   * @param {Function} onReject
+   * @param {{ alwaysPrompt?: boolean }} options
    */
-  function verify(onAccept) {
-    if (localStorage.getItem('hb_age_verified') === 'true') {
+  function verify(onAccept, onReject, options = {}) {
+    if (!options.alwaysPrompt && localStorage.getItem('hb_age_verified') === 'true') {
       if (onAccept) onAccept();
       return;
     }
     _onAcceptCallback = onAccept;
+    _onRejectCallback = onReject;
     _modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
@@ -54,7 +57,10 @@ const AgeGate = (() => {
       localStorage.setItem('hb_age_verified', 'true');
       _modal.classList.remove('is-open');
       document.body.style.overflow = '';
-      if (_onAcceptCallback) _onAcceptCallback();
+      const onAccept = _onAcceptCallback;
+      _onAcceptCallback = null;
+      _onRejectCallback = null;
+      if (onAccept) onAccept();
       // Notify all modules that age is verified
       EventBus.emit('age.verified');
     });
@@ -62,7 +68,10 @@ const AgeGate = (() => {
     _modal.querySelector('.age-gate-btn--reject').addEventListener('click', () => {
       _modal.classList.remove('is-open');
       document.body.style.overflow = '';
+      const onReject = _onRejectCallback;
       _onAcceptCallback = null;
+      _onRejectCallback = null;
+      if (onReject) onReject();
     });
   }
 
@@ -83,4 +92,3 @@ const AgeGate = (() => {
 
   return Object.freeze({ init, verify });
 })();
-

@@ -95,7 +95,7 @@ const Lightbox = (() => {
         </svg>
       </button>
       <div class="lightbox-container">
-        <img class="lightbox-image" src="" alt="" />
+        <img class="lightbox-image" src="" alt="" draggable="false" />
         <div class="lightbox-info">
           <p class="lightbox-info__category"></p>
           <h2 class="lightbox-info__title"></h2>

@@ -6,7 +6,7 @@
 const GalleryRenderer = (() => {
 
   const GRID_SELECTOR = '#gallery-grid';
-  const ITEMS_PER_PAGE = 3; // Keep at 3 for nice initial load & Load More testing
+  const ITEMS_PER_PAGE = 50;
 
   let _allArtworks  = [];
   let _activeFilter = 'all';
@@ -21,6 +21,14 @@ const GalleryRenderer = (() => {
       _currentLimit += ITEMS_PER_PAGE;
       render(_allArtworks, _activeFilter);
     });
+
+    const preventImageSaveActions = (event) => {
+      if (event.target.closest?.('.artwork-card__media, .lightbox-image')) {
+        event.preventDefault();
+      }
+    };
+    document.addEventListener('contextmenu', preventImageSaveActions);
+    document.addEventListener('dragstart', preventImageSaveActions);
 
     // Listen for age verification to update visual states
     EventBus.on('age.verified', () => {
@@ -114,21 +122,27 @@ const GalleryRenderer = (() => {
       : '';
 
     card.innerHTML = `
-      <img
-        class="artwork-card__image"
-        src="${_sanitizeUrl(artwork.imageUrl)}"
-        alt="${_sanitizeText(I18n.tField(artwork.title))}"
-        loading="lazy"
-      />
-      ${nsfwOverlay}
-      <div class="artwork-card__overlay">
-        <span class="artwork-card__category">${_sanitizeText(I18n.tField(artwork.category))}</span>
-        <h3 class="artwork-card__title">${_sanitizeText(I18n.tField(artwork.title))}</h3>
-        <div class="artwork-card__view-icon" aria-hidden="true">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-          </svg>
+      <div class="artwork-card__media">
+        <img
+          class="artwork-card__image"
+          src="${_sanitizeUrl(artwork.imageUrl)}"
+          alt="${_sanitizeText(I18n.tField(artwork.title))}"
+          draggable="false"
+          loading="lazy"
+          decoding="async"
+        />
+        ${nsfwOverlay}
+        <div class="artwork-card__overlay" aria-hidden="true">
+          <div class="artwork-card__view-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          </div>
         </div>
+      </div>
+      <div class="artwork-card__meta">
+        <h3 class="artwork-card__title">${_sanitizeText(I18n.tField(artwork.title))}</h3>
+        <span class="artwork-card__category">${_sanitizeText(I18n.tField(artwork.category))}</span>
       </div>
     `;
 

@@ -53,7 +53,8 @@ const GalleryModule = (() => {
             // On reject:
             () => {
               nsfwCheckbox.checked = false;
-            }
+            },
+            { alwaysPrompt: true }
           );
         } else {
           GalleryRenderer.resetLimit();
