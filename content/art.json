@@ -3,104 +3,70 @@
     {
       "id": "artwork-1",
       "title": {
-        "en": "Ethereal Void",
-        "pt": "Vazio Etéreo"
+        "en": "Koyakushi",
+        "pt": "Koyakushi"
       },
       "category": {
-        "en": "Abstract",
-        "pt": "Abstrato"
+        "en": "Character Design",
+        "pt": "Design de Personagem"
       },
       "description": {
-        "en": "A meditation on the luminous spaces between states of being. Light trails trace the paths of unseen forces.",
-        "pt": "Uma meditação sobre os espaços luminosos entre estados de ser. Trilhas de luz traçam os caminhos de forças invisíveis."
+        "en": "Professional character design sheet illustrating a modern urban ninja concept. The silhouette is defined by a fluid, high-contrast red scarf that creates a strong vector of motion against a tactical black-and-grey streetwear ensemble. The character balances traditional shinobi elements—such as dual balanced kunai—with contemporary high-top sneakers and athletic gear, resulting in an agile, fast-paced profile optimized for stealth and high-mobility combat.",
+        "pt": "Folha de design de personagem profissional que ilustra o conceito de uma ninja urbana moderna. A silhueta é definida por um cachecol vermelho fluido e de alto contraste que cria um forte vetor de movimento contra um conjunto de vestuário urbano táctico em preto e cinzento. A personagem equilibra elementos tradicionais de shinobi — como adagas kunai duplas equilibradas — com sapatilhas de cano alto contemporâneas e equipamento atlético, resultando num perfil ágil e veloz otimizado para furtividade e combate de alta mobilidade."
       },
-      "imageUrl": "",
+      "imageUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789943681/1000085382.png",
       "nsfw": false
     },
     {
       "id": "artwork-2",
       "title": {
-        "en": "The Veiled",
-        "pt": "O Velado"
+        "en": "The Crimson Hand Gakuran",
+        "pt": "O Gakuran da Mão Carmesim"
       },
       "category": {
-        "en": "Concept Art",
-        "pt": "Arte Conceitual"
+        "en": "Character Design",
+        "pt": "Design de Personagem"
       },
       "description": {
-        "en": "Character study exploring identity, concealment, and the tension between presence and absence.",
-        "pt": "Estudo de personagem explorando identidade, ocultamento e a tensão entre presença e ausência."
+        "en": "Character concept art exploring a supernatural delinquent archetype within a stylized Japanese school setting. The design reinterprets a classic black gakuran uniform with sharp red trims, silver chain accessories, and an asymmetric white armband anchoring a vintage pocket watch. The gravity-defying, windswept dark hair and intense facial scars frame a menacing yet charismatic silhouette. The visual focus centers on the glowing crimson energy manifesting from his right hand, establishing a potent narrative of latent occult power.",
+        "pt": "Arte concetual de personagem que explora um arquétipo de delinquente sobrenatural num cenário escolar japonês estilizado. O design reinterpreta um uniforme gakuran preto clássico com debruns vermelhos afiados, acessórios de corrente prateada e uma braçadeira branca assimétrica que segura um relógio de bolso vintage. O cabelo escuro despenteado que desafia a gravidade e as cicatrizes faciais intensas moldam uma silhueta ameaçadora mas carismática. O foco visual centra-se na energia carmesim incandescente que se manifesta na sua mão direita, estabelecendo uma narrativa potente de poder oculto latente."
       },
-      "imageUrl": "assets/images/artwork-2.jpg",
+      "imageUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789943681/1000085381.png",
       "nsfw": false
     },
     {
       "id": "artwork-3",
       "title": {
-        "en": "Sacred Geometry No.7",
-        "pt": "Geometria Sagrada Nº 7"
+        "en": "Debbie Stauzz",
+        "pt": "Debbie Stauzz"
       },
       "category": {
-        "en": "Generative",
-        "pt": "Generativo"
+        "en": "Character Design",
+        "pt": "Design de Personagem"
       },
       "description": {
-        "en": "Mathematical structures rendered as visual poetry. Order and complexity in dialogue.",
-        "pt": "Estruturas matemáticas interpretadas como poesia visual. Ordem e complexidade em diálogo."
+        "en": "Concept character design sheet featuring a rebellious cyberpunk gunner with an eccentric, high-energy silhouette. The character design utilizes striking color-blocking, pairing a sleek neutral black bodysuit with vibrant neon-lime thigh-highs and eccentric pink footwear. Details like bi-colored pink and lime-green hair, heterochromia, and a heavy-duty futuristic firearm establish her anarchic personality and combat readiness. The visual language emphasizes asymmetry and high-chroma contrasts tailored for a fast-paced game environment.",
+        "pt": "Folha de conceito de design de personagem que apresenta uma atiradora cibernética rebelde com uma silhueta excêntrica e de alta energia. O design aposta num bloqueio de cores marcante, combinando um body preto neutro e elegante com meias altas em verde-neon vibrante e calçado rosa excêntrico. Pormenores como o cabelo bicolor em rosa e verde-lima, heterocromia e uma arma de fogo futurista de grande porte estabelecem a sua personalidade anárquica e prontidão para combate. A linguagem visual enfatiza a assimetria e contrastes de alta croma concebidos para um ambiente de jogo dinâmico."
       },
-      "imageUrl": "assets/images/artwork-3.jpg",
+      "imageUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789943681/1000085383.png",
       "nsfw": false
     },
     {
       "id": "artwork-4",
       "title": {
-        "en": "Emergence",
-        "pt": "Emergência"
+        "en": "Pinky Punk",
+        "pt": "Pinky Punk"
       },
       "category": {
-        "en": "Digital Painting",
-        "pt": "Pintura Digital"
+        "en": "Character Design",
+        "pt": "Design de Personagem"
       },
       "description": {
-        "en": "A portrait study in the tradition of chiaroscuro, reimagined through a digital lens.",
-        "pt": "Um estudo de retrato na tradição do chiaroscuro, reimaginado através de uma lente digital."
+        "en": "Professional character concept art showcasing an athletic striker blending street fashion with heavy industrial combat gear. The silhouette is anchored by a massive, weighted war hammer and a sweeping, dynamic pink braid that creates a strong line of action. Her form-fitting utility jumpsuit features sharp black piping that accents her active posture, paired with reinforced urban sneakers. The design leverages a bold contrast between soft pastel tones and aggressive utility elements, emphasizing a character defined by explosive strength and casual confidence.",
+        "pt": "Conceito de design de personagem original que retrata uma lutadora atlética, combinando moda urbana com equipamento de combate industrial pesado. A silhueta é ancorada por uma marreta de guerra massiva e uma longa trança rosa dinâmica que define uma forte linha de acção. O seu macacão utilitário e justo apresenta debruns pretos acentuados que complementam a sua postura dinâmica, combinados com sapatilhas urbanas reforçadas. O design explora um contraste marcante entre tons pastel suaves e elementos utilitários agressivos, sublinhando uma personagem de força explosiva e confiança descontraída."
       },
-      "imageUrl": "assets/images/artwork-4.jpg",
+      "imageUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789943682/1000085384.png",
       "nsfw": false
-    },
-    {
-      "id": "artwork-5",
-      "title": {
-        "en": "Still City [NSFW]",
-        "pt": "Cidade Silenciosa [NSFW]"
-      },
-      "category": {
-        "en": "Landscape",
-        "pt": "Paisagem"
-      },
-      "description": {
-        "en": "An urban landscape reduced to its essential geometry. The city as abstraction.",
-        "pt": "Uma paisagem urbana reduzida à sua geometria essencial. A cidade como abstração."
-      },
-      "imageUrl": "assets/images/artwork-5.jpg",
-      "nsfw": true
-    },
-    {
-      "id": "artwork-6",
-      "title": {
-        "en": "Fluid State [NSFW]",
-        "pt": "Estado Fluido [NSFW]"
-      },
-      "category": {
-        "en": "Abstract",
-        "pt": "Abstrato"
-      },
-      "description": {
-        "en": "Liquid dynamics frozen at the precise moment of dissolution. Motion as stillness.",
-        "pt": "Dinâmica de líquidos congelada no momento preciso de dissolução. Movimento como quietude."
-      },
-      "imageUrl": "assets/images/artwork-6.jpg",
-      "nsfw": true
     }
   ]
 }
