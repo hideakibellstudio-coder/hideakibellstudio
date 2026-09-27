@@ -12,12 +12,12 @@
     },
     "bio": {
       "en": [
-        "I create worlds that exist between the seen and unseen — spaces where light dissolves into shadow and form emerges from chaos. My work explores the intersection of technology and human emotion through a visual language that is both precise and intuitive.",
-        "Based in Brazil, I work as an independent digital artist creating illustrations, concept art, and abstract works for clients and personal projects worldwide."
+        "Beginning their artistic journey at the age of 8, the artist found early inspiration in the rich heritage of Brazilian comics and open-TV animations by masters like Ziraldo (The Menino Maluquinho, Turma do Pererê) and Mauricio de Sousa (Turma da Mônica). This foundational appreciation soon expanded toward timeless Western animation, cultivating a lifelong passion for Disney classics—especially Mickey's Christmas Carol, The Lion King, Brother Bear, and Home on the Range—alongside groundbreaking cinematic worlds from Pixar and DreamWorks such as The Ant Bully, Spirit: Stallion of the Cimarron, Toy Story, Monsters, Inc., Shrek, and Up.",
+        "This eclectic visual foundation transformed profoundly upon discovering the vast universe of anime and manga, sparked by Dragon Ball Z and leading back to roots like Metropolis, Astro Boy, Princess Knight, and Kimba the White Lion. The creative palette broadened further through the charm of romantic comedies like Urusei Yatsura, Ranma 1/2, and InuYasha, the philosophical depth of Akira and Neon Genesis Evangelion, the empowering heroines of Sailor Moon, Cardcaptor Sakura, and Magic Knight Rayearth, and epic sagas like Yu Yu Hakusho, Hunter x Hunter, Berserk, Vagabond, Bleach, Naruto, Attack on Titan, and Fullmetal Alchemist. Today, this diverse cultural fusion fuels a distinct, original artistic voice that honors classic manga aesthetics with a deeply personal flair."
       ],
       "pt": [
-        "Crio mundos que existem entre o visto e o invisível — espaços onde a luz se dissolve em sombra e a forma emerge do caos. Meu trabalho explora a interseção da tecnologia e da emoção humana através de uma linguagem visual que é ao mesmo tempo precisa e intuitiva.",
-        "Sediado no Brasil, trabalho como artista digital independente criando ilustrações, concept art e obras abstratas para clientes e projetos pessoais em todo o mundo."
+        "Iniciando sua jornada artística aos 8 anos de idade, o artista encontrou suas primeiras inspirações no rico universo dos quadrinhos nacionais e das animações da TV aberta, guiado por mestres como Ziraldo (O Menino Maluquinho, Turma do Pererê) e Mauricio de Sousa (Turma da Mônica). Essa apreciação precoce logo se expandiu para os clássicos ocidentais, nutrindo uma paixão profunda pelas animações da Disney — com destaque para Um Conto de Natal do Mickey, O Rei Leão, Irmão Urso e Nem que a Vaca Tussa —, além de obras marcantes da Pixar e da DreamWorks como Lucas, um Intruso no Formigueiro, Spirit: O Corcel Indomável, Toy Story, Monsters, Inc., Shrek e Up: Altas Aventuras.",
+        "Essa bagagem visual eclética transformou-se profundamente ao descobrir o fascinante universo dos mangás e animes, tendo Dragon Ball Z como seu ponto de partida para mergulhar nas origens de clássicos como Metropolis, Astro Boy, A Princesa Cavaleiro e Kimba, o Leão Branco. O repertório criativo expandiu-se ainda através da comédia romântica de Urusei Yatsura, Ranma 1/2 e InuYasha, da profundidade de obras marcantes como Akira e Neon Genesis Evangelion, da força de heroínas icônicas em Sailor Moon, Sakura Card Captors e Guerreiras Mágicas de Rayearth, além de sagas épicas como Yu Yu Hakusho, Hunter x Hunter, Berserk, Vagabond, Bleach, Naruto, Attack on Titan e Fullmetal Alchemist. Hoje, essa rica fusão cultural alimenta um estilo autoral próprio que mescla a essência dos mangás a uma identidade visual única e vibrante."
       ]
     },
     "avatarUrl": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789685947/Avatar.png",
@@ -31,29 +31,25 @@
         "pt": "Arte Conceitual"
       },
       {
-        "en": "Abstract Art",
-        "pt": "Arte Abstrata"
-      },
-      {
-        "en": "Visual Development",
-        "pt": "Desenvolvimento Visual"
+        "en": "Character Design",
+        "pt": "Design de Personagem"
       }
     ],
     "stats": {
-      "years": "7+",
-      "projects": "120+",
-      "clients": "40+"
+      "years": "",
+      "projects": "",
+      "clients": ""
     }
   },
   "social": {
-    "instagram": "",
+    "instagram": "https://www.instagram.com/hideakibell/",
     "behance": "",
     "artstation": "",
-    "twitter": "",
+    "twitter": "https://x.com/Hideaki_Bell",
     "youtube": ""
   },
   "contact": {
-    "email": "contact@hideakibell.studio",
+    "email": "contato@hideakibell.studio",
     "formspreeEndpoint": ""
   },
   "seo": {
