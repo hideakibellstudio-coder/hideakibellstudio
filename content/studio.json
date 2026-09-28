@@ -6,14 +6,14 @@
       "pt": "Lumenia — Estúdio de Arte e Pintura Digital"
     },
     "tagline": {
-      "en": "High-performance desktop painting studio powered by ALADYN C++20 SIMD Native Engine and PySide6.",
-      "pt": "Estúdio desktop de arte e pintura digital de alta performance com motor nativo ALADYN C++20 SIMD e PySide6."
+      "en": "A desktop studio for illustration, sketching, and digital painting.",
+      "pt": "Um estúdio desktop de ilustração, esboço e pintura digital."
     },
     "status": {
-      "en": "v0.2.0 Alpha",
-      "pt": "Lumenia ALPHA"
+      "en": "Alpha",
+      "pt": "Alpha"
     },
-    "version": "0.0.13",
+    "version": "0.2.0",
     "heroImage": "https://res.cloudinary.com/exkhrwyx/image/upload/v1789618389/CAPA2.png",
     "cta": {
       "label": {
@@ -25,184 +25,128 @@
   },
   "intros": {
     "en": [
-      "Lumenia was born from an improbable question in August 2024: is it possible to build a high-performance digital painting studio from absolute scratch, carrying only high school programming logic concepts from 2016 and collaborating with frontier AI models? Having never written a single line of commercial code before, this devlog chronicles a two-year journey of engineering evolution.",
-      "What began as seven lines of Python opening a blank 300x200 pixel window evolved into the ALADYN C++20 SIMD native engine, ARCcC ultra-atomic architecture, 60 FPS selection tools, Catmull-Rom spline inking, and professional color proofing. Below is the complete chronological journal spanning 36 milestones across all 12 developmental phases."
+      "Lumenia is a desktop app for illustration, concept art, and digital painting. Start a canvas, sketch and paint with familiar tools, organize your work in layers, and save editable projects in Lumenia's .lmn format.",
+      "The current Alpha includes brush and pen-pressure controls, fill, erasing and smudge, selection and transform tools, geometric shapes, canvas text, color controls, symmetry and perspective guides, and PNG/JPEG export. Applied text and shapes become pixels on the active layer. The roadmap lists current priorities; plans may change and have no promised release dates."
     ],
     "pt": [
-      "O Lumenia nasceu de uma pergunta improvável em agosto de 2024: seria possível construir um software de desenho digital de alta performance do zero absoluto, tendo como única bagagem conceitual um curso básico de lógica de programação do ensino médio em 2016 e a colaboração de modelos de inteligência artificial de ponta? Sem jamais ter escrito uma linha de código comercial antes, este diário de desenvolvimento documenta uma jornada de mais de dois anos.",
-      "O que começou com sete linhas em Python para abrir uma janela cinza de 300x200 pixels culminou em um motor nativo em C++20 com instruções SIMD, arquitetura contratual ARCcC, ferramentas de seleção a 60 FPS, interpolação Catmull-Rom e prova de cores profissional. Abaixo encontra-se o diário cronológico completo reunindo 36 marcos detalhados ao longo das 12 fases do projeto."
+      "O Lumenia é um programa desktop para ilustração, concept art e pintura digital. Crie uma tela, faça esboços e pinturas com ferramentas familiares, organize a arte em camadas e salve projetos editáveis no formato .lmn.",
+      "A versão Alpha atual inclui pincéis com controles de pressão da caneta, preenchimento, borracha e borrador, ferramentas de seleção e transformação, formas geométricas, texto no canvas, controles de cor, simetria, guias de perspectiva e exportação para PNG/JPEG. Ao aplicar, formas e textos viram pixels na camada ativa. O roadmap reúne prioridades que podem mudar e não tem datas de lançamento prometidas."
     ]
   },
   "highlights": [
     {
-      "icon": "⚡",
+      "icon": "🖌️",
       "title": {
-        "en": "ALADYN C++20 SIMD Native Engine",
-        "pt": "Motor Nativo ALADYN C++20 SIMD"
+        "en": "Brushes and drawing tools",
+        "pt": "Pincéis e ferramentas de desenho"
       },
       "text": {
-        "en": "High-throughput sub-pixel rendering pipeline leveraging vectorized C++20 instructions for zero-latency inking and 60 FPS continuous blending.",
-        "pt": "Pipeline de renderização sub-pixel de alto rendimento com instruções vetoriais C++20 para traço instantâneo e mesclagem contínua a 60 FPS."
+        "en": "Choose pencil, ink, marker, watercolor, or oil brushes, plus eraser, smudge, and fill tools. Adjust size, opacity, and pen-pressure response.",
+        "pt": "Escolha entre pincéis de lápis, tinta, marcador, aquarela e óleo, além de borracha, borrador e balde de tinta. Ajuste tamanho, opacidade e resposta à pressão da caneta."
       }
     },
     {
-      "icon": "🖋️",
+      "icon": "🗂️",
       "title": {
-        "en": "Catmull-Rom Spline & Advanced Inker",
-        "pt": "Inker Catmull-Rom & Estabilização"
+        "en": "Layers and groups",
+        "pt": "Camadas e grupos"
       },
       "text": {
-        "en": "Cubic parametric interpolation and dynamic deadzone stabilizers eliminating sawtooth artifacts while preserving fine hand gestures.",
-        "pt": "Interpolação paramétrica cúbica e estabilizadores com deadzones dinâmicas que eliminam o serrilhado preservando a sutileza do gesto."
+        "en": "Organize artwork in layers and groups. Control visibility, opacity, and blend modes, with clipping masks and alpha lock.",
+        "pt": "Organize a arte em camadas e grupos. Controle visibilidade, opacidade e modos de mesclagem, com máscara de recorte e bloqueio de transparência."
       }
     },
     {
-      "icon": "🏗️",
+      "icon": "✂️",
       "title": {
-        "en": "ARCcC Ultra-Atomic Architecture",
-        "pt": "Arquitetura Ultra-Atômica ARCcC"
+        "en": "Selection and transform",
+        "pt": "Seleção e transformação"
       },
       "text": {
-        "en": "Atomic Recursive Componentization by Contract separating Boundary, Core, and Infrastructure for reliable human and AI co-engineering.",
-        "pt": "Componentização Atômica Recursiva por Contrato separando Boundary, Core e Infrastructure para co-criação fluida entre humanos e IAs."
+        "en": "Select with a rectangle, ellipse, lasso, or Magic Wand, then move, resize, rotate, or distort the selected area.",
+        "pt": "Selecione com retângulo, elipse, laço ou Varinha Mágica; depois mova, redimensione, gire ou distorça a área selecionada."
       }
     },
     {
-      "icon": "📐",
+      "icon": "◻️",
       "title": {
-        "en": "Dynamic Symmetry & Curvilinear Rulers",
-        "pt": "Simetria Dinâmica & Réguas Curvilíneas"
+        "en": "Shapes and canvas text",
+        "pt": "Formas e texto no canvas"
       },
       "text": {
-        "en": "Real-time radial symmetry (2-32 axes), 6-point curvilinear fisheye perspective guides, and magnetic Bézier snapping.",
-        "pt": "Simetria radial em tempo real (2 a 32 eixos), guias de perspectiva curvilínea de 6 pontos (fisheye) e atração magnética Bézier."
-      }
-    },
-    {
-      "icon": "✨",
-      "title": {
-        "en": "Smart Selection & Free Transform",
-        "pt": "Seleção Inteligente & Free Transform"
-      },
-      "text": {
-        "en": "Contiguous Magic Wand with zero lineart bleeding, 60 FPS animated marching ants, and Ctrl+T free transform with native bicubic resampling.",
-        "pt": "Varinha mágica contígua sem vazamentos sob o traço, marching ants a 60 FPS e transformação livre Ctrl+T com reamostragem bicúbica."
+        "en": "Draw lines, rectangles, ellipses, polygons, and stars, or place text on the canvas. Applied shapes and text are rasterized onto the active layer.",
+        "pt": "Desenhe linhas, retângulos, elipses, polígonos e estrelas, ou insira texto no canvas. Formas e textos aplicados são rasterizados na camada ativa."
       }
     },
     {
       "icon": "🎨",
       "title": {
-        "en": "Color Accuracy & Blindness Proofing",
-        "pt": "Gestão de Cor & Prova de Daltonismo"
+        "en": "Color and drawing guides",
+        "pt": "Cores e guias de desenho"
       },
       "text": {
-        "en": "Real-time color proofing for Protanopia, Deuteranopia, and Tritanopia alongside Display P3 and sRGB color profile support.",
-        "pt": "Prova de cores em tempo real para Protanopia, Deuteranopia e Tritanopia integrada a perfis de espaço de cor sRGB e Display P3."
+        "en": "Choose and sample colors, explore color harmonies, draw with mirror or radial symmetry, and use rulers and perspective guides.",
+        "pt": "Escolha e amostre cores, explore harmonias, desenhe com espelhamento ou simetria radial e use réguas e guias de perspectiva."
+      }
+    },
+    {
+      "icon": "💾",
+      "title": {
+        "en": "Projects and export",
+        "pt": "Projetos e exportação"
+      },
+      "text": {
+        "en": "Save editable projects in the .lmn format, open raster images, and export copies as PNG or JPEG.",
+        "pt": "Salve projetos editáveis no formato .lmn, abra imagens raster e exporte cópias em PNG ou JPEG."
       }
     }
   ],
   "roadmap": [
     {
-      "phase": "0.1",
+      "phase": "01",
       "title": {
-        "en": "Genesis & Viewport Camera",
-        "pt": "Gênese & Câmera de Viewport"
+        "en": "Layered PSD: export first, then open PSD files",
+        "pt": "PSD em camadas: exportar primeiro, depois abrir arquivos"
       },
-      "done": true
+      "done": false
     },
     {
-      "phase": "0.2",
+      "phase": "02",
       "title": {
-        "en": "Stylus Physics & Unova Stabilizers",
-        "pt": "Física da Stylus & Estabilizadores Unova"
+        "en": "Everyday shortcuts, solo layers, and a clean canvas view",
+        "pt": "Atalhos do dia a dia, camadas isoladas e canvas limpo"
       },
-      "done": true
+      "done": false
     },
     {
-      "phase": "0.3",
+      "phase": "03",
       "title": {
-        "en": "Sparse Tiling Substrate (256x256)",
-        "pt": "Substrato de Tiling Esparso (256x256)"
+        "en": "Global pen-pressure calibration and Magic Wand controls",
+        "pt": "Calibração global da pressão e ajustes da Varinha Mágica"
       },
-      "done": true
+      "done": false
     },
     {
-      "phase": "0.4",
+      "phase": "04",
       "title": {
-        "en": "Hierarchical Layer Graph & Blend Shaders",
-        "pt": "Grafo de Camadas & Shaders de Mesclagem"
+        "en": "Editable text and layer masks",
+        "pt": "Texto editável e máscaras de camada"
       },
-      "done": true
+      "done": false
     },
     {
-      "phase": "0.5",
+      "phase": "05",
       "title": {
-        "en": "First Unified Lumenia Desktop Shell",
-        "pt": "Primeiro Shell Desktop Unificado Lumenia"
+        "en": "Gradient and canvas-crop tools",
+        "pt": "Ferramentas de gradiente e recorte do canvas"
       },
-      "done": true
+      "done": false
     },
     {
-      "phase": "0.6",
+      "phase": "06",
       "title": {
-        "en": "Cockpit Master & Catmull-Rom Smoothing",
-        "pt": "Cockpit Master & Suavização Catmull-Rom"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.7",
-      "title": {
-        "en": "Modular Workspace & TOYS Vector Iconography",
-        "pt": "Workspace Modular & Iconografia TOYS"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.8",
-      "title": {
-        "en": "Visual Brush Logic & Natural Media Recipes",
-        "pt": "Visual Brush Logic & Receitas de Mídias"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.9",
-      "title": {
-        "en": "ECS Architectural Research & PIL App",
-        "pt": "Pesquisa Arquitetural ECS & App PIL"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.10",
-      "title": {
-        "en": "Aladyn Engine & Rebuilding from Scratch",
-        "pt": "Motor Aladyn & Reconstrução das Bases"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.11",
-      "title": {
-        "en": "ARCcC Architecture & WGPU FFI Surface",
-        "pt": "Arquitetura ARCcC & Superfície WGPU FFI"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.12",
-      "title": {
-        "en": "Lumenia 0.2.0 Alpha Native (C++20 SIMD)",
-        "pt": "Lumenia 0.2.0 Alpha Native (C++20 SIMD)"
-      },
-      "done": true
-    },
-    {
-      "phase": "0.13",
-      "title": {
-        "en": "Arbitrary ICC Profiles & RGBA16 Float Pipeline",
-        "pt": "Perfis ICC Arbitrários & Pipeline RGBA16 Float"
+        "en": "Higher color depth: 16-bit and HDR",
+        "pt": "Maior profundidade de cor: 16 bits e HDR"
       },
       "done": false
     }
