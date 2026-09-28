@@ -135,15 +135,13 @@ console.log('\n[3] studio.html (área de software, agnóstica)');
   check('studio.html', 'somente a entrada ativa é exposta (inert)', count(html, 'inert') === postCount - 1, `(${count(html, 'inert')})`);
   check('studio.html', 'seta anterior desabilitada na primeira entrada', /data-devlog-prev[^>]*disabled|disabled[^>]*data-devlog-prev/.test(html));
 
-  // Support button: rendered only when the content offers a method URL or a QR
+  // Support entry and dedicated page follow the Software support toggle
   const support = studioJson.support || {};
-  const supportMethods = (support.methods || []).filter((m) => m && /^https:\/\//i.test(m.url || ''));
-  const supportReady = support.enabled !== false &&
-    (supportMethods.length > 0 || /^(assets\/|https:\/\/)/i.test(support.qrImage || ''));
-  check('studio.html', 'botão de apoio consistente com o conteúdo',
+  const supportReady = support.enabled !== false;
+  check('studio.html', 'botão de apoio acompanha a configuração do conteúdo',
     supportReady ? has(html, 'id="studio-support-btn"') : !has(html, 'id="studio-support-btn"'));
-  check('studio.html', 'modal de apoio existe apenas fechado',
-    !has(html, 'id="studio-support-modal"') || /id="studio-support-modal"[^>]*hidden/.test(html));
+  check('studio.html', 'apoio usa uma página dedicada em vez do modal',
+    !has(html, 'id="studio-support-modal"') && has(html, 'support.html'));
 }
 
 // ── 4. Admin local (gate liberado) ────────────────────────────

@@ -40,8 +40,8 @@ const StudioModule = (() => {
     if (typeof DevlogCarousel !== 'undefined') DevlogCarousel.init();
     // Fullscreen media viewer for feed captures/videos (idempotent)
     if (typeof MediaViewer !== 'undefined') MediaViewer.init();
-    // Floating support button and payment modal (button follows the support toggle)
-    if (typeof SupportModal !== 'undefined') SupportModal.render(_content.support);
+    // Floating support link to the dedicated Software support page.
+    if (typeof SupportEntry !== 'undefined') SupportEntry.render(_content.support);
   }
 
   return Object.freeze({ init, update });

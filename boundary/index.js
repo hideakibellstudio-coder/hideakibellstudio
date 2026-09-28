@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     Orchestrator.register(StudioModule, 'studio');
   }
 
+  // Dedicated Software support page
+  if (has('#support-root')) {
+    Orchestrator.register(SupportPageModule, 'support-page');
+  }
+
   // Universal UI
   if (has('#theme-toggle-btn'))  Orchestrator.register(ThemeToggleModule, 'theme-toggle');
   if (has('#lang-switch-btn'))   Orchestrator.register(LanguageModule, 'language');

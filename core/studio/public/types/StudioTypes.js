@@ -15,7 +15,7 @@
  * @property {StudioPost[]}      posts       — optional; empty hides the section
  * @property {StudioLink[]}      links       — optional; empty hides the section
  * @property {StudioSupport}     support     — optional; controls the floating support
- *                                             button and its payment modal
+ *                                             direct support page link
  *
  * @typedef {Object} StudioMeta
  * @property {string} slug
@@ -146,7 +146,7 @@ function normalizeStudioContent(raw) {
 /**
  * Coerce the support block into a renderable shape.
  * `enabled` follows the content (absent = enabled); payment links and QR images
- * are optional, so the enabled floating button can open an informational modal.
+ * are optional, so the enabled floating button can open the dedicated support page.
  * @param {*} raw
  * @returns {StudioSupport}
  */

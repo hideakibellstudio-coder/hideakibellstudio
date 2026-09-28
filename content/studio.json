@@ -897,28 +897,34 @@
   "support": {
     "enabled": true,
     "title": {
-      "en": "Support the project",
-      "pt": "Apoie o projeto"
+      "en": "Support Lumenia's development",
+      "pt": "Apoie o desenvolvimento do Lumenia"
     },
     "buttonLabel": {
-      "en": "Support",
-      "pt": "Apoiar"
+      "en": "Support Lumenia",
+      "pt": "Apoie o Lumenia"
     },
     "story": {
-      "en": [],
-      "pt": []
+      "en": [
+        "Lumenia is an independent digital painting application in active development. Contributions help make room for continued implementation, testing, and sharing progress through the public development log.",
+        "Support is voluntary and does not buy influence over the roadmap or guarantee particular features or delivery dates. Progress, priorities, and limitations remain documented openly."
+      ],
+      "pt": [
+        "O Lumenia é um programa independente de pintura digital em desenvolvimento. As contribuições ajudam a manter o trabalho de implementação, testes e publicação do progresso no diário público de desenvolvimento.",
+        "O apoio é voluntário e não compra influência sobre o roadmap nem garante funcionalidades ou datas de entrega. O progresso, as prioridades e as limitações continuam documentados com transparência."
+      ]
     },
     "qrImage": "",
+    "livepixUrl": "https://widget.livepix.gg/embed/402230ff-77b8-40d0-b391-f89cbcb5c0d8",
     "qrCaption": {
       "en": "",
       "pt": ""
     },
     "pixKey": "",
-    "livepixUrl": "https://widget.livepix.gg/embed/402230ff-77b8-40d0-b391-f89cbcb5c0d8",
     "methods": [],
     "thanks": {
-      "en": "",
-      "pt": ""
+      "en": "Thank you for helping an independent creative tool take shape.",
+      "pt": "Obrigado por ajudar uma ferramenta criativa independente a ganhar forma."
     }
   }
 }

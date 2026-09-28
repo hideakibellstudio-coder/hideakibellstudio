@@ -70,7 +70,7 @@ try {
   ['highlights', 'roadmap', 'posts', 'links'].forEach((k) => {
     if (!Array.isArray(studio[k])) fail(`content/studio.json: "${k}" deve ser array`);
   });
-  // Support block (floating button + payment modal) — optional, validated when present
+  // Support block (floating page link + payment options) — optional, validated when present
   if (studio.support !== undefined) {
     const support = studio.support;
     if (!support || typeof support !== 'object' || Array.isArray(support)) {
