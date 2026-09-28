@@ -144,6 +144,7 @@ const Orchestrator = (() => {
       'nav-link-gallery': 'nav_gallery',
       'nav-link-about':   'nav_about',
       'nav-link-contact': 'nav_contact',
+      'nav-link-support': 'nav_support',
     };
     Object.keys(navKeys).forEach((id) => {
       const el = document.getElementById(id);
