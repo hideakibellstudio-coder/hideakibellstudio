@@ -175,6 +175,7 @@ const StudioRenderer = (() => {
     const image = _safeUrl(post.image);
     const link  = _safeUrl(post.link);
     const video = _videoEmbed(post.video);
+    const body  = _cleanPostBody(I18n.tField(post.body));
     const fsBtn = `<button class="studio-post__fs" type="button" data-media-fs aria-label="${_esc(_t('Fullscreen', 'Tela cheia'))}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>`;
     const videoHtml = video
       ? (/\.(mp4|webm|ogv|mov)(\?.*)?$/i.test(video)
@@ -195,7 +196,7 @@ const StudioRenderer = (() => {
         <h3 class="studio-post__title">${_esc(I18n.tField(post.title))}</h3>
         ${image ? `<img class="studio-post__image" src="${image}" alt="" loading="lazy" data-media="image" role="button" tabindex="0" aria-label="${_esc(_t('View fullscreen', 'Ver em tela cheia'))}" />` : ''}
         ${videoHtml}
-        <p class="studio-post__body">${_esc(I18n.tField(post.body))}</p>
+        <p class="studio-post__body">${_esc(body)}</p>
         ${link ? `<a class="studio-post__link" href="${link}" target="_blank" rel="noopener">${_esc(I18n.t('studio_read_more'))}</a>` : ''}
       </article>
     `;
@@ -234,6 +235,15 @@ const StudioRenderer = (() => {
     if (!url || typeof url !== 'string') return '';
     if (/^(https?:\/\/|mailto:|#)/i.test(url) || url.startsWith('assets/')) return url;
     return '';
+  }
+
+  /** Hide editorial metadata if an older or imported post still has it in its body. */
+  function _cleanPostBody(value) {
+    const metadataLine = /^[ \t]*\*\*(?:date(?:\s+(?:retained|kept))?|data(?:\s+mantida)?|tag(?:\s+sugerida)?|tema(?:\s+sugerido)?|topic|suggested tag|suggested topic):\*\*[ \t]*.*(?:\r?\n|$)/gim;
+    return String(value || '')
+      .replace(metadataLine, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
   }
 
   /**

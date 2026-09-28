@@ -285,7 +285,10 @@
   letter-spacing: var(--tracking-wide);
   line-height: 1.2;
   text-transform: uppercase;
-  white-space: nowrap;
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .devlog__status {
