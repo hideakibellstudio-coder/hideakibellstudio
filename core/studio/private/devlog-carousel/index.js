@@ -27,6 +27,8 @@ const DevlogCarousel = (() => {
 
   let _bound = false;
   let _raf = 0;
+  let _slideResizeObserver = null;
+  let _observedSlide = null;
 
   /** Ignore scroll events produced by our own scrollTo (smooth animation). */
   let _programmaticUntil = 0;
@@ -189,6 +191,47 @@ const DevlogCarousel = (() => {
     const nextBtn = root.querySelector('[data-devlog-next]');
     if (prevBtn) prevBtn.disabled = _index <= 0;
     if (nextBtn) nextBtn.disabled = _index >= total - 1;
+
+    _syncViewportHeight(root);
+  }
+
+  /** Keep the carousel viewport as tall as its active slide, not the longest post. */
+  function _syncViewportHeight(root) {
+    const viewport = _viewport(root);
+    if (!viewport) return;
+
+    if (_mode !== 'carousel') {
+      viewport.style.removeProperty('height');
+      _slideResizeObserver?.disconnect();
+      _observedSlide = null;
+      return;
+    }
+
+    const slide = _slides(root)[_index];
+    if (!slide) return;
+    const height = Math.ceil(slide.getBoundingClientRect().height);
+    if (height > 0 && Math.abs(viewport.getBoundingClientRect().height - height) > 1) {
+      viewport.style.height = `${height}px`;
+    }
+
+    if (typeof ResizeObserver === 'undefined') return;
+    if (!_slideResizeObserver) {
+      _slideResizeObserver = new ResizeObserver(() => {
+        const currentRoot = _root();
+        const currentViewport = _viewport(currentRoot);
+        const currentSlide = _slides(currentRoot)[_index];
+        if (!currentViewport || !currentSlide || _mode !== 'carousel') return;
+        const nextHeight = Math.ceil(currentSlide.getBoundingClientRect().height);
+        if (nextHeight > 0 && Math.abs(currentViewport.getBoundingClientRect().height - nextHeight) > 1) {
+          currentViewport.style.height = `${nextHeight}px`;
+        }
+      });
+    }
+    if (_observedSlide !== slide) {
+      _slideResizeObserver.disconnect();
+      _slideResizeObserver.observe(slide);
+      _observedSlide = slide;
+    }
   }
 
   function _centerDot(rail, dot) {

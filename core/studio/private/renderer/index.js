@@ -178,7 +178,7 @@ const StudioRenderer = (() => {
     const fsBtn = `<button class="studio-post__fs" type="button" data-media-fs aria-label="${_esc(_t('Fullscreen', 'Tela cheia'))}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>`;
     const videoHtml = video
       ? (/\.(mp4|webm|ogv|mov)(\?.*)?$/i.test(video)
-        ? `<div class="studio-post__video"><video controls preload="metadata" src="${_esc(video)}"></video>${fsBtn}</div>`
+        ? `<div class="studio-post__video"><video controls preload="metadata" poster="${_esc(image)}" src="${_esc(video)}"></video>${fsBtn}</div>`
         : `<div class="studio-post__video"><iframe src="${_esc(video)}" title="${_esc(I18n.tField(post.title))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>${fsBtn}</div>`)
       : '';
 
@@ -249,7 +249,13 @@ const StudioRenderer = (() => {
     if (!url || typeof url !== 'string') return '';
     const u = url.trim();
 
-    // Direct media file → returned as-is (rendered via <video>)
+    // Site-local devlog clips work both on a local server and on GitHub Pages.
+    // Keep the allowlist narrow and reject traversal before returning the path.
+    const localMediaPath = u.split(/[?#]/, 1)[0];
+    if (/^assets\/videos\/devlog\/[\w./-]+\.(mp4|webm|ogv|mov|m4v)$/i.test(localMediaPath)
+        && !localMediaPath.split('/').includes('..')) return u;
+
+    // Direct hosted media file → returned as-is (rendered via <video>)
     if (/^https:\/\/[^\s]+\.(mp4|webm|ogv|mov|m4v)(\?[^\s]*)?$/i.test(u)) return u;
 
     // YouTube (watch, youtu.be, Shorts, embed) → canonical embed URL

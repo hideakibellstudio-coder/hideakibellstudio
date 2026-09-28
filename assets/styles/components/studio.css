@@ -7,6 +7,7 @@
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-6);
+  min-width: 0;
 }
 
 /* ── Hero / header of the area ────────────────────────────── */
@@ -160,9 +161,11 @@
   gap: var(--space-8);
   margin-top: var(--space-10);
   max-width: var(--max-width-md);
+  min-width: 0;
 }
 
 .studio-post {
+  min-width: 0;
   padding: var(--space-8);
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
@@ -210,12 +213,14 @@
 }
 
 .studio-post__body {
+  max-width: 72ch;
   margin-top: var(--space-4);
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--color-text-secondary);
   line-height: var(--leading-relaxed);
   white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 
 .studio-post__link {
@@ -338,6 +343,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y pinch-zoom;
   border-radius: var(--radius-lg);
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -350,11 +356,12 @@
   outline-offset: 4px;
 }
 
-.devlog__track { display: flex; align-items: stretch; }
+.devlog__track { display: flex; align-items: flex-start; }
 
 .devlog__slide {
   flex: 0 0 100%;
   width: 100%;
+  min-width: 0;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   scroll-margin-top: calc(var(--nav-height) + var(--space-6));
@@ -410,10 +417,28 @@
 }
 
 @media (max-width: 700px) {
+  .studio { padding-inline: var(--space-4); }
+  .studio__feed { width: 100%; max-width: none; }
+  .studio-post { padding: var(--space-5); }
+  .studio-post__head { align-items: flex-start; }
+  .studio-post__tag { max-width: 62%; overflow-wrap: anywhere; }
+  .studio-post__date { flex: 0 0 auto; text-align: right; }
+  .studio-post__title { font-size: clamp(var(--text-xl), 6vw, var(--text-2xl)); overflow-wrap: anywhere; }
+  .studio-post__body { font-size: var(--text-sm); }
+
+  .devlog__bar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .devlog__nav { width: 100%; min-width: 0; min-height: 48px; padding-inline: var(--space-1); }
+  .devlog__nav[data-devlog-prev] { grid-column: 1; grid-row: 1; }
+  .devlog__status { grid-column: 2; grid-row: 1; justify-content: center; }
+  .devlog__nav[data-devlog-next] { grid-column: 3; grid-row: 1; }
+  .devlog__viewall { grid-column: 1 / -1; grid-row: 2; width: 100%; margin: 0; }
   .devlog__current { display: none; }
-  .devlog__nav { min-width: 76px; min-height: 50px; }
   .devlog__nav-label { font-size: 0.52rem; }
-  .devlog__viewall { padding: var(--space-2) var(--space-4); }
+  .devlog__viewall { padding: var(--space-3) var(--space-4); }
 }
 
 /* ── Roadmap ─────────────────────────────────────────────── */
@@ -560,6 +585,10 @@
   align-items: center;
   justify-content: center;
   background: rgba(5, 5, 7, 0.97);
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: max(58px, calc(env(safe-area-inset-top) + 48px)) 12px max(66px, calc(env(safe-area-inset-bottom) + 54px));
 }
 
 .mviewer[hidden] { display: none; }
@@ -568,9 +597,9 @@
 
 /* Images: fit the viewport, any orientation */
 img.mviewer__media {
-  max-width: 100vw;
-  max-height: 100vh;
-  max-height: 100dvh;
+  max-width: 100%;
+  max-height: calc(100vh - 124px);
+  max-height: calc(100dvh - 124px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -578,18 +607,18 @@ img.mviewer__media {
 
 /* Native video: fill the viewport, keep aspect */
 video.mviewer__media {
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  width: min(100%, 1280px);
+  height: calc(100vh - 124px);
+  height: calc(100dvh - 124px);
   object-fit: contain;
 }
 
 /* YouTube/Vimeo embed: fill the viewport */
 iframe.mviewer__media {
   display: block;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  width: min(100%, 1280px);
+  height: calc(100vh - 124px);
+  height: calc(100dvh - 124px);
   border: 0;
 }
 
@@ -644,4 +673,8 @@ iframe.mviewer__media {
 /* Rotation hint only makes sense in portrait */
 @media (orientation: landscape) {
   .mviewer__hint { display: none; }
+  .mviewer { padding: max(48px, calc(env(safe-area-inset-top) + 38px)) 56px 16px; }
+  img.mviewer__media { max-height: calc(100dvh - 64px); }
+  video.mviewer__media,
+  iframe.mviewer__media { height: calc(100dvh - 64px); }
 }
