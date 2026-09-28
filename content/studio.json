@@ -225,7 +225,7 @@
         "pt": "Na Décima Primeira Fase, o `CanvasWidget` do PySide6 entrega ao motor Rust o identificador nativo da área de desenho (`winId()`, convertido em HWND). O `Renderer` usa essa janela para criar uma `wgpu::Surface` e solicita um adaptador compatível com ela. Na configuração inicial, escolhe um formato sRGB quando disponível e define `RENDER_ATTACHMENT`, apresentação FIFO e latência máxima desejada de dois quadros.\n\nO redimensionamento passa por um caminho explícito. O `CanvasWidget` ignora eventos enquanto a janela está minimizada ou quando a área tem largura ou altura inválida. Para dimensões válidas, o `Renderer` atualiza a configuração e chama `surface.configure` novamente.\n\nEm cada renderização, o motor atualiza a câmera, processa os dabs pendentes e pede a textura corrente da superfície. Os estados `Success` e `Suboptimal` seguem para o passe de apresentação; os demais retornam um erro, que a ponte converte para Python e a UI registra como uma possível indisponibilidade temporária da superfície. O passe então envia os comandos à fila da GPU e chama `output.present()` para apresentar o quadro.\n\nEste fluxo mostra como a janela, a configuração da superfície e a apresentação se conectam. O snapshot não contém uma medição que comprove 60 FPS nem mostra uma rotina dedicada de recuperação depois de uma falha na aquisição do quadro."
       },
       "image": "assets/images/devlog/33_fase11_wgpu_surface.png",
-      "video": "assets/videos/devlog/post-33-wgpu-surface-demo.webm",
+      "video": "assets/videos/devlog/post-33-wgpu-surface-demo.mp4",
       "link": ""
     },
     {
