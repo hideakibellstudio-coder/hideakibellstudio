@@ -5,6 +5,7 @@
 const SupportPageModule = (() => {
   let _root = null;
   let _support = null;
+  let _latestPost = null;
 
   function init() {
     _root = document.getElementById('support-root');
@@ -20,6 +21,9 @@ const SupportPageModule = (() => {
 
   function _load() {
     const studio = ContentLoader.get('studio') || {};
+    _latestPost = Array.isArray(studio.posts)
+      ? studio.posts.find((post) => post && _safeUrl(post.image))
+      : null;
     _support = typeof normalizeStudioSupport === 'function'
       ? normalizeStudioSupport(studio.support)
       : (studio.support || {});
@@ -86,8 +90,8 @@ const SupportPageModule = (() => {
       + '<a class="support-page__project-link" href="studio.html#studio-feed">' + _esc(I18n.t('support_page_project_link')) + ' <span aria-hidden="true">↗</span></a>'
       + '</div>'
       + '<figure class="support-page__visual">'
-      + '<img src="assets/images/devlog/36_fase12_lumenia_flagship.png" alt="' + _esc(I18n.t('support_page_image_alt')) + '" loading="lazy" />'
-      + '<figcaption>' + _esc(I18n.t('support_page_image_caption')) + '</figcaption>'
+      + '<img src="' + _esc(_safeUrl(_latestPost && _latestPost.image) || 'assets/images/devlog/36_fase12_lumenia_flagship.png') + '" alt="' + _esc(I18n.t('support_page_image_alt')) + '" loading="lazy" />'
+      + '<figcaption>' + _esc(I18n.tField(_latestPost && _latestPost.title) || I18n.t('support_page_image_caption')) + '</figcaption>'
       + '</figure>'
       + '</div>'
       + '<section class="support-page__contribution" aria-labelledby="support-contribution-title">'

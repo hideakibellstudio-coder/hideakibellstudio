@@ -217,10 +217,11 @@ body.is-support-open .studio-support {
 
 .support-page__visual img {
   display: block;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  object-position: center;
+  width: calc(100% - var(--space-6));
+  max-width: 100%;
+  height: auto;
+  margin: var(--space-3) auto 0;
+  object-fit: contain;
 }
 
 .support-page__visual figcaption {
