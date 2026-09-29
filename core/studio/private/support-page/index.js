@@ -10,6 +10,8 @@ const SupportPageModule = (() => {
   function init() {
     _root = document.getElementById('support-root');
     if (!_root) return;
+    Lightbox.init();
+    document.querySelector('.lightbox-overlay')?.classList.add('support-page__lightbox');
     _root.addEventListener('click', _handleClick);
     _load();
     EventBus.on('language.changed', _render);
@@ -86,13 +88,15 @@ const SupportPageModule = (() => {
       + '<div class="support-page__hero-copy">'
       + '<p class="support-page__eyebrow">' + _esc(I18n.t('support_page_eyebrow')) + '</p>'
       + '<h1 class="support-page__title">' + _esc(title) + '</h1>'
+      + '<figure class="support-page__visual">'
+      + '<button class="support-page__visual-trigger" type="button" data-support-image aria-label="' + _esc(I18n.t('support_page_image_open')) + '">'
+      + '<img src="' + _esc(_safeUrl(_latestPost && _latestPost.image) || 'assets/images/devlog/36_fase12_lumenia_flagship.png') + '" alt="' + _esc(I18n.t('support_page_image_alt')) + '" loading="lazy" />'
+      + '</button>'
+      + '<figcaption>' + _esc(I18n.tField(_latestPost && _latestPost.title) || I18n.t('support_page_image_caption')) + '</figcaption>'
+      + '</figure>'
       + '<div class="support-page__story">' + storyHtml + '</div>'
       + '<a class="support-page__project-link" href="studio.html#studio-feed">' + _esc(I18n.t('support_page_project_link')) + ' <span aria-hidden="true">↗</span></a>'
       + '</div>'
-      + '<figure class="support-page__visual">'
-      + '<img src="' + _esc(_safeUrl(_latestPost && _latestPost.image) || 'assets/images/devlog/36_fase12_lumenia_flagship.png') + '" alt="' + _esc(I18n.t('support_page_image_alt')) + '" loading="lazy" />'
-      + '<figcaption>' + _esc(I18n.tField(_latestPost && _latestPost.title) || I18n.t('support_page_image_caption')) + '</figcaption>'
-      + '</figure>'
       + '</div>'
       + '<section class="support-page__contribution" aria-labelledby="support-contribution-title">'
       + '<div class="support-page__contribution-copy">'
@@ -116,6 +120,23 @@ const SupportPageModule = (() => {
   }
 
   async function _handleClick(event) {
+    const imageTrigger = event.target && event.target.closest('[data-support-image]');
+    if (imageTrigger) {
+      const imageUrl = _safeUrl(_latestPost && _latestPost.image)
+        || 'assets/images/devlog/36_fase12_lumenia_flagship.png';
+      const post = _latestPost || {};
+      const artwork = {
+        id: String(post.id || 'support-latest-devlog'),
+        imageUrl,
+        title: post.title || { en: 'Lumenia', pt: 'Lumenia' },
+        category: post.tag || { en: 'Software', pt: 'Software' },
+        description: '',
+      };
+      Lightbox.setArtworks([artwork]);
+      Lightbox.open(artwork);
+      return;
+    }
+
     const button = event.target && event.target.closest('[data-support-copy]');
     const key = String(_support && _support.pixKey || '').trim();
     if (!button || !key) return;
